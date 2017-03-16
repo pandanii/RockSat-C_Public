@@ -27,12 +27,12 @@ public class rsc_jframe extends javax.swing.JFrame
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         WelcomeLabel = new javax.swing.JLabel();
-        jMenuBar2 = new javax.swing.JMenuBar();
-        jMenu5 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
+        rscMenuBar = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
+        newFlightMenuItem = new javax.swing.JMenuItem();
+        openFlightMenuItem = new javax.swing.JMenuItem();
+        saveMenuItem = new javax.swing.JMenuItem();
+        editMenu = new javax.swing.JMenu();
         jMenu8 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -59,44 +59,44 @@ public class rsc_jframe extends javax.swing.JFrame
 
         jTabbedPane2.addTab("Welcome Tab", jPanel1);
 
-        jMenu5.setText("File");
+        fileMenu.setText("File");
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("New Flight (load Raw)");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener()
+        newFlightMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        newFlightMenuItem.setText("New Flight (load Raw)");
+        newFlightMenuItem.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jMenuItem1ActionPerformed(evt);
+                newFlightMenuItemActionPerformed(evt);
             }
         });
-        jMenu5.add(jMenuItem1);
+        fileMenu.add(newFlightMenuItem);
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setText("Open Flight");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener()
+        openFlightMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        openFlightMenuItem.setText("Open Flight");
+        openFlightMenuItem.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jMenuItem2ActionPerformed(evt);
+                openFlightMenuItemActionPerformed(evt);
             }
         });
-        jMenu5.add(jMenuItem2);
+        fileMenu.add(openFlightMenuItem);
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem3.setText("Save Flight");
-        jMenu5.add(jMenuItem3);
+        saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        saveMenuItem.setText("Save Flight");
+        fileMenu.add(saveMenuItem);
 
-        jMenuBar2.add(jMenu5);
+        rscMenuBar.add(fileMenu);
 
-        jMenu6.setText("Edit");
+        editMenu.setText("Edit");
 
         jMenu8.setText("jMenu8");
-        jMenu6.add(jMenu8);
+        editMenu.add(jMenu8);
 
-        jMenuBar2.add(jMenu6);
+        rscMenuBar.add(editMenu);
 
-        setJMenuBar(jMenuBar2);
+        setJMenuBar(rscMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,15 +116,15 @@ public class rsc_jframe extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem1ActionPerformed
-    {//GEN-HEADEREND:event_jMenuItem1ActionPerformed
+    private void newFlightMenuItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_newFlightMenuItemActionPerformed
+    {//GEN-HEADEREND:event_newFlightMenuItemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_newFlightMenuItemActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem2ActionPerformed
-    {//GEN-HEADEREND:event_jMenuItem2ActionPerformed
+    private void openFlightMenuItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_openFlightMenuItemActionPerformed
+    {//GEN-HEADEREND:event_openFlightMenuItemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_openFlightMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -177,14 +177,14 @@ public class rsc_jframe extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel WelcomeLabel;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu editMenu;
+    private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JMenuItem newFlightMenuItem;
+    private javax.swing.JMenuItem openFlightMenuItem;
+    private javax.swing.JMenuBar rscMenuBar;
+    private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables
 }
