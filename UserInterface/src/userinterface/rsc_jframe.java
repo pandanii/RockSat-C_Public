@@ -42,10 +42,11 @@ public class rsc_jframe extends javax.swing.JFrame
         jMenu8 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(0, 0, 153));
+        setTitle(" RockSat-C");
+        setBackground(javax.swing.UIManager.getDefaults().getColor("Button.darcula.color1"));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
-        setForeground(java.awt.Color.blue);
+        setForeground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
         setName("Welcome"); // NOI18N
 
         WelcomeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -142,6 +143,7 @@ public class rsc_jframe extends javax.swing.JFrame
         {
             rawFlightfile = tempFileChooser.getSelectedFile();
             JOptionPane.showMessageDialog(null, "File selected:" + rawFlightfile);
+            rscJTabbedPane.addTab("newFlight", null, new FlightPanel());
         }
     }//GEN-LAST:event_LoadRawMenuItemActionPerformed
 
@@ -154,7 +156,7 @@ public class rsc_jframe extends javax.swing.JFrame
         {
             flightFile = tempFileChooser.getSelectedFile();
             JOptionPane.showMessageDialog(null, "File selected:" + flightFile);
-            //rscJTabbedPane.addTab("newFlight", null, new flightPanel());
+            rscJTabbedPane.addTab("newFlight", null, new FlightPanel());
         }
     }//GEN-LAST:event_LoadFlightMenutItemActionPerformed
 
