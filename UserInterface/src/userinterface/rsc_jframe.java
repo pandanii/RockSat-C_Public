@@ -17,6 +17,7 @@ public class rsc_jframe extends javax.swing.JFrame
     public rsc_jframe()
     {
         initComponents();
+        rscJTabbedPane.addTab("PreLoadedFlight", null, new FlightPanel());// INITIALIZED WITH A NEW FLIGHT PANEL
     }
 
     /**
@@ -143,7 +144,7 @@ public class rsc_jframe extends javax.swing.JFrame
         {
             rawFlightfile = tempFileChooser.getSelectedFile();
             JOptionPane.showMessageDialog(null, "File selected:" + rawFlightfile);
-            rscJTabbedPane.addTab("newFlight", null, new FlightPanel());
+            rscJTabbedPane.addTab(rawFlightfile.toString(), null, new FlightPanel());
         }
     }//GEN-LAST:event_LoadRawMenuItemActionPerformed
 
@@ -156,7 +157,7 @@ public class rsc_jframe extends javax.swing.JFrame
         {
             flightFile = tempFileChooser.getSelectedFile();
             JOptionPane.showMessageDialog(null, "File selected:" + flightFile);
-            rscJTabbedPane.addTab("newFlight", null, new FlightPanel());
+            rscJTabbedPane.addTab(rawFlightfile.toString(), null, new FlightPanel());
         }
     }//GEN-LAST:event_LoadFlightMenutItemActionPerformed
 
