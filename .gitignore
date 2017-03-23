@@ -3,3 +3,7 @@ org.jzy3d-0.9-tutorials/src/demos/org/jzy3d/demos/surface/ColorWaveDemo.java
 /UserInterface/dist/
 *.class
 UserInterface/build/built-jar.properties
+*.class
+UserInterface/build/classes/userinterface/rsc_jframe$1.class
+UserInterface/build/classes/userinterface/rsc_jframe.class
+*.class
