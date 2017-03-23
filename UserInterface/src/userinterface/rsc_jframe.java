@@ -9,7 +9,6 @@ public class rsc_jframe extends javax.swing.JFrame
     private java.io.File rawFlightfile;
     private java.io.File flightFile;
     private javax.swing.JFileChooser tempFileChooser;
-    OrderedPair op;
 
     /**
      * Creates new form rsc_jframe
@@ -144,7 +143,8 @@ public class rsc_jframe extends javax.swing.JFrame
         {
             rawFlightfile = tempFileChooser.getSelectedFile();
             JOptionPane.showMessageDialog(null, "File selected:" + rawFlightfile);
-            rscJTabbedPane.addTab(rawFlightfile.toString(), null, new FlightPanel());
+            Calculator calculator = new Calculator(rawFlightfile.toString());
+            //rscJTabbedPane.addTab(rawFlightfile.toString(), null, new FlightPanel());
         }
     }//GEN-LAST:event_LoadRawMenuItemActionPerformed
 

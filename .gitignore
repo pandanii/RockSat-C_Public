@@ -9,3 +9,5 @@ UserInterface/build/classes/userinterface/rsc_jframe.class
 *.class
 *.class
 *.class
+*.dat
+*.class

@@ -23,22 +23,22 @@ public class FlightPanel extends javax.swing.JPanel
     //------------------------------------------------
 
     // Java FX Stuff for Velocity
-    JFXPanel velocityJFXPanel;
-    LineChart<Number, Number> velocityLineChart;
-    XYChart.Series velocitySeries;
-    Scene velocityScene;
+    public JFXPanel velocityJFXPanel;
+    private LineChart<Number, Number> velocityLineChart;
+    private XYChart.Series velocitySeries;
+    private Scene velocityScene;
 
     // Java FX Stuff for Accel
-    JFXPanel accelJFXPanel;
-    LineChart<Number, Number> accelLineChart;
-    XYChart.Series accelSeries;
-    Scene accelScene;
+    private JFXPanel accelJFXPanel;
+    private LineChart<Number, Number> accelLineChart;
+    private XYChart.Series accelSeries;
+    private Scene accelScene;
 
     // Java FX Stuff for Accel
-    JFXPanel gyroJFXPanel;
-    LineChart<Number, Number> gyroLineChart;
-    XYChart.Series gyroSeries;
-    Scene gyroScene;
+    private JFXPanel gyroJFXPanel;
+    private LineChart<Number, Number> gyroLineChart;
+    private XYChart.Series gyroSeries;
+    private Scene gyroScene;
 
     /**
      * Creates new form FlightPanel
@@ -55,7 +55,7 @@ public class FlightPanel extends javax.swing.JPanel
         final NumberAxis velocityYAxis = new NumberAxis();
         velocityXAxis.setLabel("X-Axis");
         velocityYAxis.setLabel("Y-Axis");
-        velocityLineChart = new LineChart<Number, Number>(velocityXAxis, velocityYAxis);
+        velocityLineChart = new LineChart<>(velocityXAxis, velocityYAxis);
         velocitySeries = new XYChart.Series();
         velocityLineChart.setTitle("Velocity Chart");
         velocitySeries.setName("Data Point");
@@ -82,7 +82,7 @@ public class FlightPanel extends javax.swing.JPanel
         final NumberAxis accelYAxis = new NumberAxis();
         accelXAxis.setLabel("X-Axis");
         accelYAxis.setLabel("Y-Axis");
-        accelLineChart = new LineChart<Number, Number>(accelXAxis, accelYAxis);
+        accelLineChart = new LineChart<>(accelXAxis, accelYAxis);
         accelSeries = new XYChart.Series();
         accelLineChart.setTitle("Acceleration Chart");
         accelSeries.setName("Data Point");
@@ -109,7 +109,7 @@ public class FlightPanel extends javax.swing.JPanel
         final NumberAxis gyroYAxis = new NumberAxis();
         gyroXAxis.setLabel("X-Axis");
         gyroYAxis.setLabel("Y-Axis");
-        gyroLineChart = new LineChart<Number, Number>(gyroXAxis, gyroYAxis);
+        gyroLineChart = new LineChart<>(gyroXAxis, gyroYAxis);
         gyroSeries = new XYChart.Series();
         gyroLineChart.setTitle("Gyroscope Chart");
         gyroSeries.setName("Data Point");
