@@ -6,10 +6,10 @@ public class rsc_jframe extends javax.swing.JFrame
 {
 
     private static final long serialVersionUID = 1L;
-
     private java.io.File rawFlightfile;
     private java.io.File flightFile;
     private javax.swing.JFileChooser tempFileChooser;
+    OrderedPair op;
 
     /**
      * Creates new form rsc_jframe
@@ -178,11 +178,6 @@ public class rsc_jframe extends javax.swing.JFrame
      */
     public static void main(String args[])
     {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
         try
         {
             javax.swing.plaf.basic.BasicLookAndFeel darcula = new com.bulenkov.darcula.DarculaLaf();// imported from https://github.com/bulenkov/Darcula
@@ -196,6 +191,10 @@ public class rsc_jframe extends javax.swing.JFrame
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
+                //Set the Nimbus look and feel
+                //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+                // If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+                // For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
             }*/
         }
         catch (javax.swing.UnsupportedLookAndFeelException ex)

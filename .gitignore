@@ -7,3 +7,5 @@ UserInterface/build/built-jar.properties
 UserInterface/build/classes/userinterface/rsc_jframe$1.class
 UserInterface/build/classes/userinterface/rsc_jframe.class
 *.class
+*.class
+*.class
