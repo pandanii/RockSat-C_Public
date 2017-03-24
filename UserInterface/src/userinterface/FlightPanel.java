@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//package userinterface;
+package userinterface;
 
+import java.io.File;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
@@ -41,7 +42,7 @@ public class FlightPanel extends javax.swing.JPanel
     private Scene gyroScene;
 
     /**
-     * Creates new form FlightPanel
+     * Creates new form FlightPanel (Taking NO ARGUMENTS)
      */
     @SuppressWarnings("unchecked")
     public FlightPanel()
@@ -132,14 +133,64 @@ public class FlightPanel extends javax.swing.JPanel
 
     }
 
-    /*public void addChart(Chart chart, int id)
+    /**
+     * Creates new form FlightPanel
+     *
+     * @param file
+     */
+    @SuppressWarnings("unchecked")
+    public FlightPanel(File file)
     {
-        JPanel chartPanel = new JPanel(new BorderLayout());
-        Border b = BorderFactory.createLineBorder(java.awt.Color.black);
-        chartPanel.setBorder(b);
-        chartPanel.add((java.awt.Component) chart.getCanvas(), BorderLayout.CENTER);
-        add(chartPanel, "cell 0 " + id + ", grow");
-    }*/
+        initComponents();
+
+        // Setup Axis
+        // NOTE a JFXPanel() must be setup to initialize the toolkit to stop an exception from occuring with NumberAxis initialization.
+        velocityJFXPanel = new JFXPanel();
+        final NumberAxis velocityXAxis = new NumberAxis();
+        final NumberAxis velocityYAxis = new NumberAxis();
+        velocityXAxis.setLabel("X-Axis");
+        velocityYAxis.setLabel("Y-Axis");
+        velocityLineChart = new LineChart<>(velocityXAxis, velocityYAxis);
+        velocitySeries = new XYChart.Series();
+        velocityLineChart.setTitle("Velocity Chart");
+        velocitySeries.setName("Data Point");
+        velocityScene = new Scene(velocityLineChart, 800, 600);
+        velocityLineChart.getData().add(velocitySeries);
+        velocityJFXPanel.setScene(velocityScene);
+        VelocityPanel.add(velocityJFXPanel);
+
+        // Setup Axis
+        accelJFXPanel = new JFXPanel();
+        final NumberAxis accelXAxis = new NumberAxis();
+        final NumberAxis accelYAxis = new NumberAxis();
+        accelXAxis.setLabel("X-Axis");
+        accelYAxis.setLabel("Y-Axis");
+        accelLineChart = new LineChart<>(accelXAxis, accelYAxis);
+        accelSeries = new XYChart.Series();
+        accelLineChart.setTitle("Acceleration Chart");
+        accelSeries.setName("Data Point");
+        accelScene = new Scene(accelLineChart, 800, 600);
+        accelLineChart.getData().add(accelSeries);
+        accelJFXPanel.setScene(accelScene);
+        accelPanel.add(accelJFXPanel);
+
+        // Setup Axis
+        gyroJFXPanel = new JFXPanel();
+        final NumberAxis gyroXAxis = new NumberAxis();
+        final NumberAxis gyroYAxis = new NumberAxis();
+        gyroXAxis.setLabel("X-Axis");
+        gyroYAxis.setLabel("Y-Axis");
+        gyroLineChart = new LineChart<>(gyroXAxis, gyroYAxis);
+        gyroSeries = new XYChart.Series();
+        gyroLineChart.setTitle("Gyroscope Chart");
+        gyroSeries.setName("Data Point");
+        gyroScene = new Scene(gyroLineChart, 800, 600);
+        gyroLineChart.getData().add(gyroSeries);
+        gyroJFXPanel.setScene(gyroScene);
+        gyroPanel.add(gyroJFXPanel);
+
+    }
+
     /**
      * This method is called from within the constructor to
      * initialize the form.
