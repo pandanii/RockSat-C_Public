@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package userinterface;
+//package userinterface;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;

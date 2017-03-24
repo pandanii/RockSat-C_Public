@@ -1,4 +1,4 @@
-package userinterface;
+//package userinterface;
 /*
 RawDataLine is intended to store one line of a Raw Flight
 File(comma delimited) in its individual components. This

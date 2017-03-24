@@ -1,4 +1,4 @@
-package userinterface;
+//package userinterface;
 /*
 The Calculator class is responsible for taking in RawDataLines,
 using mathematics to convert the raw data into OrderedPairs,

@@ -1,6 +1,7 @@
-package userinterface;
+//package userinterface;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class rsc_jframe extends javax.swing.JFrame
 {
@@ -145,6 +146,7 @@ public class rsc_jframe extends javax.swing.JFrame
             JOptionPane.showMessageDialog(null, "File selected:" + rawFlightfile);
             Calculator calculator = new Calculator(rawFlightfile.toString());
             //rscJTabbedPane.addTab(rawFlightfile.toString(), null, new FlightPanel());
+            // LoadFlight files will be called here...
         }
     }//GEN-LAST:event_LoadRawMenuItemActionPerformed
 
@@ -152,6 +154,10 @@ public class rsc_jframe extends javax.swing.JFrame
     {//GEN-HEADEREND:event_LoadFlightMenutItemActionPerformed
         flightFile = new java.io.File(".");
         tempFileChooser = new javax.swing.JFileChooser(flightFile);
+        tempFileChooser.setMultiSelectionEnabled(false);
+        FileNameExtensionFilter tempFileNameExtensionFilter = new FileNameExtensionFilter("txt", "csv");
+        tempFileChooser.addChoosableFileFilter(tempFileNameExtensionFilter);
+        tempFileChooser.setFileFilter(tempFileNameExtensionFilter);
         int returnVal = tempFileChooser.showOpenDialog(this);
         if (returnVal == javax.swing.JFileChooser.APPROVE_OPTION)
         {
@@ -180,26 +186,31 @@ public class rsc_jframe extends javax.swing.JFrame
     {
         try
         {
-            javax.swing.plaf.basic.BasicLookAndFeel darcula = new com.bulenkov.darcula.DarculaLaf();// imported from https://github.com/bulenkov/Darcula
-            javax.swing.UIManager.setLookAndFeel(darcula);
+            // imported from https://github.com/bulenkov/Darcula, to compile this you will need to include it as a library. (note to run the JAR it will need to be near by as well)
+            //javax.swing.plaf.basic.BasicLookAndFeel darcula = new com.bulenkov.darcula.DarculaLaf();
+            //javax.swing.UIManager.setLookAndFeel(darcula);
 
             // old leftover incase we dont want to use this imported theme.
-            /*for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-            {
-                if ("Nimbus".equals(info.getName()))
+                for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
                 {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+                    if ("Nimbus".equals(info.getName()))
+                    {
+                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
                 //Set the Nimbus look and feel
                 //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
                 // If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
                 // For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-            }*/
+                }
         }
         catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
             java.util.logging.Logger.getLogger(rsc_jframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        catch(Exception e)
+        {
+            java.util.logging.Logger.getLogger(rsc_jframe.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         //</editor-fold>
 
