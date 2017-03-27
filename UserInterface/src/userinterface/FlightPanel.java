@@ -41,6 +41,12 @@ public class FlightPanel extends javax.swing.JPanel
     private XYChart.Series gyroSeries;
     private Scene gyroScene;
 
+    // Java FX Stuff for Distance
+    private JFXPanel distJFXPanel;
+    private LineChart<Number, Number> distLineChart;
+    private XYChart.Series distSeries;
+    private Scene distScene;
+
     /**
      * Creates new form FlightPanel (Taking NO ARGUMENTS)
      */
@@ -75,7 +81,7 @@ public class FlightPanel extends javax.swing.JPanel
         velocityScene = new Scene(velocityLineChart, 800, 600);
         velocityLineChart.getData().add(velocitySeries);
         velocityJFXPanel.setScene(velocityScene);
-        VelocityPanel.add(velocityJFXPanel);
+        velocityPanel.add(velocityJFXPanel);
 
         // Setup Axis
         accelJFXPanel = new JFXPanel();
@@ -131,6 +137,33 @@ public class FlightPanel extends javax.swing.JPanel
         gyroJFXPanel.setScene(gyroScene);
         gyroPanel.add(gyroJFXPanel);
 
+        // Setup Axis
+        distJFXPanel = new JFXPanel();
+        final NumberAxis distXAxis = new NumberAxis();
+        final NumberAxis distYAxis = new NumberAxis();
+        distXAxis.setLabel("X-Axis");
+        distYAxis.setLabel("Y-Axis");
+        distLineChart = new LineChart<>(distXAxis, distYAxis);
+        distSeries = new XYChart.Series();
+        distLineChart.setTitle("Distance Chart");
+        distSeries.setName("Data Point");
+        distSeries.getData().add(new XYChart.Data(1, 1));
+        distSeries.getData().add(new XYChart.Data(2, 2));
+        distSeries.getData().add(new XYChart.Data(3, 3));
+        distSeries.getData().add(new XYChart.Data(4, 4));
+        distSeries.getData().add(new XYChart.Data(5, 5));
+        distSeries.getData().add(new XYChart.Data(6, 7));
+        distSeries.getData().add(new XYChart.Data(7, 8));
+        distSeries.getData().add(new XYChart.Data(8, 0));
+        distSeries.getData().add(new XYChart.Data(9, 2));
+        distSeries.getData().add(new XYChart.Data(10, 5));
+        distSeries.getData().add(new XYChart.Data(11, 1));
+        distSeries.getData().add(new XYChart.Data(12, 27));
+        distScene = new Scene(distLineChart, 800, 600);
+        distLineChart.getData().add(distSeries);
+        distJFXPanel.setScene(distScene);
+        distancePanel.add(distJFXPanel);
+
     }
 
     /**
@@ -157,7 +190,7 @@ public class FlightPanel extends javax.swing.JPanel
         velocityScene = new Scene(velocityLineChart, 800, 600);
         velocityLineChart.getData().add(velocitySeries);
         velocityJFXPanel.setScene(velocityScene);
-        VelocityPanel.add(velocityJFXPanel);
+        velocityPanel.add(velocityJFXPanel);
 
         // Setup Axis
         accelJFXPanel = new JFXPanel();
@@ -189,6 +222,21 @@ public class FlightPanel extends javax.swing.JPanel
         gyroJFXPanel.setScene(gyroScene);
         gyroPanel.add(gyroJFXPanel);
 
+        // Setup Axis
+        distJFXPanel = new JFXPanel();
+        final NumberAxis distXAxis = new NumberAxis();
+        final NumberAxis distYAxis = new NumberAxis();
+        distXAxis.setLabel("X-Axis");
+        distYAxis.setLabel("Y-Axis");
+        distLineChart = new LineChart<>(distXAxis, distYAxis);
+        distSeries = new XYChart.Series();
+        distLineChart.setTitle("Distance Chart");
+        distSeries.setName("Data Point");
+        distScene = new Scene(distLineChart, 800, 600);
+        distLineChart.getData().add(distSeries);
+        distJFXPanel.setScene(distScene);
+        distancePanel.add(distJFXPanel);
+
     }
 
     /**
@@ -202,67 +250,299 @@ public class FlightPanel extends javax.swing.JPanel
     private void initComponents()
     {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        velocitySplitPlane = new javax.swing.JSplitPane();
-        VelocityPanel = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         AccelerationSplitPane = new javax.swing.JSplitPane();
-        jLabel5 = new javax.swing.JLabel();
         accelPanel = new javax.swing.JPanel();
+        accelOptionPanel = new javax.swing.JPanel();
+        accelXAxisButton = new javax.swing.JRadioButton();
+        accelYAxisButton = new javax.swing.JRadioButton();
+        accelZAxisButton = new javax.swing.JRadioButton();
         gyroscopeSplitPane = new javax.swing.JSplitPane();
-        jLabel1 = new javax.swing.JLabel();
         gyroPanel = new javax.swing.JPanel();
-
-        VelocityPanel.setLayout(new java.awt.BorderLayout());
-        velocitySplitPlane.setRightComponent(VelocityPanel);
-
-        jLabel3.setText("Options go here");
-        velocitySplitPlane.setLeftComponent(jLabel3);
-
-        jTabbedPane1.addTab("Velocity", velocitySplitPlane);
-
-        jLabel5.setText("Options go here");
-        AccelerationSplitPane.setLeftComponent(jLabel5);
+        gyroAccelPanel = new javax.swing.JPanel();
+        gyroXAxis = new javax.swing.JRadioButton();
+        gyroYAxis = new javax.swing.JRadioButton();
+        gyroZAxis = new javax.swing.JRadioButton();
+        velocitySplitPlane = new javax.swing.JSplitPane();
+        velocityPanel = new javax.swing.JPanel();
+        velocityOptionsPanel = new javax.swing.JPanel();
+        velocityXAxisButton = new javax.swing.JRadioButton();
+        velocityYAxisButton = new javax.swing.JRadioButton();
+        velocityZAxisButton = new javax.swing.JRadioButton();
+        distanceSplitPane = new javax.swing.JSplitPane();
+        distancePanel = new javax.swing.JPanel();
+        distanceOptionPanel = new javax.swing.JPanel();
+        distXAxisButton = new javax.swing.JRadioButton();
+        distYAxisButton = new javax.swing.JRadioButton();
+        distZAxisButton = new javax.swing.JRadioButton();
 
         accelPanel.setLayout(new java.awt.BorderLayout());
         AccelerationSplitPane.setRightComponent(accelPanel);
 
-        jTabbedPane1.addTab("Acceleration", AccelerationSplitPane);
+        accelXAxisButton.setText("Acceleration X Axis");
+        accelXAxisButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                accelXAxisButtonActionPerformed(evt);
+            }
+        });
 
-        jLabel1.setText("OPTIONS HERE");
-        gyroscopeSplitPane.setLeftComponent(jLabel1);
+        accelYAxisButton.setText("Acceleration Y Axis");
+        accelYAxisButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                accelYAxisButtonActionPerformed(evt);
+            }
+        });
+
+        accelZAxisButton.setText("Acceleration Z Axis");
+        accelZAxisButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                accelZAxisButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout accelOptionPanelLayout = new javax.swing.GroupLayout(accelOptionPanel);
+        accelOptionPanel.setLayout(accelOptionPanelLayout);
+        accelOptionPanelLayout.setHorizontalGroup(
+            accelOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(accelOptionPanelLayout.createSequentialGroup()
+                .addGroup(accelOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(accelXAxisButton)
+                    .addComponent(accelYAxisButton)
+                    .addComponent(accelZAxisButton))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        accelOptionPanelLayout.setVerticalGroup(
+            accelOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(accelOptionPanelLayout.createSequentialGroup()
+                .addComponent(accelXAxisButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(accelYAxisButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(accelZAxisButton)
+                .addContainerGap(520, Short.MAX_VALUE))
+        );
+
+        AccelerationSplitPane.setLeftComponent(accelOptionPanel);
+
+        jTabbedPane1.addTab("Acceleration", AccelerationSplitPane);
 
         gyroPanel.setLayout(new java.awt.BorderLayout());
         gyroscopeSplitPane.setRightComponent(gyroPanel);
 
+        gyroXAxis.setText("Gyroscope X Axis");
+
+        gyroYAxis.setText("Gyroscope Y Axis");
+
+        gyroZAxis.setText("Gyroscope Z Axis");
+
+        javax.swing.GroupLayout gyroAccelPanelLayout = new javax.swing.GroupLayout(gyroAccelPanel);
+        gyroAccelPanel.setLayout(gyroAccelPanelLayout);
+        gyroAccelPanelLayout.setHorizontalGroup(
+            gyroAccelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(gyroAccelPanelLayout.createSequentialGroup()
+                .addGroup(gyroAccelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(gyroXAxis)
+                    .addComponent(gyroYAxis)
+                    .addComponent(gyroZAxis))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        gyroAccelPanelLayout.setVerticalGroup(
+            gyroAccelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(gyroAccelPanelLayout.createSequentialGroup()
+                .addComponent(gyroXAxis)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(gyroYAxis)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(gyroZAxis)
+                .addContainerGap(520, Short.MAX_VALUE))
+        );
+
+        gyroscopeSplitPane.setLeftComponent(gyroAccelPanel);
+
         jTabbedPane1.addTab("GyroScope", gyroscopeSplitPane);
+
+        velocityPanel.setLayout(new java.awt.BorderLayout());
+        velocitySplitPlane.setRightComponent(velocityPanel);
+
+        velocityXAxisButton.setText("Velocity X Axis");
+        velocityXAxisButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                velocityXAxisButtonActionPerformed(evt);
+            }
+        });
+
+        velocityYAxisButton.setText("Velocity Y Axis");
+        velocityYAxisButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                velocityYAxisButtonActionPerformed(evt);
+            }
+        });
+
+        velocityZAxisButton.setText("Velocity Z Axis");
+
+        javax.swing.GroupLayout velocityOptionsPanelLayout = new javax.swing.GroupLayout(velocityOptionsPanel);
+        velocityOptionsPanel.setLayout(velocityOptionsPanelLayout);
+        velocityOptionsPanelLayout.setHorizontalGroup(
+            velocityOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(velocityOptionsPanelLayout.createSequentialGroup()
+                .addGroup(velocityOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(velocityXAxisButton)
+                    .addComponent(velocityYAxisButton)
+                    .addComponent(velocityZAxisButton))
+                .addGap(0, 7, Short.MAX_VALUE))
+        );
+        velocityOptionsPanelLayout.setVerticalGroup(
+            velocityOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(velocityOptionsPanelLayout.createSequentialGroup()
+                .addComponent(velocityXAxisButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(velocityYAxisButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(velocityZAxisButton)
+                .addContainerGap(520, Short.MAX_VALUE))
+        );
+
+        velocitySplitPlane.setLeftComponent(velocityOptionsPanel);
+
+        jTabbedPane1.addTab("Velocity", velocitySplitPlane);
+
+        distancePanel.setLayout(new java.awt.BorderLayout());
+        distanceSplitPane.setRightComponent(distancePanel);
+
+        distXAxisButton.setText("Distance X Axis");
+        distXAxisButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                distXAxisButtonActionPerformed(evt);
+            }
+        });
+
+        distYAxisButton.setText("Distance Y Axis");
+        distYAxisButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                distYAxisButtonActionPerformed(evt);
+            }
+        });
+
+        distZAxisButton.setText("Distance Z Axis");
+
+        javax.swing.GroupLayout distanceOptionPanelLayout = new javax.swing.GroupLayout(distanceOptionPanel);
+        distanceOptionPanel.setLayout(distanceOptionPanelLayout);
+        distanceOptionPanelLayout.setHorizontalGroup(
+            distanceOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(distanceOptionPanelLayout.createSequentialGroup()
+                .addGroup(distanceOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(distXAxisButton)
+                    .addComponent(distYAxisButton)
+                    .addComponent(distZAxisButton))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        distanceOptionPanelLayout.setVerticalGroup(
+            distanceOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(distanceOptionPanelLayout.createSequentialGroup()
+                .addComponent(distXAxisButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(distYAxisButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(distZAxisButton)
+                .addContainerGap(520, Short.MAX_VALUE))
+        );
+
+        distanceSplitPane.setLeftComponent(distanceOptionPanel);
+
+        jTabbedPane1.addTab("Distance", distanceSplitPane);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 850, Short.MAX_VALUE)
+            .addGap(0, 1116, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jTabbedPane1))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 542, Short.MAX_VALUE)
+            .addGap(0, 644, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jTabbedPane1))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void accelZAxisButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_accelZAxisButtonActionPerformed
+    {//GEN-HEADEREND:event_accelZAxisButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_accelZAxisButtonActionPerformed
+
+    private void distXAxisButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_distXAxisButtonActionPerformed
+    {//GEN-HEADEREND:event_distXAxisButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_distXAxisButtonActionPerformed
+
+    private void distYAxisButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_distYAxisButtonActionPerformed
+    {//GEN-HEADEREND:event_distYAxisButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_distYAxisButtonActionPerformed
+
+    private void velocityXAxisButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_velocityXAxisButtonActionPerformed
+    {//GEN-HEADEREND:event_velocityXAxisButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_velocityXAxisButtonActionPerformed
+
+    private void velocityYAxisButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_velocityYAxisButtonActionPerformed
+    {//GEN-HEADEREND:event_velocityYAxisButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_velocityYAxisButtonActionPerformed
+
+    private void accelXAxisButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_accelXAxisButtonActionPerformed
+    {//GEN-HEADEREND:event_accelXAxisButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_accelXAxisButtonActionPerformed
+
+    private void accelYAxisButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_accelYAxisButtonActionPerformed
+    {//GEN-HEADEREND:event_accelYAxisButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_accelYAxisButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSplitPane AccelerationSplitPane;
-    private javax.swing.JPanel VelocityPanel;
+    private javax.swing.JPanel accelOptionPanel;
     private javax.swing.JPanel accelPanel;
+    private javax.swing.JRadioButton accelXAxisButton;
+    private javax.swing.JRadioButton accelYAxisButton;
+    private javax.swing.JRadioButton accelZAxisButton;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JRadioButton distXAxisButton;
+    private javax.swing.JRadioButton distYAxisButton;
+    private javax.swing.JRadioButton distZAxisButton;
+    private javax.swing.JPanel distanceOptionPanel;
+    private javax.swing.JPanel distancePanel;
+    private javax.swing.JSplitPane distanceSplitPane;
+    private javax.swing.JPanel gyroAccelPanel;
     private javax.swing.JPanel gyroPanel;
+    private javax.swing.JRadioButton gyroXAxis;
+    private javax.swing.JRadioButton gyroYAxis;
+    private javax.swing.JRadioButton gyroZAxis;
     private javax.swing.JSplitPane gyroscopeSplitPane;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JPanel velocityOptionsPanel;
+    private javax.swing.JPanel velocityPanel;
     private javax.swing.JSplitPane velocitySplitPlane;
+    private javax.swing.JRadioButton velocityXAxisButton;
+    private javax.swing.JRadioButton velocityYAxisButton;
+    private javax.swing.JRadioButton velocityZAxisButton;
     // End of variables declaration//GEN-END:variables
 }
