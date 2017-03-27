@@ -225,10 +225,13 @@ public class rsc_jframe extends javax.swing.JFrame
         //</editor-fold>
 
         /* Create and display the form */
-        //NOT SURE HOW THIS LAMBDA STUFF WORKS BUT ITS NEAT!
-        java.awt.EventQueue.invokeLater(() ->
+        java.awt.EventQueue.invokeLater(new Runnable()
         {
-            new rsc_jframe().setVisible(true);
+            @Override
+            public void run()
+            {
+                new rsc_jframe().setVisible(true);
+            }
         });
     }
 
