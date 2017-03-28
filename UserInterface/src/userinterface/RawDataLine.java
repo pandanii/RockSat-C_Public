@@ -1,4 +1,5 @@
-//package userinterface;
+package userinterface;
+
 /*
 RawDataLine is intended to store one line of a Raw Flight
 File(comma delimited) in its individual components. This
@@ -10,46 +11,44 @@ over a FileInputStream might be faster, to begin with this
 class uses a BufferedReader over a FileReader for convenience.
 The order of the datamembers is hard coded, so the file lines
 should be ordered appropriately.
-*/
+ */
 
 import java.io.*;
-import java.util.zip.DataFormatException;
 import java.lang.reflect.*;
-
-
+import java.util.zip.DataFormatException;
 
 //=========================================================
 class RawDataLine
 {
 
-int timeInMicroSeconds;
-float xAxisAccel_MPU9250;
-float yAxisAccel_MPU9250;
-float zAxisAccel_MPU9250;
-float xAxisGyro_MPU9250;
-float yAxisGyro_MPU9250;
-float zAxisGyro_MPU9250;
-float xAxisAccel_ADXL377;
-float yAxisAccel_ADXL377;
-float zAxisAccel_ADXL377;
-
+    int timeInMicroSeconds;
+    float xAxisAccel_MPU9250;
+    float yAxisAccel_MPU9250;
+    float zAxisAccel_MPU9250;
+    float xAxisGyro_MPU9250;
+    float yAxisGyro_MPU9250;
+    float zAxisGyro_MPU9250;
+    float xAxisAccel_ADXL377;
+    float yAxisAccel_ADXL377;
+    float zAxisAccel_ADXL377;
 
     //=====================================================
     RawDataLine()                                               //Constructor
     {
 
-    timeInMicroSeconds = 0;
-    xAxisAccel_MPU9250 = 0;
-    yAxisAccel_MPU9250 = 0;
-    zAxisAccel_MPU9250 = 0;
-    xAxisGyro_MPU9250 = 0;
-    yAxisGyro_MPU9250 = 0;
-    zAxisGyro_MPU9250 = 0;
-    xAxisAccel_ADXL377 = 0;
-    yAxisAccel_ADXL377 = 0;
-    zAxisAccel_ADXL377 = 0;
+        timeInMicroSeconds = 0;
+        xAxisAccel_MPU9250 = 0;
+        yAxisAccel_MPU9250 = 0;
+        zAxisAccel_MPU9250 = 0;
+        xAxisGyro_MPU9250 = 0;
+        yAxisGyro_MPU9250 = 0;
+        zAxisGyro_MPU9250 = 0;
+        xAxisAccel_ADXL377 = 0;
+        yAxisAccel_ADXL377 = 0;
+        zAxisAccel_ADXL377 = 0;
 
     }
+
     //=====================================================
     /*
     The method readFileLine accepts a Buffered Reader, has no
@@ -63,37 +62,38 @@ float zAxisAccel_ADXL377;
     thrown, then this instance of the class will be given
     a time of '-1' to test against so this data point can
     be thrown out.
-    */
+     */
     //=====================================================
     void readFileLine(BufferedReader rawFileBufferedReader)
-                                                     throws IOException,
-                                                            EOFException
+            throws IOException,
+            EOFException
     {
-    String fileLine;
+        String fileLine;
 
-    try
+        try
         {
 
-        fileLine = rawFileBufferedReader.readLine();
+            fileLine = rawFileBufferedReader.readLine();
 
-        if (fileLine == null)
+            if (fileLine == null)
             {
-            throw new EOFException();
+                throw new EOFException();
             }
-        else
+            else
             {
-            parseLine(fileLine.trim());
+                parseLine(fileLine.trim());
             }
 
         }
-    catch (DataFormatException dfe)
+        catch (DataFormatException dfe)
         {
-        System.out.println("File line doesn't match regular expression.");
+            System.out.println("File line doesn't match regular expression.");
 
-        timeInMicroSeconds = -1;
+            timeInMicroSeconds = -1;
         }
 
     }
+
     //=====================================================
     /*
     The method parseLine() of class RawDataLine is private
@@ -105,107 +105,106 @@ float zAxisAccel_ADXL377;
     parsing it. The method makes no attempt to decipher
     the order of the file's contents, instead the order
     is hard coded and the file should be ordered appropriately.
-    */
+     */
     //=====================================================
     private void parseLine(String fileLine) throws DataFormatException
     {
 
 //    System.out.println(fileLine);
+        String regularExpressionForFileLine;
+        String[] stringArray;
 
-    String regularExpressionForFileLine;
-    String[] stringArray;
+        regularExpressionForFileLine = new String("[0-9]+[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*");
 
-    regularExpressionForFileLine = new String("[0-9]+[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*");
-
-    if (fileLine.matches(regularExpressionForFileLine))
+        if (fileLine.matches(regularExpressionForFileLine))
         {
 //        System.out.println("File line good");
 
-        stringArray = fileLine.split(",");                      //when properly formatted, this should always
-                                                                //create as many strings are there are numbers
-                                                                //separated by commas as there are in a single
-                                                                //file line.
+            stringArray = fileLine.split(",");                      //when properly formatted, this should always
+            //create as many strings are there are numbers
+            //separated by commas as there are in a single
+            //file line.
 
-        try
+            try
             {
-            timeInMicroSeconds = Integer.parseInt(
-                           (String)Array.get(stringArray, 0));
-                                                                //parseInt() and get() are static methods,
-                                                                //so they can be called in this way.
-                                                                //Array doesn't know it is full of strings,
-                                                                //so a typecast was used.
-            xAxisAccel_MPU9250 = Float.parseFloat(
-                           (String)Array.get(stringArray, 1));
+                timeInMicroSeconds = Integer.parseInt(
+                        (String) Array.get(stringArray, 0));
+                //parseInt() and get() are static methods,
+                //so they can be called in this way.
+                //Array doesn't know it is full of strings,
+                //so a typecast was used.
+                xAxisAccel_MPU9250 = Float.parseFloat(
+                        (String) Array.get(stringArray, 1));
 
-            yAxisAccel_MPU9250 = Float.parseFloat(
-                           (String)Array.get(stringArray, 2));
+                yAxisAccel_MPU9250 = Float.parseFloat(
+                        (String) Array.get(stringArray, 2));
 
-            zAxisAccel_MPU9250 = Float.parseFloat(
-                           (String)Array.get(stringArray, 3));
+                zAxisAccel_MPU9250 = Float.parseFloat(
+                        (String) Array.get(stringArray, 3));
 
-            xAxisGyro_MPU9250 = Float.parseFloat(
-                           (String)Array.get(stringArray, 4));
+                xAxisGyro_MPU9250 = Float.parseFloat(
+                        (String) Array.get(stringArray, 4));
 
-            yAxisGyro_MPU9250 = Float.parseFloat(
-                           (String)Array.get(stringArray, 5));
+                yAxisGyro_MPU9250 = Float.parseFloat(
+                        (String) Array.get(stringArray, 5));
 
-            zAxisGyro_MPU9250 = Float.parseFloat(
-                           (String)Array.get(stringArray, 6));
+                zAxisGyro_MPU9250 = Float.parseFloat(
+                        (String) Array.get(stringArray, 6));
 
-            xAxisAccel_ADXL377 = Float.parseFloat(
-                           (String)Array.get(stringArray, 7));
+                xAxisAccel_ADXL377 = Float.parseFloat(
+                        (String) Array.get(stringArray, 7));
 
-            yAxisAccel_ADXL377 = Float.parseFloat(
-                           (String)Array.get(stringArray, 8));
+                yAxisAccel_ADXL377 = Float.parseFloat(
+                        (String) Array.get(stringArray, 8));
 
-            zAxisAccel_ADXL377 = Float.parseFloat(
-                           (String)Array.get(stringArray, 9));
+                zAxisAccel_ADXL377 = Float.parseFloat(
+                        (String) Array.get(stringArray, 9));
 
             }
-        catch (NumberFormatException nfe)
+            catch (NumberFormatException nfe)
             {
-            nfe.printStackTrace();
+                nfe.printStackTrace();
 
-            System.out.println("NumberFormatException thrown in RawDataLine.parseLine");
+                System.out.println("NumberFormatException thrown in RawDataLine.parseLine");
 
-            throw new DataFormatException();
+                throw new DataFormatException();
             }
-        catch (NullPointerException npe)
+            catch (NullPointerException npe)
             {
-            npe.printStackTrace();
+                npe.printStackTrace();
 
-            System.out.println("NullPointerException thrown in RawDataLine.parseLine");
+                System.out.println("NullPointerException thrown in RawDataLine.parseLine");
 
-            throw new DataFormatException();
+                throw new DataFormatException();
             }
-        catch (IllegalArgumentException iae)
+            catch (IllegalArgumentException iae)
             {
-            iae.printStackTrace();
+                iae.printStackTrace();
 
-            System.out.println("IllegalArgumentException thrown in RawDataLine.parseLine");
+                System.out.println("IllegalArgumentException thrown in RawDataLine.parseLine");
 
-            throw new DataFormatException();
+                throw new DataFormatException();
             }
-        catch (ArrayIndexOutOfBoundsException aioobe)
+            catch (ArrayIndexOutOfBoundsException aioobe)
             {
-            aioobe.printStackTrace();
+                aioobe.printStackTrace();
 
-            System.out.println("ArrayIndexOutOfBoundsException thrown in RawDataLine.parseLine");
+                System.out.println("ArrayIndexOutOfBoundsException thrown in RawDataLine.parseLine");
 
-            throw new DataFormatException();
+                throw new DataFormatException();
             }
-        catch (Exception ex)
+            catch (Exception ex)
             {
-            ex.printStackTrace();
+                ex.printStackTrace();
 
-            System.out.println("Exception thrown in RawDataLine.parseLine");
+                System.out.println("Exception thrown in RawDataLine.parseLine");
 
-            throw new DataFormatException();
+                throw new DataFormatException();
             }
         }
-    else
+        else
         {
-        throw new DataFormatException("File line doesn't match regular expression.");
+            throw new DataFormatException("File line doesn't match regular expression.");
         }
 
     }
