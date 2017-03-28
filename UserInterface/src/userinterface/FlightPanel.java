@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package userinterface;
 
 import java.io.File;
@@ -16,36 +11,47 @@ public class FlightPanel extends javax.swing.JPanel
 {
 
     private static final long serialVersionUID = 1L;
-    //------------------------------------------------
-    //JZY3dStuff
-    //public Chart2d velocityChart2d;
-    //public Chart2d accelerationChart2d;
-    //public Chart2d gyroChart2d;
-    //------------------------------------------------
+    public static final int LOAD_RAW = 0;
+    public static final int LOAD_FLIGHT = 1;
 
-    // Java FX Stuff for Velocity
-    public JFXPanel velocityJFXPanel;
+    private Calculator calculator;
+    private File flightFile;
+
+// Java FX Stuff for Velocity
+    private JFXPanel velocityJFXPanel;
     private LineChart<Number, Number> velocityLineChart;
     private XYChart.Series velocitySeries;
     private Scene velocityScene;
+    private File velocityXFile;
+    private File velocityYFile;
+    private File velocityZFile;
 
     // Java FX Stuff for Accel
     private JFXPanel accelJFXPanel;
     private LineChart<Number, Number> accelLineChart;
     private XYChart.Series accelSeries;
     private Scene accelScene;
+    private File accelXFile;
+    private File accelYFile;
+    private File accelZFile;
 
     // Java FX Stuff for Accel
     private JFXPanel gyroJFXPanel;
     private LineChart<Number, Number> gyroLineChart;
     private XYChart.Series gyroSeries;
     private Scene gyroScene;
+    private File gyroXFile;
+    private File gyroYFile;
+    private File gyroZFile;
 
     // Java FX Stuff for Distance
-    private JFXPanel distJFXPanel;
-    private LineChart<Number, Number> distLineChart;
-    private XYChart.Series distSeries;
-    private Scene distScene;
+    private JFXPanel dispJFXPanel;
+    private LineChart<Number, Number> dispLineChart;
+    private XYChart.Series dispSeries;
+    private Scene dispScene;
+    private File dispXFile;
+    private File dispYFile;
+    private File dispZFile;
 
     /**
      * Creates new form FlightPanel (Taking NO ARGUMENTS)
@@ -140,43 +146,76 @@ public class FlightPanel extends javax.swing.JPanel
         gyroPanel.add(gyroJFXPanel);
 
         // Setup Axis
-        distJFXPanel = new JFXPanel();
+        dispJFXPanel = new JFXPanel();
         final NumberAxis distXAxis = new NumberAxis();
         final NumberAxis distYAxis = new NumberAxis();
         distXAxis.setLabel("X-Axis");
         distYAxis.setLabel("Y-Axis");
-        distLineChart = new LineChart<>(distXAxis, distYAxis);
-        distSeries = new XYChart.Series();
-        distLineChart.setTitle("Distance Chart");
-        distSeries.setName("Data Point");
-        distSeries.getData().add(new XYChart.Data(1, 1));
-        distSeries.getData().add(new XYChart.Data(2, 2));
-        distSeries.getData().add(new XYChart.Data(3, 3));
-        distSeries.getData().add(new XYChart.Data(4, 4));
-        distSeries.getData().add(new XYChart.Data(5, 5));
-        distSeries.getData().add(new XYChart.Data(6, 7));
-        distSeries.getData().add(new XYChart.Data(7, 8));
-        distSeries.getData().add(new XYChart.Data(8, 0));
-        distSeries.getData().add(new XYChart.Data(9, 2));
-        distSeries.getData().add(new XYChart.Data(10, 5));
-        distSeries.getData().add(new XYChart.Data(11, 1));
-        distSeries.getData().add(new XYChart.Data(12, 27));
-        distScene = new Scene(distLineChart, 800, 600);
-        distLineChart.getData().add(distSeries);
-        distJFXPanel.setScene(distScene);
-        distancePanel.add(distJFXPanel);
+        dispLineChart = new LineChart<>(distXAxis, distYAxis);
+        dispSeries = new XYChart.Series();
+        dispLineChart.setTitle("Distance Chart");
+        dispSeries.setName("Data Point");
+        dispSeries.getData().add(new XYChart.Data(1, 1));
+        dispSeries.getData().add(new XYChart.Data(2, 2));
+        dispSeries.getData().add(new XYChart.Data(3, 3));
+        dispSeries.getData().add(new XYChart.Data(4, 4));
+        dispSeries.getData().add(new XYChart.Data(5, 5));
+        dispSeries.getData().add(new XYChart.Data(6, 7));
+        dispSeries.getData().add(new XYChart.Data(7, 8));
+        dispSeries.getData().add(new XYChart.Data(8, 0));
+        dispSeries.getData().add(new XYChart.Data(9, 2));
+        dispSeries.getData().add(new XYChart.Data(10, 5));
+        dispSeries.getData().add(new XYChart.Data(11, 1));
+        dispSeries.getData().add(new XYChart.Data(12, 27));
+        dispScene = new Scene(dispLineChart, 800, 600);
+        dispLineChart.getData().add(dispSeries);
+        dispJFXPanel.setScene(dispScene);
+        distancePanel.add(dispJFXPanel);
 
     }
 
     /**
      * Creates new form FlightPanel
+     * This is the actual constructor method, it will take in a file and output
      *
      * @param file
+     *      ** 'file' is used to either load the raw flight data into the calculator or it is to open the already created files.
+     *      ** This all depends on the value of 'loadValue'
+     * @param loadValue
+     *      ** 'loadValue' is used to differentiate between the different types of loading performed.
      */
     @SuppressWarnings("unchecked")
-    public FlightPanel(File file)
+    public FlightPanel(File file, int loadValue)
     {
         initComponents();
+        if (loadValue == LOAD_RAW)
+        {
+            String tempFileName = file.toString().substring(0, file.toString().indexOf("."));
+            System.out.println("fileName after substring: " + tempFileName);
+            //flightFile = new File();
+
+            calculator = new Calculator(file.toString());
+
+            //TODO: MOVE THESE
+            //      THESES SHOULD BE MOVED, BUT IM LEAVING THEM HERE FOR NOW!!!!!
+            //      NEED TO FIGURE OUT WHAT TO DO ABOUT THE ISSUE WITH READING THEM IN.
+            accelXFile = new File(tempFileName + "_TxA_x.dat");
+            accelYFile = new File(tempFileName + "_TxA_y.dat");
+            accelZFile = new File(tempFileName + "_TxA_z.dat");
+            velocityXFile = new File(tempFileName + "_TxV_x.dat");
+            velocityYFile = new File(tempFileName + "_TxV_y.dat");
+            velocityZFile = new File(tempFileName + "_TxV_z.dat");
+            dispXFile = new File(tempFileName + "_TxD_x.dat");
+            dispYFile = new File(tempFileName + "_TxD_y.dat");
+            dispZFile = new File(tempFileName + "_TxD_z.dat");
+            gyroXFile = new File(tempFileName + "_TxGyro_x.dat");
+            gyroYFile = new File(tempFileName + "_TxGyro_y.dat");
+            gyroZFile = new File(tempFileName + "_TxGyro_z.dat");
+        }
+        else
+        {
+            // HERE we will load the files instead of creating new each time.
+        }
 
         // Setup Axis
         // NOTE a JFXPanel() must be setup to initialize the toolkit to stop an exception from occuring with NumberAxis initialization.
@@ -225,19 +264,19 @@ public class FlightPanel extends javax.swing.JPanel
         gyroPanel.add(gyroJFXPanel);
 
         // Setup Axis
-        distJFXPanel = new JFXPanel();
+        dispJFXPanel = new JFXPanel();
         final NumberAxis distXAxis = new NumberAxis();
         final NumberAxis distYAxis = new NumberAxis();
         distXAxis.setLabel("X-Axis");
         distYAxis.setLabel("Y-Axis");
-        distLineChart = new LineChart<>(distXAxis, distYAxis);
-        distSeries = new XYChart.Series();
-        distLineChart.setTitle("Distance Chart");
-        distSeries.setName("Data Point");
-        distScene = new Scene(distLineChart, 800, 600);
-        distLineChart.getData().add(distSeries);
-        distJFXPanel.setScene(distScene);
-        distancePanel.add(distJFXPanel);
+        dispLineChart = new LineChart<>(distXAxis, distYAxis);
+        dispSeries = new XYChart.Series();
+        dispLineChart.setTitle("Displacement Chart");
+        dispSeries.setName("Data Point");
+        dispScene = new Scene(dispLineChart, 800, 600);
+        dispLineChart.getData().add(dispSeries);
+        dispJFXPanel.setScene(dispScene);
+        distancePanel.add(dispJFXPanel);
 
     }
 
@@ -252,7 +291,6 @@ public class FlightPanel extends javax.swing.JPanel
     private void initComponents()
     {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         velocitySplitPlane = new javax.swing.JSplitPane();
         velocityPanel = new javax.swing.JPanel();
@@ -269,9 +307,9 @@ public class FlightPanel extends javax.swing.JPanel
         distanceSplitPane = new javax.swing.JSplitPane();
         distancePanel = new javax.swing.JPanel();
         distanceOptionPanel = new javax.swing.JPanel();
-        distXToggleButton = new javax.swing.JToggleButton();
-        distYToggleButton = new javax.swing.JToggleButton();
-        distZToggleButton = new javax.swing.JToggleButton();
+        dispToggleButton = new javax.swing.JToggleButton();
+        dispYToggleButton = new javax.swing.JToggleButton();
+        dispZToggleButton = new javax.swing.JToggleButton();
         gyroscopeSplitPane = new javax.swing.JSplitPane();
         gyroPanel = new javax.swing.JPanel();
         gyroAccelPanel = new javax.swing.JPanel();
@@ -398,30 +436,30 @@ public class FlightPanel extends javax.swing.JPanel
         distancePanel.setLayout(new java.awt.BorderLayout());
         distanceSplitPane.setRightComponent(distancePanel);
 
-        distXToggleButton.setText("Distance X Axis");
-        distXToggleButton.addActionListener(new java.awt.event.ActionListener()
+        dispToggleButton.setText("Displacement X Axis");
+        dispToggleButton.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                distXToggleButtonActionPerformed(evt);
+                dispToggleButtonActionPerformed(evt);
             }
         });
 
-        distYToggleButton.setText("Distance Y Axis");
-        distYToggleButton.addActionListener(new java.awt.event.ActionListener()
+        dispYToggleButton.setText("Displacement Y Axis");
+        dispYToggleButton.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                distYToggleButtonActionPerformed(evt);
+                dispYToggleButtonActionPerformed(evt);
             }
         });
 
-        distZToggleButton.setText("Distance Z Axis");
-        distZToggleButton.addActionListener(new java.awt.event.ActionListener()
+        dispZToggleButton.setText("Displacement Z Axis");
+        dispZToggleButton.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                distZToggleButtonActionPerformed(evt);
+                dispZToggleButtonActionPerformed(evt);
             }
         });
 
@@ -432,20 +470,20 @@ public class FlightPanel extends javax.swing.JPanel
             .addGroup(distanceOptionPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(distanceOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(distXToggleButton)
-                    .addComponent(distYToggleButton)
-                    .addComponent(distZToggleButton))
+                    .addComponent(dispToggleButton)
+                    .addComponent(dispYToggleButton)
+                    .addComponent(dispZToggleButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         distanceOptionPanelLayout.setVerticalGroup(
             distanceOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(distanceOptionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(distXToggleButton)
+                .addComponent(dispToggleButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(distYToggleButton)
+                .addComponent(dispYToggleButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(distZToggleButton)
+                .addComponent(dispZToggleButton)
                 .addContainerGap(502, Short.MAX_VALUE))
         );
 
@@ -553,15 +591,15 @@ public class FlightPanel extends javax.swing.JPanel
         // TODO add your handling code here:
     }//GEN-LAST:event_velYToggleButtonActionPerformed
 
-    private void distXToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_distXToggleButtonActionPerformed
-    {//GEN-HEADEREND:event_distXToggleButtonActionPerformed
+    private void dispToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispToggleButtonActionPerformed
+    {//GEN-HEADEREND:event_dispToggleButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_distXToggleButtonActionPerformed
+    }//GEN-LAST:event_dispToggleButtonActionPerformed
 
-    private void distYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_distYToggleButtonActionPerformed
-    {//GEN-HEADEREND:event_distYToggleButtonActionPerformed
+    private void dispYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispYToggleButtonActionPerformed
+    {//GEN-HEADEREND:event_dispYToggleButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_distYToggleButtonActionPerformed
+    }//GEN-LAST:event_dispYToggleButtonActionPerformed
 
     private void velZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_velZToggleButtonActionPerformed
     {//GEN-HEADEREND:event_velZToggleButtonActionPerformed
@@ -573,10 +611,10 @@ public class FlightPanel extends javax.swing.JPanel
         // TODO add your handling code here:
     }//GEN-LAST:event_accelZToggleButtonActionPerformed
 
-    private void distZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_distZToggleButtonActionPerformed
-    {//GEN-HEADEREND:event_distZToggleButtonActionPerformed
+    private void dispZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispZToggleButtonActionPerformed
+    {//GEN-HEADEREND:event_dispZToggleButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_distZToggleButtonActionPerformed
+    }//GEN-LAST:event_dispZToggleButtonActionPerformed
 
     private void gyroZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_gyroZToggleButtonActionPerformed
     {//GEN-HEADEREND:event_gyroZToggleButtonActionPerformed
@@ -590,10 +628,9 @@ public class FlightPanel extends javax.swing.JPanel
     private javax.swing.JToggleButton accelXToggleButton;
     private javax.swing.JToggleButton accelYToggleButton;
     private javax.swing.JToggleButton accelZToggleButton;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JToggleButton distXToggleButton;
-    private javax.swing.JToggleButton distYToggleButton;
-    private javax.swing.JToggleButton distZToggleButton;
+    private javax.swing.JToggleButton dispToggleButton;
+    private javax.swing.JToggleButton dispYToggleButton;
+    private javax.swing.JToggleButton dispZToggleButton;
     private javax.swing.JPanel distanceOptionPanel;
     private javax.swing.JPanel distancePanel;
     private javax.swing.JSplitPane distanceSplitPane;
