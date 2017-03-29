@@ -51,7 +51,7 @@ public class rsc_jframe extends javax.swing.JFrame
         setName("Welcome"); // NOI18N
 
         WelcomeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        WelcomeLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/userinterface/WelcomeScreen.png"))); // NOI18N
+        WelcomeLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/userinterface/WelcomeScreen.jpg"))); // NOI18N
         WelcomeLabel.setToolTipText("");
 
         javax.swing.GroupLayout WelcomePanelLayout = new javax.swing.GroupLayout(WelcomePanel);
