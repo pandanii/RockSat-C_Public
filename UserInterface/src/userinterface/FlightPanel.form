@@ -198,18 +198,18 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JSplitPane" name="distanceSplitPane">
+        <Container class="javax.swing.JSplitPane" name="displacementSplitPane">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Distance">
-                <Property name="tabTitle" type="java.lang.String" value="Distance"/>
+              <JTabbedPaneConstraints tabName="Displacement">
+                <Property name="tabTitle" type="java.lang.String" value="Displacement"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout"/>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="distancePanel">
+            <Container class="javax.swing.JPanel" name="displacementPanel">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout$JSplitPaneConstraintsDescription">
                   <JSplitPaneConstraints position="right"/>
@@ -218,7 +218,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
             </Container>
-            <Container class="javax.swing.JPanel" name="distanceOptionPanel">
+            <Container class="javax.swing.JPanel" name="displacementOptionPanel">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout$JSplitPaneConstraintsDescription">
                   <JSplitPaneConstraints position="left"/>

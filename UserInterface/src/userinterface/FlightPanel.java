@@ -44,7 +44,7 @@ public class FlightPanel extends javax.swing.JPanel
     private File gyroYFile;
     private File gyroZFile;
 
-    // Java FX Stuff for Distance
+    // Java FX Stuff for Displacement
     private JFXPanel dispJFXPanel;
     private LineChart<Number, Number> dispLineChart;
     private XYChart.Series dispSeries;
@@ -68,7 +68,7 @@ public class FlightPanel extends javax.swing.JPanel
         velocityJFXPanel = new JFXPanel();
         final NumberAxis velocityXAxis = new NumberAxis();
         final NumberAxis velocityYAxis = new NumberAxis();
-        velocityXAxis.setLabel("X-Axis");
+        velocityXAxis.setLabel("Time");
         velocityYAxis.setLabel("Y-Axis");
         velocityLineChart = new LineChart<>(velocityXAxis, velocityYAxis);
         velocitySeries = new XYChart.Series();
@@ -95,7 +95,7 @@ public class FlightPanel extends javax.swing.JPanel
         accelJFXPanel = new JFXPanel();
         final NumberAxis accelXAxis = new NumberAxis();
         final NumberAxis accelYAxis = new NumberAxis();
-        accelXAxis.setLabel("X-Axis");
+        accelXAxis.setLabel("Time");
         accelYAxis.setLabel("Y-Axis");
         accelLineChart = new LineChart<>(accelXAxis, accelYAxis);
         accelSeries = new XYChart.Series();
@@ -122,7 +122,7 @@ public class FlightPanel extends javax.swing.JPanel
         gyroJFXPanel = new JFXPanel();
         final NumberAxis gyroXAxis = new NumberAxis();
         final NumberAxis gyroYAxis = new NumberAxis();
-        gyroXAxis.setLabel("X-Axis");
+        gyroXAxis.setLabel("Time");
         gyroYAxis.setLabel("Y-Axis");
         gyroLineChart = new LineChart<>(gyroXAxis, gyroYAxis);
         gyroSeries = new XYChart.Series();
@@ -149,11 +149,11 @@ public class FlightPanel extends javax.swing.JPanel
         dispJFXPanel = new JFXPanel();
         final NumberAxis distXAxis = new NumberAxis();
         final NumberAxis distYAxis = new NumberAxis();
-        distXAxis.setLabel("X-Axis");
+        distXAxis.setLabel("Time");
         distYAxis.setLabel("Y-Axis");
         dispLineChart = new LineChart<>(distXAxis, distYAxis);
         dispSeries = new XYChart.Series();
-        dispLineChart.setTitle("Distance Chart");
+        dispLineChart.setTitle("Displacement Chart");
         dispSeries.setName("Data Point");
         dispSeries.getData().add(new XYChart.Data(1, 1));
         dispSeries.getData().add(new XYChart.Data(2, 2));
@@ -170,7 +170,7 @@ public class FlightPanel extends javax.swing.JPanel
         dispScene = new Scene(dispLineChart, 800, 600);
         dispLineChart.getData().add(dispSeries);
         dispJFXPanel.setScene(dispScene);
-        distancePanel.add(dispJFXPanel);
+        displacementPanel.add(dispJFXPanel);
 
     }
 
@@ -222,7 +222,7 @@ public class FlightPanel extends javax.swing.JPanel
         velocityJFXPanel = new JFXPanel();
         final NumberAxis velocityXAxis = new NumberAxis();
         final NumberAxis velocityYAxis = new NumberAxis();
-        velocityXAxis.setLabel("X-Axis");
+        velocityXAxis.setLabel("Time");
         velocityYAxis.setLabel("Y-Axis");
         velocityLineChart = new LineChart<>(velocityXAxis, velocityYAxis);
         velocitySeries = new XYChart.Series();
@@ -237,7 +237,7 @@ public class FlightPanel extends javax.swing.JPanel
         accelJFXPanel = new JFXPanel();
         final NumberAxis accelXAxis = new NumberAxis();
         final NumberAxis accelYAxis = new NumberAxis();
-        accelXAxis.setLabel("X-Axis");
+        accelXAxis.setLabel("Time");
         accelYAxis.setLabel("Y-Axis");
         accelLineChart = new LineChart<>(accelXAxis, accelYAxis);
         accelSeries = new XYChart.Series();
@@ -252,7 +252,7 @@ public class FlightPanel extends javax.swing.JPanel
         gyroJFXPanel = new JFXPanel();
         final NumberAxis gyroXAxis = new NumberAxis();
         final NumberAxis gyroYAxis = new NumberAxis();
-        gyroXAxis.setLabel("X-Axis");
+        gyroXAxis.setLabel("Time");
         gyroYAxis.setLabel("Y-Axis");
         gyroLineChart = new LineChart<>(gyroXAxis, gyroYAxis);
         gyroSeries = new XYChart.Series();
@@ -267,7 +267,7 @@ public class FlightPanel extends javax.swing.JPanel
         dispJFXPanel = new JFXPanel();
         final NumberAxis distXAxis = new NumberAxis();
         final NumberAxis distYAxis = new NumberAxis();
-        distXAxis.setLabel("X-Axis");
+        distXAxis.setLabel("Time");
         distYAxis.setLabel("Y-Axis");
         dispLineChart = new LineChart<>(distXAxis, distYAxis);
         dispSeries = new XYChart.Series();
@@ -276,7 +276,7 @@ public class FlightPanel extends javax.swing.JPanel
         dispScene = new Scene(dispLineChart, 800, 600);
         dispLineChart.getData().add(dispSeries);
         dispJFXPanel.setScene(dispScene);
-        distancePanel.add(dispJFXPanel);
+        displacementPanel.add(dispJFXPanel);
 
     }
 
@@ -304,9 +304,9 @@ public class FlightPanel extends javax.swing.JPanel
         accelXToggleButton = new javax.swing.JToggleButton();
         accelYToggleButton = new javax.swing.JToggleButton();
         accelZToggleButton = new javax.swing.JToggleButton();
-        distanceSplitPane = new javax.swing.JSplitPane();
-        distancePanel = new javax.swing.JPanel();
-        distanceOptionPanel = new javax.swing.JPanel();
+        displacementSplitPane = new javax.swing.JSplitPane();
+        displacementPanel = new javax.swing.JPanel();
+        displacementOptionPanel = new javax.swing.JPanel();
         dispToggleButton = new javax.swing.JToggleButton();
         dispYToggleButton = new javax.swing.JToggleButton();
         dispZToggleButton = new javax.swing.JToggleButton();
@@ -433,8 +433,8 @@ public class FlightPanel extends javax.swing.JPanel
 
         jTabbedPane1.addTab("Acceleration", AccelerationSplitPane);
 
-        distancePanel.setLayout(new java.awt.BorderLayout());
-        distanceSplitPane.setRightComponent(distancePanel);
+        displacementPanel.setLayout(new java.awt.BorderLayout());
+        displacementSplitPane.setRightComponent(displacementPanel);
 
         dispToggleButton.setText("Displacement X Axis");
         dispToggleButton.addActionListener(new java.awt.event.ActionListener()
@@ -463,21 +463,21 @@ public class FlightPanel extends javax.swing.JPanel
             }
         });
 
-        javax.swing.GroupLayout distanceOptionPanelLayout = new javax.swing.GroupLayout(distanceOptionPanel);
-        distanceOptionPanel.setLayout(distanceOptionPanelLayout);
-        distanceOptionPanelLayout.setHorizontalGroup(
-            distanceOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(distanceOptionPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout displacementOptionPanelLayout = new javax.swing.GroupLayout(displacementOptionPanel);
+        displacementOptionPanel.setLayout(displacementOptionPanelLayout);
+        displacementOptionPanelLayout.setHorizontalGroup(
+            displacementOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(displacementOptionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(distanceOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(displacementOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dispToggleButton)
                     .addComponent(dispYToggleButton)
                     .addComponent(dispZToggleButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        distanceOptionPanelLayout.setVerticalGroup(
-            distanceOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(distanceOptionPanelLayout.createSequentialGroup()
+        displacementOptionPanelLayout.setVerticalGroup(
+            displacementOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(displacementOptionPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(dispToggleButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -487,9 +487,9 @@ public class FlightPanel extends javax.swing.JPanel
                 .addContainerGap(502, Short.MAX_VALUE))
         );
 
-        distanceSplitPane.setLeftComponent(distanceOptionPanel);
+        displacementSplitPane.setLeftComponent(displacementOptionPanel);
 
-        jTabbedPane1.addTab("Distance", distanceSplitPane);
+        jTabbedPane1.addTab("Displacement", displacementSplitPane);
 
         gyroPanel.setLayout(new java.awt.BorderLayout());
         gyroscopeSplitPane.setRightComponent(gyroPanel);
@@ -631,9 +631,9 @@ public class FlightPanel extends javax.swing.JPanel
     private javax.swing.JToggleButton dispToggleButton;
     private javax.swing.JToggleButton dispYToggleButton;
     private javax.swing.JToggleButton dispZToggleButton;
-    private javax.swing.JPanel distanceOptionPanel;
-    private javax.swing.JPanel distancePanel;
-    private javax.swing.JSplitPane distanceSplitPane;
+    private javax.swing.JPanel displacementOptionPanel;
+    private javax.swing.JPanel displacementPanel;
+    private javax.swing.JSplitPane displacementSplitPane;
     private javax.swing.JPanel gyroAccelPanel;
     private javax.swing.JPanel gyroPanel;
     private javax.swing.JToggleButton gyroXToggleButton;
