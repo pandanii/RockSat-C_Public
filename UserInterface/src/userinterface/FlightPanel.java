@@ -1,6 +1,14 @@
 package userinterface;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
@@ -17,7 +25,7 @@ public class FlightPanel extends javax.swing.JPanel
     private Calculator calculator;
     private File flightFile;
 
-// Java FX Stuff for Velocity
+    // Java FX Stuff for Velocity
     private JFXPanel velocityJFXPanel;
     private LineChart<Number, Number> velocityLineChart;
     private XYChart.Series velocitySeries;
@@ -190,31 +198,12 @@ public class FlightPanel extends javax.swing.JPanel
         initComponents();
         if (loadValue == LOAD_RAW)
         {
-            String tempFileName = file.toString().substring(0, file.toString().indexOf("."));
-            System.out.println("fileName after substring: " + tempFileName);
-            //flightFile = new File();
-
             calculator = new Calculator(file.toString());
-
-            //TODO: MOVE THESE
-            //      THESES SHOULD BE MOVED, BUT IM LEAVING THEM HERE FOR NOW!!!!!
-            //      NEED TO FIGURE OUT WHAT TO DO ABOUT THE ISSUE WITH READING THEM IN.
-            accelXFile = new File(tempFileName + "_TxA_x.dat");
-            accelYFile = new File(tempFileName + "_TxA_y.dat");
-            accelZFile = new File(tempFileName + "_TxA_z.dat");
-            velocityXFile = new File(tempFileName + "_TxV_x.dat");
-            velocityYFile = new File(tempFileName + "_TxV_y.dat");
-            velocityZFile = new File(tempFileName + "_TxV_z.dat");
-            dispXFile = new File(tempFileName + "_TxD_x.dat");
-            dispYFile = new File(tempFileName + "_TxD_y.dat");
-            dispZFile = new File(tempFileName + "_TxD_z.dat");
-            gyroXFile = new File(tempFileName + "_TxGyro_x.dat");
-            gyroYFile = new File(tempFileName + "_TxGyro_y.dat");
-            gyroZFile = new File(tempFileName + "_TxGyro_z.dat");
+            saveFlight(file);
         }
         else
         {
-            // HERE we will load the files instead of creating new each time.
+            loadFlight(file);
         }
 
         // Setup Axis
@@ -278,6 +267,132 @@ public class FlightPanel extends javax.swing.JPanel
         dispJFXPanel.setScene(dispScene);
         displacementPanel.add(dispJFXPanel);
 
+    }
+
+    /*
+     * This method is used for saving the flight once the calculator class has saved them all.
+     * It is used to create the rsc file
+     */
+    public void saveFlight(File file)
+    {
+        try
+        {
+            String tempFileName = file.toString().substring(0, file.toString().indexOf("."));
+            System.out.println("fileName after substring: " + tempFileName);
+            DataOutputStream tempDOS;
+
+            flightFile = new File(tempFileName + ".rsc");
+            System.out.println("SAVING FILE: " + flightFile);
+            tempDOS = new DataOutputStream(new FileOutputStream(flightFile));
+
+            accelXFile = new File(tempFileName + "_TxA_x.dat");
+            System.out.println("writing: " + accelXFile.toString() + " to: " + flightFile.toString());
+            tempDOS.writeUTF(accelXFile.toString());
+
+            accelYFile = new File(tempFileName + "_TxA_y.dat");
+            System.out.println("writing: " + accelYFile.toString() + " to: " + flightFile.toString());
+            tempDOS.writeUTF(accelYFile.toString());
+
+            accelZFile = new File(tempFileName + "_TxA_z.dat");
+            System.out.println("writing: " + accelZFile.toString() + " to: " + flightFile.toString());
+            tempDOS.writeUTF(accelZFile.toString());
+
+            velocityXFile = new File(tempFileName + "_TxV_x.dat");
+            System.out.println("writing: " + velocityXFile.toString() + " to: " + flightFile.toString());
+            tempDOS.writeUTF(velocityXFile.toString());
+
+            velocityYFile = new File(tempFileName + "_TxV_y.dat");
+            System.out.println("writing: " + velocityYFile.toString() + " to: " + flightFile.toString());
+            tempDOS.writeUTF(velocityYFile.toString());
+
+            velocityZFile = new File(tempFileName + "_TxV_z.dat");
+            System.out.println("writing: " + velocityZFile.toString() + " to: " + flightFile.toString());
+            tempDOS.writeUTF(velocityZFile.toString());
+
+            dispXFile = new File(tempFileName + "_TxD_x.dat");
+            System.out.println("writing: " + dispXFile.toString() + " to: " + flightFile.toString());
+            tempDOS.writeUTF(dispXFile.toString());
+
+            dispYFile = new File(tempFileName + "_TxD_y.dat");
+            System.out.println("writing: " + dispYFile.toString() + " to: " + flightFile.toString());
+            tempDOS.writeUTF(dispYFile.toString());
+
+            dispZFile = new File(tempFileName + "_TxD_z.dat");
+            System.out.println("writing: " + dispZFile.toString() + " to: " + flightFile.toString());
+            tempDOS.writeUTF(dispZFile.toString());
+
+            gyroXFile = new File(tempFileName + "_TxGyro_x.dat");
+            System.out.println("writing: " + gyroXFile.toString() + " to: " + flightFile.toString());
+            tempDOS.writeUTF(gyroXFile.toString());
+
+            gyroYFile = new File(tempFileName + "_TxGyro_y.dat");
+            System.out.println("writing: " + gyroYFile.toString() + " to: " + flightFile.toString());
+            tempDOS.writeUTF(gyroYFile.toString());
+
+            gyroZFile = new File(tempFileName + "_TxGyro_z.dat");
+            System.out.println("writing: " + gyroZFile.toString() + " to: " + flightFile.toString());
+            tempDOS.writeUTF(gyroZFile.toString());
+        }
+        catch (FileNotFoundException fNFException)
+        {
+            Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, fNFException);
+            fNFException.printStackTrace();
+        }
+        catch (IOException iOEException)
+        {
+            Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, iOEException);
+            iOEException.printStackTrace();
+        }
+
+    }
+
+    /*
+     * This method is used for loading the flight once the calculator class has saved them all.
+     * It is used to open the rsc file
+     */
+    public void loadFlight(File file)
+    {
+        try
+        {
+            DataInputStream tempDIS;
+            flightFile = file;
+            System.out.println("Loading FILE: " + flightFile);
+            tempDIS = new DataInputStream(new FileInputStream(flightFile));
+            accelXFile = new File(tempDIS.readUTF());
+            System.out.println("Read: " + accelXFile.toString() + " from: " + flightFile.toString());
+            accelYFile = new File(tempDIS.readUTF());
+            System.out.println("Read: " + accelYFile.toString() + " from: " + flightFile.toString());
+            accelZFile = new File(tempDIS.readUTF());
+            System.out.println("Read: " + accelZFile.toString() + " from: " + flightFile.toString());
+            velocityXFile = new File(tempDIS.readUTF());
+            System.out.println("Read: " + velocityXFile.toString() + " from: " + flightFile.toString());
+            velocityYFile = new File(tempDIS.readUTF());
+            System.out.println("Read: " + velocityYFile.toString() + " from: " + flightFile.toString());
+            velocityZFile = new File(tempDIS.readUTF());
+            System.out.println("Read: " + velocityZFile.toString() + " from: " + flightFile.toString());
+            dispXFile = new File(tempDIS.readUTF());
+            System.out.println("Read: " + dispXFile.toString() + " from: " + flightFile.toString());
+            dispYFile = new File(tempDIS.readUTF());
+            System.out.println("Read: " + dispYFile.toString() + " from: " + flightFile.toString());
+            dispZFile = new File(tempDIS.readUTF());
+            System.out.println("Read: " + dispZFile.toString() + " from: " + flightFile.toString());
+            gyroXFile = new File(tempDIS.readUTF());
+            System.out.println("Read: " + gyroXFile.toString() + " from: " + flightFile.toString());
+            gyroYFile = new File(tempDIS.readUTF());
+            System.out.println("Read: " + gyroYFile.toString() + " from: " + flightFile.toString());
+            gyroZFile = new File(tempDIS.readUTF());
+            System.out.println("Read: " + gyroZFile.toString() + " from: " + flightFile.toString());
+        }
+        catch (FileNotFoundException fNFException)
+        {
+            Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, fNFException);
+            fNFException.printStackTrace();
+        }
+        catch (IOException iOEException)
+        {
+            Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, iOEException);
+            iOEException.printStackTrace();
+        }
     }
 
     /**
@@ -564,61 +679,157 @@ public class FlightPanel extends javax.swing.JPanel
     private void accelYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_accelYToggleButtonActionPerformed
     {//GEN-HEADEREND:event_accelYToggleButtonActionPerformed
         // TODO add your handling code here:
+        if (accelYToggleButton.isSelected())
+        {
+
+        }
+        else
+        {
+
+        }
     }//GEN-LAST:event_accelYToggleButtonActionPerformed
 
     private void accelXToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_accelXToggleButtonActionPerformed
     {//GEN-HEADEREND:event_accelXToggleButtonActionPerformed
         // TODO add your handling code here:
+        if (accelXToggleButton.isSelected())
+        {
+
+        }
+        else
+        {
+
+        }
     }//GEN-LAST:event_accelXToggleButtonActionPerformed
 
     private void gyroXToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_gyroXToggleButtonActionPerformed
     {//GEN-HEADEREND:event_gyroXToggleButtonActionPerformed
         // TODO add your handling code here:
+        if (gyroXToggleButton.isSelected())
+        {
+
+        }
+        else
+        {
+
+        }
     }//GEN-LAST:event_gyroXToggleButtonActionPerformed
 
     private void gyroYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_gyroYToggleButtonActionPerformed
     {//GEN-HEADEREND:event_gyroYToggleButtonActionPerformed
         // TODO add your handling code here:
+        if (gyroYToggleButton.isSelected())
+        {
+
+        }
+        else
+        {
+
+        }
     }//GEN-LAST:event_gyroYToggleButtonActionPerformed
 
     private void velXToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_velXToggleButtonActionPerformed
     {//GEN-HEADEREND:event_velXToggleButtonActionPerformed
         // TODO add your handling code here:
+        if (velXToggleButton.isSelected())
+        {
+
+        }
+        else
+        {
+
+        }
     }//GEN-LAST:event_velXToggleButtonActionPerformed
 
     private void velYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_velYToggleButtonActionPerformed
     {//GEN-HEADEREND:event_velYToggleButtonActionPerformed
         // TODO add your handling code here:
+        if (velYToggleButton.isSelected())
+        {
+
+        }
+        else
+        {
+
+        }
     }//GEN-LAST:event_velYToggleButtonActionPerformed
 
     private void dispToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispToggleButtonActionPerformed
     {//GEN-HEADEREND:event_dispToggleButtonActionPerformed
         // TODO add your handling code here:
+        if (dispToggleButton.isSelected())
+        {
+
+        }
+        else
+        {
+
+        }
     }//GEN-LAST:event_dispToggleButtonActionPerformed
 
     private void dispYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispYToggleButtonActionPerformed
     {//GEN-HEADEREND:event_dispYToggleButtonActionPerformed
         // TODO add your handling code here:
+        if (dispYToggleButton.isSelected())
+        {
+
+        }
+        else
+        {
+
+        }
     }//GEN-LAST:event_dispYToggleButtonActionPerformed
 
     private void velZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_velZToggleButtonActionPerformed
     {//GEN-HEADEREND:event_velZToggleButtonActionPerformed
         // TODO add your handling code here:
+        if (velZToggleButton.isSelected())
+        {
+
+        }
+        else
+        {
+
+        }
     }//GEN-LAST:event_velZToggleButtonActionPerformed
 
     private void accelZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_accelZToggleButtonActionPerformed
     {//GEN-HEADEREND:event_accelZToggleButtonActionPerformed
         // TODO add your handling code here:
+        if (accelZToggleButton.isSelected())
+        {
+
+        }
+        else
+        {
+
+        }
     }//GEN-LAST:event_accelZToggleButtonActionPerformed
 
     private void dispZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispZToggleButtonActionPerformed
     {//GEN-HEADEREND:event_dispZToggleButtonActionPerformed
         // TODO add your handling code here:
+        if (dispZToggleButton.isSelected())
+        {
+
+        }
+        else
+        {
+
+        }
     }//GEN-LAST:event_dispZToggleButtonActionPerformed
 
     private void gyroZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_gyroZToggleButtonActionPerformed
     {//GEN-HEADEREND:event_gyroZToggleButtonActionPerformed
         // TODO add your handling code here:
+        if (gyroZToggleButton.isSelected())
+        {
+
+        }
+        else
+        {
+
+        }
     }//GEN-LAST:event_gyroZToggleButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
