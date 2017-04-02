@@ -134,15 +134,24 @@ String rawFileName;
     //=====================================================
     /*
     This method calculates values for velocity and displacement
-    based on ten data points with an expanded Trapizoid Rule
-    of the Riemann Sum approach.
+    based on ten data points with the following equasions.
 
-    Example of Trapizoid rule with velocity and displacement(S)
-    Vi = (((ai + a(i + 1) ) / 2) * ti + Vi - 1) * (t(i+1) - ti)
-    Si = (((ai + a(i + 1) ) / 2) * t2 / 2 + Vi - 1 * ti  + S(i - 1)) * (t(i+1) - ti)
+    Vi = 1/10 (ai-10 +...+ ai) * (ti-1 - ti) + Vi-1
+    Si = 1/2 (vi-1 +...+ vi) * (ti-1 - ti) + Si-1
 
-    Averaging ten points of acceleration instead of 2 to smooth out
-    the outlying points.
+    Averaging 10 points of acceleration instead of 2 to smooth out
+    the outlying points. This can be changed later on based on what
+    we need. The formulas are somewhat modified because in the code,
+    the average acceleration is calculated before hand.
+
+    Averaging 2 points of velocity instead of 10 because we have
+    already smoothed the curve, but some averaging is required for
+    accuracy. See Trapezoid rule.
+
+    For the change in time, since there is some variation in the
+    hardware's read rate, we will average a delta time as follows.
+
+    deltaTime = (time0 + time2) / 2 - (time1 + time3) / 2
 
     It holds an OrderedPair for every point pair it writes
     after calculation from the raw data file. It has a
@@ -177,20 +186,37 @@ String rawFileName;
     Double distanceTotal_y;
     Double distanceTotal_z;
 
-    int time1;
-    int time2;
+    float time0;
+    float time1;
+    float time2;
+    float time3;
+    float deltaTime;
 
     float accelerationAverage_x;
     float accelerationAverage_y;
     float accelerationAverage_z;
 
+    float currentVelocity_x;
+    float currentVelocity_y;
+    float currentVelocity_z;
+
+    float velocityAverage_x;
+    float velocityAverage_y;
+    float velocityAverage_z;
+
     float previousVelocity_x;
     float previousVelocity_y;
     float previousVelocity_z;
 
+    float currentDisplacement_x;
+    float currentDisplacement_y;
+    float currentDisplacement_z;
+
     float previousDisplacement_x;
     float previousDisplacement_y;
     float previousDisplacement_z;
+
+    int counter;
 
     try
         {
@@ -242,15 +268,27 @@ String rawFileName;
 
 //System.out.println("accerlerationAverages: " + accelerationAverage_x + " " + accelerationAverage_y + " " + accelerationAverage_z);
 
+        currentVelocity_x = 0;
+        currentVelocity_y = 0;
+        currentVelocity_z = 0;
+
+        velocityAverage_x = 0;
+        velocityAverage_y = 0;
+        velocityAverage_z = 0;
+
         previousVelocity_x = 0;
         previousVelocity_y = 0;
         previousVelocity_z = 0;
+
+        currentDisplacement_x = 0;
+        currentDisplacement_y = 0;
+        currentDisplacement_z = 0;
 
         previousDisplacement_x = 0;
         previousDisplacement_y = 0;
         previousDisplacement_z = 0;
 
-
+        counter = 0;
         while (true)                                                //end of file exception will kick us out of the loop.
             {
                                                                     //The initial averages for acceleration have been
@@ -260,26 +298,72 @@ String rawFileName;
                                                                     //Is one addition, one subtraction, one multiply, and one
                                                                     //divide actually faster than 9 additions and one dividsion?
                                                                     //If we scale up to more points per average, then obviously
-                                                                    //this method gets faster.
-            time1 = dataLineList.elementAt(0).timeInMicroSeconds;
-            time2 = dataLineList.elementAt(1).timeInMicroSeconds;
+                                                                    //this method gets faster. Plus multiplying and dividing by
+                                                                    //10 should just be a shift operation.
+            time0 = dataLineList.elementAt(0).timeInMicroSeconds;
+            time1 = dataLineList.elementAt(1).timeInMicroSeconds;
+            time2 = dataLineList.elementAt(2).timeInMicroSeconds;
+            time3 = dataLineList.elementAt(3).timeInMicroSeconds;
+
+            time0 = time0 * (float)0.000001;
+            time1 = time1 * (float)0.000001;
+            time2 = time2 * (float)0.000001;
+            time3 = time3 * (float)0.000001;
+                                                                    //Converting time in microseconds to seconds by multiplying
+                                                                    //them by 1*10^-6
+            deltaTime = (time1 + time3) / 2 - (time0 + time2) / 2;
+//System.out.println("deltaTime:             " + deltaTime);
 
                                                                     //Calculate each pair of points
-            orderedPair_TxA_x = new OrderedPair(time1, dataLineList.firstElement().xAxisAccel_MPU9250);
-            orderedPair_TxA_y = new OrderedPair(time1, dataLineList.firstElement().yAxisAccel_MPU9250);
-            orderedPair_TxA_z = new OrderedPair(time1, dataLineList.firstElement().zAxisAccel_MPU9250);
+                                                                    //Acceleration
+            orderedPair_TxA_x = new OrderedPair(time0, accelerationAverage_x);
+            orderedPair_TxA_y = new OrderedPair(time0, accelerationAverage_y);
+            orderedPair_TxA_z = new OrderedPair(time0, accelerationAverage_z);
 
-            orderedPair_TxV_x = new OrderedPair(time1, (accelerationAverage_x * time1 + previousVelocity_x) * (time2 - time1));
-            orderedPair_TxV_y = new OrderedPair(time1, (accelerationAverage_y * time1 + previousVelocity_y) * (time2 - time1));
-            orderedPair_TxV_z = new OrderedPair(time1, (accelerationAverage_z * time1 + previousVelocity_z) * (time2 - time1));
+//System.out.println("accelerationAverage_z: " + accelerationAverage_z);
 
-            orderedPair_TxD_x = new OrderedPair(time1, (accelerationAverage_x * time1 * time1 / 2 + previousVelocity_x * time1 + previousDisplacement_x) * (time2 - time1));
-            orderedPair_TxD_y = new OrderedPair(time1, (accelerationAverage_y * time1 * time1 / 2 + previousVelocity_y * time1 + previousDisplacement_y) * (time2 - time1));
-            orderedPair_TxD_z = new OrderedPair(time1, (accelerationAverage_z * time1 * time1 / 2 + previousVelocity_z * time1 + previousDisplacement_z) * (time2 - time1));
+                                                                    //Velocity
+            currentVelocity_x = accelerationAverage_x * deltaTime + previousVelocity_x;
+            currentVelocity_y = accelerationAverage_y * deltaTime + previousVelocity_y;
+            currentVelocity_z = accelerationAverage_z * deltaTime + previousVelocity_z;
 
-            orderedPair_TxGyro_x = new OrderedPair(time1, dataLineList.firstElement().xAxisGyro_MPU9250);
-            orderedPair_TxGyro_y = new OrderedPair(time1, dataLineList.firstElement().yAxisGyro_MPU9250);
-            orderedPair_TxGyro_z = new OrderedPair(time1, dataLineList.firstElement().zAxisGyro_MPU9250);
+            orderedPair_TxV_x = new OrderedPair(time0, currentVelocity_x);
+            orderedPair_TxV_y = new OrderedPair(time0, currentVelocity_y);
+            orderedPair_TxV_z = new OrderedPair(time0, currentVelocity_z);
+
+//System.out.println("currentVelocity_z:     " + currentVelocity_z);
+
+                                                                    //Displacement
+            if (counter == 0)
+                {
+                velocityAverage_x = currentVelocity_x;
+                velocityAverage_y = currentVelocity_y;
+                velocityAverage_z = currentVelocity_z;
+//                System.out.println(">...<");
+                }                                                   //previousVelocity = 0 first run
+                                                                    //which cuts actual velocity in half
+                                                                    //the first run leading to inaccuracy.
+            else
+                {
+                velocityAverage_x = (previousVelocity_x + currentVelocity_x) / 2;
+                velocityAverage_y = (previousVelocity_y + currentVelocity_y) / 2;
+                velocityAverage_z = (previousVelocity_z + currentVelocity_z) / 2;
+                }
+
+            currentDisplacement_x = velocityAverage_x * deltaTime + previousDisplacement_x;
+            currentDisplacement_y = velocityAverage_y * deltaTime + previousDisplacement_y;
+            currentDisplacement_z = velocityAverage_z * deltaTime + previousDisplacement_z;
+
+            orderedPair_TxD_x = new OrderedPair(time0, currentDisplacement_x);
+            orderedPair_TxD_y = new OrderedPair(time0, currentDisplacement_y);
+            orderedPair_TxD_z = new OrderedPair(time0, currentDisplacement_z);
+
+//System.out.println("currentDisplacement_z: " + currentDisplacement_z);
+
+                                                                    //Gyroscope
+            orderedPair_TxGyro_x = new OrderedPair(time0, dataLineList.firstElement().xAxisGyro_MPU9250);
+            orderedPair_TxGyro_y = new OrderedPair(time0, dataLineList.firstElement().yAxisGyro_MPU9250);
+            orderedPair_TxGyro_z = new OrderedPair(time0, dataLineList.firstElement().zAxisGyro_MPU9250);
 
 
                                                                     //have each pair write themselves
@@ -315,9 +399,17 @@ String rawFileName;
             accelerationAverage_y = (accelerationAverage_y + dataLineList.lastElement().yAxisAccel_MPU9250) / 10;
             accelerationAverage_z = (accelerationAverage_z + dataLineList.lastElement().zAxisAccel_MPU9250) / 10;
 
+                                                                    //Set previous values to current
+            previousVelocity_x = currentVelocity_x;
+            previousVelocity_y = currentVelocity_y;
+            previousVelocity_z = currentVelocity_z;
+
+            previousDisplacement_x = currentDisplacement_x;
+            previousDisplacement_y = currentDisplacement_y;
+            previousDisplacement_z = currentDisplacement_z;
 //System.out.println("accerlerationAverages: " + accelerationAverage_x + " " + accelerationAverage_y + " " + accelerationAverage_z);
 
-
+            counter = counter + 1;
             }
 
         }
@@ -399,21 +491,21 @@ String rawFileName;
     rawFileName = rawFileName.substring(0, rawFileName.indexOf("."));
     System.out.println("fileName after substring: " + rawFileName);
 
-    timeAccelerationFile_x = new File(rawFileName + "_TxA_x.dat");
-    timeAccelerationFile_y = new File(rawFileName + "_TxA_y.dat");
-    timeAccelerationFile_z = new File(rawFileName + "_TxA_z.dat");
+    timeAccelerationFile_x = new File(rawFileName + "_MPU9250_TxA_x.dat");
+    timeAccelerationFile_y = new File(rawFileName + "_MPU9250_TxA_y.dat");
+    timeAccelerationFile_z = new File(rawFileName + "_MPU9250_TxA_z.dat");
 
-    timeVelocityFile_x = new File(rawFileName + "_TxV_x.dat");
-    timeVelocityFile_y = new File(rawFileName + "_TxV_y.dat");
-    timeVelocityFile_z = new File(rawFileName + "_TxV_z.dat");
+    timeVelocityFile_x = new File(rawFileName + "_MPU9250_TxV_x.dat");
+    timeVelocityFile_y = new File(rawFileName + "_MPU9250_TxV_y.dat");
+    timeVelocityFile_z = new File(rawFileName + "_MPU9250_TxV_z.dat");
 
-    timeDisplacementFile_x = new File(rawFileName + "_TxD_x.dat");
-    timeDisplacementFile_y = new File(rawFileName + "_TxD_y.dat");
-    timeDisplacementFile_z = new File(rawFileName + "_TxD_z.dat");
+    timeDisplacementFile_x = new File(rawFileName + "_MPU9250_TxD_x.dat");
+    timeDisplacementFile_y = new File(rawFileName + "_MPU9250_TxD_y.dat");
+    timeDisplacementFile_z = new File(rawFileName + "_MPU9250_TxD_z.dat");
 
-    timeGyroFile_x = new File(rawFileName + "_TxGyro_x.dat");
-    timeGyroFile_y = new File(rawFileName + "_TxGyro_y.dat");
-    timeGyroFile_z = new File(rawFileName + "_TxGyro_z.dat");
+    timeGyroFile_x = new File(rawFileName + "_MPU9250_TxGyro_x.dat");
+    timeGyroFile_y = new File(rawFileName + "_MPU9250_TxGyro_y.dat");
+    timeGyroFile_z = new File(rawFileName + "_MPU9250_TxGyro_z.dat");
 
     fileOutputStream = new FileOutputStream(timeAccelerationFile_x);
     oos_TxA_x = new ObjectOutputStream(fileOutputStream);

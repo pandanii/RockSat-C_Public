@@ -21,7 +21,7 @@ import java.lang.reflect.*;
 class RawDataLine
 {
 
-int timeInMicroSeconds;
+float timeInMicroSeconds;
 float xAxisAccel_MPU9250;
 float yAxisAccel_MPU9250;
 float zAxisAccel_MPU9250;
@@ -127,7 +127,7 @@ float zAxisAccel_ADXL377;
 
         try
             {
-            timeInMicroSeconds = Integer.parseInt(
+            timeInMicroSeconds = Float.parseFloat(
                            (String)Array.get(stringArray, 0));
                                                                 //parseInt() and get() are static methods,
                                                                 //so they can be called in this way.

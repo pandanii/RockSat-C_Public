@@ -9,7 +9,7 @@ public class TestClass
     public static void main(String[] args)
     {
 
-    new Calculator("atRest.txt");
+    //new Calculator("atRest.txt");
                                                                 //enter raw file name here
 
     //readOrderedPair();
@@ -28,17 +28,18 @@ public class TestClass
     try
         {
 
-        fis = new FileInputStream("atRest_TxGyro_z.dat");       //just place the name of the .dat file you want to
+        fis = new FileInputStream("atRest_MPU9250_TxD_z.dat");
+                                                                //just place the name of the .dat file you want to
                                                                 //read an OrderedPair from here.
         ois = new ObjectInputStream(fis);
 
-        for (int i=0; i < 100; i++)
+        for (int i=0; i < 250; i++)
             {
             op = new OrderedPair();
 
             op.readOrderedPair(ois);
 
-            System.out.println("OrderedPair xAxis: " + op.xAxis + " yAxis: " + op.yAxis);
+            System.out.println("xValue: " + op.xValue + "    yValue: " + op.yValue);
             }
 
         }
