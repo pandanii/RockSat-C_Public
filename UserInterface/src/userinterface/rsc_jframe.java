@@ -17,7 +17,7 @@ public class rsc_jframe extends javax.swing.JFrame
     public rsc_jframe()
     {
         initComponents();
-        rscJTabbedPane.addTab("PreLoadedFlight", null, new FlightPanel());// INITIALIZED WITH A NEW FLIGHT PANEL
+        //rscJTabbedPane.addTab("PreLoadedFlight", null, new FlightPanel());// INITIALIZED WITH A NEW FLIGHT PANEL
     }
 
     /**
@@ -163,8 +163,8 @@ public class rsc_jframe extends javax.swing.JFrame
         if (returnVal == javax.swing.JFileChooser.APPROVE_OPTION)
         {
             flightFile = tempFileChooser.getSelectedFile();
-            JOptionPane.showMessageDialog(null, "File selected:" + flightFile);
-            rscJTabbedPane.addTab(rawFlightfile.toString(), null, new FlightPanel(flightFile, FlightPanel.LOAD_FLIGHT));
+            JOptionPane.showMessageDialog(null, "File selected: " + flightFile);
+            rscJTabbedPane.addTab(flightFile.toString(), null, new FlightPanel(flightFile, FlightPanel.LOAD_FLIGHT));
         }
     }//GEN-LAST:event_LoadFlightMenutItemActionPerformed
 
