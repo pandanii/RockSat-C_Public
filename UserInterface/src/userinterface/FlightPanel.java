@@ -15,75 +15,121 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
-public class FlightPanel extends javax.swing.JPanel
+public
+        class FlightPanel extends javax.swing.JPanel
 {
 
-    private static final long serialVersionUID = 1L;
-    public static final int LOAD_RAW = 0;
-    public static final int LOAD_FLIGHT = 1;
+    private static final
+            long serialVersionUID = 1L;
+    public static final
+            int LOAD_RAW = 0;
+    public static final
+            int LOAD_FLIGHT = 1;
 
-    private Calculator calculator;
-    private File flightFile;
+    private
+            Calculator calculator;
+    private
+            File flightFile;
 
     // Java FX Stuff for Velocity
-    private JFXPanel velocityJFXPanel;
-    private LineChart<Number, Number> velocityLineChart;
-    private XYChart.Series velocityXSeries;
-    private XYChart.Series velocityYSeries;
-    private XYChart.Series velocityZSeries;
-    private Scene velocityScene;
-    private File velocityXFile;
-    private File velocityYFile;
-    private File velocityZFile;
+    private
+            JFXPanel velocityJFXPanel;
+    private
+            LineChart<Number, Number> velocityLineChart;
+    private
+            XYChart.Series velocityXSeries;
+    private
+            XYChart.Series velocityYSeries;
+    private
+            XYChart.Series velocityZSeries;
+    private
+            Scene velocityScene;
+    private
+            File velocityXFile;
+    private
+            File velocityYFile;
+    private
+            File velocityZFile;
 
     // Java FX Stuff for Accel
-    private JFXPanel accelJFXPanel;
-    private LineChart<Number, Number> accelLineChart;
-    private XYChart.Series accelXSeries;
-    private XYChart.Series accelYSeries;
-    private XYChart.Series accelZSeries;
-    private Scene accelScene;
-    private File accelXFile;
-    private File accelYFile;
-    private File accelZFile;
+    private
+            JFXPanel accelJFXPanel;
+    private
+            LineChart<Number, Number> accelLineChart;
+    private
+            XYChart.Series accelXSeries;
+    private
+            XYChart.Series accelYSeries;
+    private
+            XYChart.Series accelZSeries;
+    private
+            Scene accelScene;
+    private
+            File accelXFile;
+    private
+            File accelYFile;
+    private
+            File accelZFile;
 
     // Java FX Stuff for Accel
-    private JFXPanel gyroJFXPanel;
-    private LineChart<Number, Number> gyroLineChart;
-    private XYChart.Series gyroXSeries;
-    private XYChart.Series gyroYSeries;
-    private XYChart.Series gyroZSeries;
-    private Scene gyroScene;
-    private File gyroXFile;
-    private File gyroYFile;
-    private File gyroZFile;
+    private
+            JFXPanel gyroJFXPanel;
+    private
+            LineChart<Number, Number> gyroLineChart;
+    private
+            XYChart.Series gyroXSeries;
+    private
+            XYChart.Series gyroYSeries;
+    private
+            XYChart.Series gyroZSeries;
+    private
+            Scene gyroScene;
+    private
+            File gyroXFile;
+    private
+            File gyroYFile;
+    private
+            File gyroZFile;
 
     // Java FX Stuff for Displacement
-    private JFXPanel dispJFXPanel;
-    private LineChart<Number, Number> dispLineChart;
-    private XYChart.Series dispXSeries;
-    private XYChart.Series dispYSeries;
-    private XYChart.Series dispZSeries;
-    private Scene dispScene;
-    private File dispXFile;
-    private File dispYFile;
-    private File dispZFile;
+    private
+            JFXPanel dispJFXPanel;
+    private
+            LineChart<Number, Number> dispLineChart;
+    private
+            XYChart.Series dispXSeries;
+    private
+            XYChart.Series dispYSeries;
+    private
+            XYChart.Series dispZSeries;
+    private
+            Scene dispScene;
+    private
+            File dispXFile;
+    private
+            File dispYFile;
+    private
+            File dispZFile;
 
     /**
      * Creates new form FlightPanel (Taking NO ARGUMENTS)
      *
-     * This default constructor is for simply showing off the gui design, others will have more detail.
+     * This default constructor is for simply showing off the gui design, others
+     * will have more detail.
      */
     @SuppressWarnings("unchecked")
-    public FlightPanel()
+    public
+            FlightPanel()
     {
         initComponents();
 
         // Setup Axis
         // NOTE a JFXPanel() must be setup to initialize the toolkit to stop an exception from occuring with NumberAxis initialization.
         velocityJFXPanel = new JFXPanel();
-        final NumberAxis velocityXAxis = new NumberAxis();
-        final NumberAxis velocityYAxis = new NumberAxis();
+        final
+                NumberAxis velocityXAxis = new NumberAxis();
+        final
+                NumberAxis velocityYAxis = new NumberAxis();
         velocityXAxis.setLabel("Time");
         velocityYAxis.setLabel("Y-Axis");
         velocityLineChart = new LineChart<>(velocityXAxis, velocityYAxis);
@@ -109,8 +155,10 @@ public class FlightPanel extends javax.swing.JPanel
 
         // Setup Axis
         accelJFXPanel = new JFXPanel();
-        final NumberAxis accelXAxis = new NumberAxis();
-        final NumberAxis accelYAxis = new NumberAxis();
+        final
+                NumberAxis accelXAxis = new NumberAxis();
+        final
+                NumberAxis accelYAxis = new NumberAxis();
         accelXAxis.setLabel("Time");
         accelYAxis.setLabel("Y-Axis");
         accelLineChart = new LineChart<>(accelXAxis, accelYAxis);
@@ -136,8 +184,10 @@ public class FlightPanel extends javax.swing.JPanel
 
         // Setup Axis
         gyroJFXPanel = new JFXPanel();
-        final NumberAxis gyroXAxis = new NumberAxis();
-        final NumberAxis gyroYAxis = new NumberAxis();
+        final
+                NumberAxis gyroXAxis = new NumberAxis();
+        final
+                NumberAxis gyroYAxis = new NumberAxis();
         gyroXAxis.setLabel("Time");
         gyroYAxis.setLabel("Y-Axis");
         gyroLineChart = new LineChart<>(gyroXAxis, gyroYAxis);
@@ -163,8 +213,10 @@ public class FlightPanel extends javax.swing.JPanel
 
         // Setup Axis
         dispJFXPanel = new JFXPanel();
-        final NumberAxis distXAxis = new NumberAxis();
-        final NumberAxis distYAxis = new NumberAxis();
+        final
+                NumberAxis distXAxis = new NumberAxis();
+        final
+                NumberAxis distYAxis = new NumberAxis();
         distXAxis.setLabel("Time");
         distYAxis.setLabel("Y-Axis");
         dispLineChart = new LineChart<>(distXAxis, distYAxis);
@@ -195,12 +247,15 @@ public class FlightPanel extends javax.swing.JPanel
      * This is the actual constructor method, it will take in a file and output
      *
      * @param file
-     *      ** 'file' is used to either load the raw flight data into the calculator or it is to open the already created files.
+     *      ** 'file' is used to either load the raw flight data into the calculator
+     * or it is to open the already created files.
      *      ** This all depends on the value of 'loadValue'
      * @param loadValue
-     *      ** 'loadValue' is used to differentiate between the different types of loading performed.
+     *      ** 'loadValue' is used to differentiate between the different types of
+     * loading performed.
      */
-    public FlightPanel(File file, int loadValue)
+    public
+            FlightPanel(File file, int loadValue)
     {
         initComponents();
         if (loadValue == LOAD_RAW)
@@ -216,8 +271,10 @@ public class FlightPanel extends javax.swing.JPanel
         // Setup Axis
         // NOTE a JFXPanel() must be setup to initialize the toolkit to stop an exception from occuring with NumberAxis initialization.
         velocityJFXPanel = new JFXPanel();
-        final NumberAxis velocityXAxis = new NumberAxis();
-        final NumberAxis velocityYAxis = new NumberAxis();
+        final
+                NumberAxis velocityXAxis = new NumberAxis();
+        final
+                NumberAxis velocityYAxis = new NumberAxis();
         velocityXAxis.setLabel("Time");
         velocityYAxis.setLabel("Y-Axis");
         velocityLineChart = new LineChart<>(velocityXAxis, velocityYAxis);
@@ -237,8 +294,10 @@ public class FlightPanel extends javax.swing.JPanel
 
         // Setup Axis
         accelJFXPanel = new JFXPanel();
-        final NumberAxis accelXAxis = new NumberAxis();
-        final NumberAxis accelYAxis = new NumberAxis();
+        final
+                NumberAxis accelXAxis = new NumberAxis();
+        final
+                NumberAxis accelYAxis = new NumberAxis();
         accelXAxis.setLabel("Time");
         accelYAxis.setLabel("Y-Axis");
         accelLineChart = new LineChart<>(accelXAxis, accelYAxis);
@@ -259,8 +318,10 @@ public class FlightPanel extends javax.swing.JPanel
 
         // Setup Axis
         gyroJFXPanel = new JFXPanel();
-        final NumberAxis gyroXAxis = new NumberAxis();
-        final NumberAxis gyroYAxis = new NumberAxis();
+        final
+                NumberAxis gyroXAxis = new NumberAxis();
+        final
+                NumberAxis gyroYAxis = new NumberAxis();
         gyroXAxis.setLabel("Time");
         gyroYAxis.setLabel("Y-Axis");
         gyroLineChart = new LineChart<>(gyroXAxis, gyroYAxis);
@@ -280,8 +341,10 @@ public class FlightPanel extends javax.swing.JPanel
 
         // Setup Axis
         dispJFXPanel = new JFXPanel();
-        final NumberAxis distXAxis = new NumberAxis();
-        final NumberAxis distYAxis = new NumberAxis();
+        final
+                NumberAxis distXAxis = new NumberAxis();
+        final
+                NumberAxis distYAxis = new NumberAxis();
         distXAxis.setLabel("Time");
         distYAxis.setLabel("Y-Axis");
         dispLineChart = new LineChart<>(distXAxis, distYAxis);
@@ -305,7 +368,8 @@ public class FlightPanel extends javax.swing.JPanel
      * This method is used for saving the flight once the calculator class has saved them all.
      * It is used to create the rsc file
      */
-    public void saveFlight(File file)
+    public
+            void saveFlight(File file)
     {
         try
         {
@@ -317,51 +381,51 @@ public class FlightPanel extends javax.swing.JPanel
             System.out.println("SAVING FILE: " + flightFile);
             tempDOS = new DataOutputStream(new FileOutputStream(flightFile));
 
-            accelXFile = new File(tempFileName + "_TxA_x.dat");
+            accelXFile = new File(tempFileName + "_MPU9250_TxA_x.dat");
             System.out.println("writing: " + accelXFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(accelXFile.toString());
 
-            accelYFile = new File(tempFileName + "_TxA_y.dat");
+            accelYFile = new File(tempFileName + "_MPU9250_TxA_y.dat");
             System.out.println("writing: " + accelYFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(accelYFile.toString());
 
-            accelZFile = new File(tempFileName + "_TxA_z.dat");
+            accelZFile = new File(tempFileName + "_MPU9250_TxA_z.dat");
             System.out.println("writing: " + accelZFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(accelZFile.toString());
 
-            velocityXFile = new File(tempFileName + "_TxV_x.dat");
+            velocityXFile = new File(tempFileName + "_MPU9250_TxV_x.dat");;
             System.out.println("writing: " + velocityXFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(velocityXFile.toString());
 
-            velocityYFile = new File(tempFileName + "_TxV_y.dat");
+            velocityYFile = new File(tempFileName + "_MPU9250_TxV_y.dat");
             System.out.println("writing: " + velocityYFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(velocityYFile.toString());
 
-            velocityZFile = new File(tempFileName + "_TxV_z.dat");
+            velocityZFile = new File(tempFileName + "_MPU9250_TxV_z.dat");
             System.out.println("writing: " + velocityZFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(velocityZFile.toString());
 
-            dispXFile = new File(tempFileName + "_TxD_x.dat");
+            dispXFile = new File(tempFileName + "_MPU9250_TxD_x.dat");
             System.out.println("writing: " + dispXFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(dispXFile.toString());
 
-            dispYFile = new File(tempFileName + "_TxD_y.dat");
+            dispYFile = new File(tempFileName + "_MPU9250_TxD_y.dat");
             System.out.println("writing: " + dispYFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(dispYFile.toString());
 
-            dispZFile = new File(tempFileName + "_TxD_z.dat");
+            dispZFile = new File(tempFileName + "_MPU9250_TxD_z.dat");
             System.out.println("writing: " + dispZFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(dispZFile.toString());
 
-            gyroXFile = new File(tempFileName + "_TxGyro_x.dat");
+            gyroXFile = new File(tempFileName + "_MPU9250_TxGyro_x.dat");
             System.out.println("writing: " + gyroXFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(gyroXFile.toString());
 
-            gyroYFile = new File(tempFileName + "_TxGyro_y.dat");
+            gyroYFile = new File(tempFileName + "_MPU9250_TxGyro_y.dat");
             System.out.println("writing: " + gyroYFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(gyroYFile.toString());
 
-            gyroZFile = new File(tempFileName + "_TxGyro_z.dat");
+            gyroZFile = new File(tempFileName + "_MPU9250_TxGyro_z.dat");
             System.out.println("writing: " + gyroZFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(gyroZFile.toString());
         }
@@ -377,7 +441,8 @@ public class FlightPanel extends javax.swing.JPanel
      * This method is used for loading the flight once the calculator class has saved them all.
      * It is used to open the rsc file
      */
-    public void loadFlight(File file)
+    public
+            void loadFlight(File file)
     {
         try
         {
@@ -767,8 +832,8 @@ public class FlightPanel extends javax.swing.JPanel
                 {
                     op = new OrderedPair();
                     op.readOrderedPair(ois);
-                    System.out.println("OrderedPair xAxis: " + op.xAxis + " yAxis: " + op.yAxis);
-                    velocityXSeries.getData().add(new XYChart.Data(op.xAxis, op.yAxis));
+                    System.out.println("OrderedPair xAxis: " + op.xValue + " yAxis: " + op.yValue);
+                    velocityXSeries.getData().add(new XYChart.Data(op.xValue, op.yValue));
                 }
             }
             catch (IOException iOEException)
@@ -802,8 +867,8 @@ public class FlightPanel extends javax.swing.JPanel
                 {
                     op = new OrderedPair();
                     op.readOrderedPair(ois);
-                    System.out.println("OrderedPair xAxis: " + op.xAxis + " yAxis: " + op.yAxis);
-                    velocityYSeries.getData().add(new XYChart.Data(op.xAxis, op.yAxis));
+                    System.out.println("OrderedPair xAxis: " + op.xValue + " yAxis: " + op.yValue);
+                    velocityYSeries.getData().add(new XYChart.Data(op.xValue, op.yValue));
                 }
             }
             catch (IOException iOEException)
@@ -862,8 +927,8 @@ public class FlightPanel extends javax.swing.JPanel
                 {
                     op = new OrderedPair();
                     op.readOrderedPair(ois);
-                    System.out.println("OrderedPair xAxis: " + op.xAxis + " yAxis: " + op.yAxis);
-                    velocityZSeries.getData().add(new XYChart.Data(op.xAxis, op.yAxis));
+                    System.out.println("OrderedPair xAxis: " + op.xValue + " yAxis: " + op.yValue);
+                    velocityZSeries.getData().add(new XYChart.Data(op.xValue, op.yValue));
                 }
             }
             catch (IOException iOEException)

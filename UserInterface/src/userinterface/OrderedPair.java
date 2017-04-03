@@ -12,22 +12,24 @@ it keeps things object oriented and uniform.
 import java.io.*;
 
 //=========================================================
-public class OrderedPair
+public
+        class OrderedPair
 {
 
-    float xAxis;
-    float yAxis;
+    float xValue;                                                       //Graph point in the xAxis
+    float yValue;                                                       //Graph point in the yAxis
 
     //=====================================================
     /*
     Constructor accepts the values to be written to file.
      */
     //=====================================================
-    public OrderedPair(float xAxis, float yAxis)                    //Constructor
+    public
+            OrderedPair(float xValue, float yValue)                  //Constructor
     {
 
-        this.xAxis = xAxis;
-        this.yAxis = yAxis;
+        this.xValue = xValue;
+        this.yValue = yValue;
 
     }
 
@@ -37,11 +39,12 @@ public class OrderedPair
     will be read from file.
      */
     //=====================================================
-    public OrderedPair()                                        //Constructor
+    public
+            OrderedPair()                                        //Constructor
     {
 
-        this.xAxis = 0;
-        this.yAxis = 0;
+        this.xValue = 0;
+        this.yValue = 0;
 
     }
 
@@ -53,12 +56,13 @@ public class OrderedPair
     and throws IOExceptions.
      */
     //=====================================================
-    public void readOrderedPair(ObjectInputStream graphFileObjectInputStream)
+    public
+            void readOrderedPair(ObjectInputStream graphFileObjectInputStream)
             throws IOException
     {
 
-        xAxis = graphFileObjectInputStream.readFloat();
-        yAxis = graphFileObjectInputStream.readFloat();
+        xValue = graphFileObjectInputStream.readFloat();
+        yValue = graphFileObjectInputStream.readFloat();
 
     }
 
@@ -70,12 +74,13 @@ public class OrderedPair
     and throws IOExceptions.
      */
     //=====================================================
-    public void writeOrderedPair(ObjectOutputStream graphFileObjectOutputStream)
+    public
+            void writeOrderedPair(ObjectOutputStream graphFileObjectOutputStream)
             throws IOException
     {
 
-        graphFileObjectOutputStream.writeFloat(xAxis);
-        graphFileObjectOutputStream.writeFloat(yAxis);
+        graphFileObjectOutputStream.writeFloat(xValue);
+        graphFileObjectOutputStream.writeFloat(yValue);
 
     }
     //=====================================================

@@ -21,7 +21,7 @@ import java.util.zip.DataFormatException;
 class RawDataLine
 {
 
-    int timeInMicroSeconds;
+    float timeInMicroSeconds;
     float xAxisAccel_MPU9250;
     float yAxisAccel_MPU9250;
     float zAxisAccel_MPU9250;
@@ -107,7 +107,8 @@ class RawDataLine
     is hard coded and the file should be ordered appropriately.
      */
     //=====================================================
-    private void parseLine(String fileLine) throws DataFormatException
+    private
+            void parseLine(String fileLine) throws DataFormatException
     {
 
 //    System.out.println(fileLine);
@@ -127,7 +128,7 @@ class RawDataLine
 
             try
             {
-                timeInMicroSeconds = Integer.parseInt(
+                timeInMicroSeconds = Float.parseFloat(
                         (String) Array.get(stringArray, 0));
                 //parseInt() and get() are static methods,
                 //so they can be called in this way.
