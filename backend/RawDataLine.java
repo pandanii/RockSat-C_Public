@@ -21,16 +21,16 @@ import java.lang.reflect.*;
 class RawDataLine
 {
 
-float timeInMicroSeconds;
-float xAxisAccel_MPU9250;
-float yAxisAccel_MPU9250;
-float zAxisAccel_MPU9250;
-float xAxisGyro_MPU9250;
-float yAxisGyro_MPU9250;
-float zAxisGyro_MPU9250;
-float xAxisAccel_ADXL377;
-float yAxisAccel_ADXL377;
-float zAxisAccel_ADXL377;
+double timeInMicroSeconds;
+double xAxisAccel_MPU9250;
+double yAxisAccel_MPU9250;
+double zAxisAccel_MPU9250;
+double xAxisGyro_MPU9250;
+double yAxisGyro_MPU9250;
+double zAxisGyro_MPU9250;
+double xAxisAccel_ADXL377;
+double yAxisAccel_ADXL377;
+double zAxisAccel_ADXL377;
 
 
     //=====================================================
@@ -127,37 +127,37 @@ float zAxisAccel_ADXL377;
 
         try
             {
-            timeInMicroSeconds = Float.parseFloat(
+            timeInMicroSeconds = Double.parseDouble(
                            (String)Array.get(stringArray, 0));
                                                                 //parseInt() and get() are static methods,
                                                                 //so they can be called in this way.
                                                                 //Array doesn't know it is full of strings,
                                                                 //so a typecast was used.
-            xAxisAccel_MPU9250 = Float.parseFloat(
+            xAxisAccel_MPU9250 = Double.parseDouble(
                            (String)Array.get(stringArray, 1));
 
-            yAxisAccel_MPU9250 = Float.parseFloat(
+            yAxisAccel_MPU9250 = Double.parseDouble(
                            (String)Array.get(stringArray, 2));
 
-            zAxisAccel_MPU9250 = Float.parseFloat(
+            zAxisAccel_MPU9250 = Double.parseDouble(
                            (String)Array.get(stringArray, 3));
 
-            xAxisGyro_MPU9250 = Float.parseFloat(
+            xAxisGyro_MPU9250 = Double.parseDouble(
                            (String)Array.get(stringArray, 4));
 
-            yAxisGyro_MPU9250 = Float.parseFloat(
+            yAxisGyro_MPU9250 = Double.parseDouble(
                            (String)Array.get(stringArray, 5));
 
-            zAxisGyro_MPU9250 = Float.parseFloat(
+            zAxisGyro_MPU9250 = Double.parseDouble(
                            (String)Array.get(stringArray, 6));
 
-            xAxisAccel_ADXL377 = Float.parseFloat(
+            xAxisAccel_ADXL377 = Double.parseDouble(
                            (String)Array.get(stringArray, 7));
 
-            yAxisAccel_ADXL377 = Float.parseFloat(
+            yAxisAccel_ADXL377 = Double.parseDouble(
                            (String)Array.get(stringArray, 8));
 
-            zAxisAccel_ADXL377 = Float.parseFloat(
+            zAxisAccel_ADXL377 = Double.parseDouble(
                            (String)Array.get(stringArray, 9));
 
             }

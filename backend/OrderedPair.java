@@ -14,8 +14,8 @@ import java.io.*;
 public class OrderedPair
 {
 
-float xValue;                                                       //Graph point in the xAxis
-float yValue;                                                       //Graph point in the yAxis
+double xValue;                                                       //Graph point in the xAxis
+double yValue;                                                       //Graph point in the yAxis
 
 
     //=====================================================
@@ -23,7 +23,7 @@ float yValue;                                                       //Graph poin
     Constructor accepts the values to be written to file.
     */
     //=====================================================
-    public OrderedPair(float xValue, float yValue)                  //Constructor
+    public OrderedPair(double xValue, double yValue)                  //Constructor
     {
 
     this.xValue = xValue;
@@ -55,8 +55,8 @@ float yValue;                                                       //Graph poin
                                                      throws IOException
     {
 
-    xValue = graphFileObjectInputStream.readFloat();
-    yValue = graphFileObjectInputStream.readFloat();
+    xValue = graphFileObjectInputStream.readDouble();
+    yValue = graphFileObjectInputStream.readDouble();
 
     }
     //=====================================================
@@ -71,8 +71,8 @@ float yValue;                                                       //Graph poin
                                                      throws IOException
     {
 
-    graphFileObjectOutputStream.writeFloat(xValue);
-    graphFileObjectOutputStream.writeFloat(yValue);
+    graphFileObjectOutputStream.writeDouble(xValue);
+    graphFileObjectOutputStream.writeDouble(yValue);
 
     }
     //=====================================================
