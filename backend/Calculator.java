@@ -39,6 +39,10 @@ DefaultListModel<RawDataLine> dataLineList;
 
 String rawFileName;
 
+double accelerationAverage_x;
+double accelerationAverage_y;
+double accelerationAverage_z;
+
 
     //=====================================================
     /*
@@ -200,10 +204,6 @@ String rawFileName;
     double averageRadiansPerSecondInGyroYAxis;
     double averageRadiansPerSecondInGyroZAxis;
 
-    double accelerationAverage_x;
-    double accelerationAverage_y;
-    double accelerationAverage_z;
-
     double currentVelocity_x;
     double currentVelocity_y;
     double currentVelocity_z;
@@ -348,6 +348,8 @@ String rawFileName;
             radiansFromY = averageRadiansPerSecondInGyroYAxis * deltaTime + radiansFromY;
             radiansFromZ = averageRadiansPerSecondInGyroZAxis * deltaTime + radiansFromZ;
 
+//System.out.println("radiansFrom X: " + radiansFromX + " Y: " + radiansFromY + " Z: " + radiansFromZ);
+
                                                                     //Correct for drift from original Axes
                                                                     //Re-orthogonalize with rotational matrices
             rotateAccelerationsAboutXIn3D(accelerationAverage_x, accelerationAverage_y,
@@ -365,7 +367,7 @@ String rawFileName;
             orderedPair_TxA_y = new OrderedPair(time0, accelerationAverage_y);
             orderedPair_TxA_z = new OrderedPair(time0, accelerationAverage_z);
 
-//System.out.println("accelerationAverage_z: " + accelerationAverage_z);
+//System.out.println("accelerationAverage_y: " + accelerationAverage_y);
 
                                                                     //Velocity
             currentVelocity_x = accelerationAverage_x * deltaTime + previousVelocity_x;
@@ -645,17 +647,17 @@ String rawFileName;
                                        double radiansFromX)
     {
     //Matrix multiplications, see project notes.
-    accelerationAverage_x = 1 * accelerationAverage_x +
-                            0 * accelerationAverage_y +
-                            0 * accelerationAverage_z;
+    this.accelerationAverage_x = 1 * accelerationAverage_x +
+                                 0 * accelerationAverage_y +
+                                 0 * accelerationAverage_z;
 
-    accelerationAverage_y = 0 * accelerationAverage_x +
-                            Math.cos(radiansFromX) * accelerationAverage_y +
-                            (-1) * Math.sin(radiansFromX) * accelerationAverage_z;
+    this.accelerationAverage_y = 0 * accelerationAverage_x +
+                                 Math.cos(radiansFromX) * accelerationAverage_y +
+                                 (-1) * Math.sin(radiansFromX) * accelerationAverage_z;
 
-    accelerationAverage_z = 0 * accelerationAverage_x +
-                            Math.sin(radiansFromX) * accelerationAverage_y +
-                            Math.cos(radiansFromX) * accelerationAverage_z;
+    this.accelerationAverage_z = 0 * accelerationAverage_x +
+                                 Math.sin(radiansFromX) * accelerationAverage_y +
+                                 Math.cos(radiansFromX) * accelerationAverage_z;
     }
     //=====================================================
     void rotateAccelerationsAboutYIn3D(double accelerationAverage_x,
@@ -664,17 +666,17 @@ String rawFileName;
                                        double radiansFromY)
     {
     //Matrix multiplications, see project notes.
-    accelerationAverage_x = Math.cos(radiansFromY) * accelerationAverage_x +
-                            0 * accelerationAverage_y +
-                            Math.sin(radiansFromY) * accelerationAverage_z;
+    this.accelerationAverage_x = Math.cos(radiansFromY) * accelerationAverage_x +
+                                 0 * accelerationAverage_y +
+                                 Math.sin(radiansFromY) * accelerationAverage_z;
 
-    accelerationAverage_y = 0 * accelerationAverage_x +
-                            1 * accelerationAverage_y +
-                            0 * accelerationAverage_z;
+    this.accelerationAverage_y = 0 * accelerationAverage_x +
+                                 1 * accelerationAverage_y +
+                                 0 * accelerationAverage_z;
 
-    accelerationAverage_z = (-1) * Math.sin(radiansFromY) * accelerationAverage_x +
-                            0 * accelerationAverage_y +
-                            Math.cos(radiansFromY) * accelerationAverage_z;
+    this.accelerationAverage_z = (-1) * Math.sin(radiansFromY) * accelerationAverage_x +
+                                 0 * accelerationAverage_y +
+                                 Math.cos(radiansFromY) * accelerationAverage_z;
     }
     //=====================================================
     void rotateAccelerationsAboutZIn3D(double accelerationAverage_x,
@@ -683,17 +685,17 @@ String rawFileName;
                                        double radiansFromZ)
     {
     //Matrix multiplications, see project notes.
-    accelerationAverage_x = Math.cos(radiansFromZ) * accelerationAverage_x +
-                            (-1) * Math.sin(radiansFromZ) * accelerationAverage_y +
-                            0 * accelerationAverage_z;
+    this.accelerationAverage_x = Math.cos(radiansFromZ) * accelerationAverage_x +
+                                 (-1) * Math.sin(radiansFromZ) * accelerationAverage_y +
+                                 0 * accelerationAverage_z;
 
-    accelerationAverage_y = Math.sin(radiansFromZ) * accelerationAverage_x +
-                            Math.cos(radiansFromZ) * accelerationAverage_y +
-                            0 * accelerationAverage_z;
+    this.accelerationAverage_y = Math.sin(radiansFromZ) * accelerationAverage_x +
+                                 Math.cos(radiansFromZ) * accelerationAverage_y +
+                                 0 * accelerationAverage_z;
 
-    accelerationAverage_z = 0 * accelerationAverage_x +
-                            0 * accelerationAverage_y +
-                            1 * accelerationAverage_z;
+    this.accelerationAverage_z = 0 * accelerationAverage_x +
+                                 0 * accelerationAverage_y +
+                                 1 * accelerationAverage_z;
     }
     //=====================================================
 
