@@ -212,7 +212,7 @@ public class FlightPanel extends javax.swing.JPanel
             calculator = new Calculator(file.toString());
             saveFlight(file);
         }
-        else
+        else if (loadValue == LOAD_FLIGHT)
         {
             loadFlight(file);
         }
@@ -418,6 +418,53 @@ public class FlightPanel extends javax.swing.JPanel
         {
             Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, iOEException);
             iOEException.printStackTrace();
+        }
+    }
+
+    private void generateGraph(File dataFile, XYChart.Series series)
+    {
+        if (dataFile != null)
+        {
+            OrderedPair op;
+            FileInputStream fis;
+            ObjectInputStream ois;
+            XYChart.Data data;
+            ObservableList tempList;
+            int count = 0;
+
+            try
+            {
+                fis = new FileInputStream(dataFile);
+                ois = new ObjectInputStream(fis);
+                tempList = series.getData();
+
+                for (int i = 0; i < 10; i++)//while (true) // will stop once EOF has been reached.
+                {
+                    op = new OrderedPair();
+                    op.readOrderedPair(ois);
+                    System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
+                    data = new XYChart.Data(op.xValue, op.yValue);
+                    tempList.add(data);
+                    count++;
+                }
+                op = new OrderedPair();
+                op.readOrderedPair(ois);
+                System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
+                series.getData().add(new XYChart.Data(op.xValue, op.yValue));
+            }
+            catch (IOException iOEException)
+            {
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!AN IO EXCEPTION OCCURED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, iOEException);
+                iOEException.printStackTrace();
+            }
+            catch (Exception exception)
+            {
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!AN  EXCEPTION OCCURED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, exception);
+                exception.printStackTrace();
+            }
+            System.out.println("There were: " + count + " points printed");
         }
     }
 
@@ -716,9 +763,9 @@ public class FlightPanel extends javax.swing.JPanel
 
     private void accelYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_accelYToggleButtonActionPerformed
     {//GEN-HEADEREND:event_accelYToggleButtonActionPerformed
-        // TODO add your handling code here:
         if (accelYToggleButton.isSelected())
         {
+            generateGraph(accelYFile, accelYSeries);
         }
         else
         {
@@ -731,9 +778,9 @@ public class FlightPanel extends javax.swing.JPanel
 
     private void accelXToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_accelXToggleButtonActionPerformed
     {//GEN-HEADEREND:event_accelXToggleButtonActionPerformed
-        // TODO add your handling code here:
         if (accelXToggleButton.isSelected())
         {
+            generateGraph(accelXFile, accelXSeries);
         }
         else
         {
@@ -746,9 +793,9 @@ public class FlightPanel extends javax.swing.JPanel
 
     private void gyroXToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_gyroXToggleButtonActionPerformed
     {//GEN-HEADEREND:event_gyroXToggleButtonActionPerformed
-        // TODO add your handling code here:
         if (gyroXToggleButton.isSelected())
         {
+            generateGraph(gyroXFile, gyroXSeries);
         }
         else
         {
@@ -761,9 +808,9 @@ public class FlightPanel extends javax.swing.JPanel
 
     private void gyroYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_gyroYToggleButtonActionPerformed
     {//GEN-HEADEREND:event_gyroYToggleButtonActionPerformed
-        // TODO add your handling code here:
         if (gyroYToggleButton.isSelected())
         {
+            generateGraph(gyroYFile, gyroYSeries);
         }
         else
         {
@@ -778,49 +825,7 @@ public class FlightPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_velXToggleButtonActionPerformed
         if (velXToggleButton.isSelected())
         {
-            if (velocityXFile != null)
-            {
-                OrderedPair op;
-                FileInputStream fis;
-                ObjectInputStream ois;
-                XYChart.Data data;
-                ObservableList tempList;
-                int count = 0;
-
-                try
-                {
-                    fis = new FileInputStream(velocityXFile);
-                    ois = new ObjectInputStream(fis);
-                    tempList = velocityXSeries.getData();
-
-                    for (int i = 0; i < 10; i++)//while (true) // will stop once EOF has been reached.
-                    {
-                        op = new OrderedPair();
-                        op.readOrderedPair(ois);
-                        System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
-                        data = new XYChart.Data(op.xValue, op.yValue);
-                        tempList.add(data);
-                        count++;
-                    }
-                    op = new OrderedPair();
-                    op.readOrderedPair(ois);
-                    System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
-                    velocityXSeries.getData().add(new XYChart.Data(op.xValue, op.yValue));
-                }
-                catch (IOException iOEException)
-                {
-                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!AN IO EXCEPTION OCCURED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                    Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, iOEException);
-                    iOEException.printStackTrace();
-                }
-                catch (Exception exception)
-                {
-                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!AN  EXCEPTION OCCURED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                    Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, exception);
-                    exception.printStackTrace();
-                }
-                System.out.println("There were: " + count + " points printed");
-            }
+            generateGraph(velocityXFile, velocityXSeries);
         }
         else
         {
@@ -835,29 +840,7 @@ public class FlightPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_velYToggleButtonActionPerformed
         if (velYToggleButton.isSelected())
         {
-            if (velocityYFile != null)
-            {
-                OrderedPair op;
-                FileInputStream fis;
-                ObjectInputStream ois;
-                try
-                {
-                    fis = new FileInputStream(velocityYFile);
-                    ois = new ObjectInputStream(fis);
-                    for (int i = 0; i < 100; i++)//while (true) // will stop once EOF has been reached.
-                    {
-                        op = new OrderedPair();
-                        op.readOrderedPair(ois);
-                        System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
-                        velocityYSeries.getData().add(new XYChart.Data(op.xValue, op.yValue));
-                    }
-                }
-                catch (IOException iOEException)
-                {
-                    Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, iOEException);
-                    iOEException.printStackTrace();
-                }
-            }
+            generateGraph(velocityYFile, velocityYSeries);
         }
         else
         {
@@ -870,9 +853,9 @@ public class FlightPanel extends javax.swing.JPanel
 
     private void dispXToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispXToggleButtonActionPerformed
     {//GEN-HEADEREND:event_dispXToggleButtonActionPerformed
-        // TODO add your handling code here:
         if (dispXToggleButton.isSelected())
         {
+            generateGraph(dispXFile, dispXSeries);
         }
         else
         {
@@ -885,9 +868,9 @@ public class FlightPanel extends javax.swing.JPanel
 
     private void dispYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispYToggleButtonActionPerformed
     {//GEN-HEADEREND:event_dispYToggleButtonActionPerformed
-        // TODO add your handling code here:
         if (dispYToggleButton.isSelected())
         {
+            generateGraph(dispYFile, dispYSeries);
         }
         else
         {
@@ -900,37 +883,9 @@ public class FlightPanel extends javax.swing.JPanel
 
     private void velZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_velZToggleButtonActionPerformed
     {//GEN-HEADEREND:event_velZToggleButtonActionPerformed
-        // TODO add your handling code here:
         if (velZToggleButton.isSelected())
         {
-            OrderedPair op;
-            FileInputStream fis;
-            ObjectInputStream ois;
-            int count = 0;
-
-            try
-            {
-                fis = new FileInputStream(velocityZFile);
-                ois = new ObjectInputStream(fis);
-                while (true)//for (int i = 0; i < 100; i++)// // will stop once EOF has been reached.
-                {
-                    op = new OrderedPair();
-                    op.readOrderedPair(ois);
-                    System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
-                    velocityZSeries.getData().add(new XYChart.Data(op.xValue, op.yValue));
-                    count++;
-                    System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
-                    velocityZSeries.getData().add(new XYChart.Data(op.xValue, op.yValue));
-
-                }
-            }
-            catch (IOException iOEException)
-            {
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!AN IO EXCEPTION OCCURED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, iOEException);
-                iOEException.printStackTrace();
-            }
-            System.out.println("There were: " + count + " points printed");
+            generateGraph(velocityZFile, velocityZSeries);
         }
         else
         {
@@ -943,9 +898,9 @@ public class FlightPanel extends javax.swing.JPanel
 
     private void accelZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_accelZToggleButtonActionPerformed
     {//GEN-HEADEREND:event_accelZToggleButtonActionPerformed
-        // TODO add your handling code here:
         if (accelZToggleButton.isSelected())
         {
+            generateGraph(accelZFile, accelZSeries);
         }
         else
         {
@@ -958,9 +913,9 @@ public class FlightPanel extends javax.swing.JPanel
 
     private void dispZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispZToggleButtonActionPerformed
     {//GEN-HEADEREND:event_dispZToggleButtonActionPerformed
-        // TODO add your handling code here:
         if (dispZToggleButton.isSelected())
         {
+            generateGraph(dispZFile, dispZSeries);
         }
         else
         {
@@ -973,9 +928,9 @@ public class FlightPanel extends javax.swing.JPanel
 
     private void gyroZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_gyroZToggleButtonActionPerformed
     {//GEN-HEADEREND:event_gyroZToggleButtonActionPerformed
-        // TODO add your handling code here:
         if (gyroZToggleButton.isSelected())
         {
+            generateGraph(gyroZFile, gyroZSeries);
         }
         else
         {

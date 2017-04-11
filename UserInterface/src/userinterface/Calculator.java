@@ -75,19 +75,16 @@ public class Calculator
         catch (FileNotFoundException fnfe)
         {
             fnfe.printStackTrace();
-
             System.out.println("FileNotFoundException in Calculator constructor");
         }
         catch (EOFException eofe)
         {
             eofe.printStackTrace();
-
             System.out.println("EndOfFileException in Calculator constructor");
         }
         catch (IOException ioe)
         {
             ioe.printStackTrace();
-
             System.out.println("IOException in Calculator constructor");
         }
 

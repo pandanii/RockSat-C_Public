@@ -54,8 +54,8 @@ javafx.scene.chart.XYChart
 javax.swing.JPanel
 javax.swing.LayoutStyle$ComponentPlacement
 java.lang.StringBuilder
-javax.swing.GroupLayout$SequentialGroup
 java.lang.Double
+javax.swing.GroupLayout$SequentialGroup
 javax.swing.JTabbedPane
 javafx.scene.chart.NumberAxis
 javafx.scene.Scene

@@ -17,8 +17,8 @@ public class OrderedPair
 
     double xValue;                                                       //Graph point in the xAxis
     double yValue;                                                       //Graph point in the yAxis
-
     //=====================================================
+
     /*
     Constructor accepts the values to be written to file.
     Additionally, it formats all doubles to three decimal
@@ -28,12 +28,9 @@ public class OrderedPair
     public OrderedPair(double xValue, double yValue)                  //Constructor
     {
         DecimalFormat df;
-
         df = new DecimalFormat("0.000");
-
         this.xValue = Double.parseDouble(df.format(xValue));
         this.yValue = Double.parseDouble(df.format(yValue));
-
     }
 
     //=====================================================
@@ -44,10 +41,8 @@ public class OrderedPair
     //=====================================================
     public OrderedPair()                                        //Constructor
     {
-
         this.xValue = 0;
         this.yValue = 0;
-
     }
 
     //=====================================================
@@ -58,13 +53,10 @@ public class OrderedPair
     and throws IOExceptions.
      */
     //=====================================================
-    public void readOrderedPair(ObjectInputStream graphFileObjectInputStream)
-            throws IOException
+    public void readOrderedPair(ObjectInputStream graphFileObjectInputStream) throws IOException
     {
-
         xValue = graphFileObjectInputStream.readDouble();
         yValue = graphFileObjectInputStream.readDouble();
-
     }
 
     //=====================================================
@@ -75,13 +67,10 @@ public class OrderedPair
     and throws IOExceptions.
      */
     //=====================================================
-    public void writeOrderedPair(ObjectOutputStream graphFileObjectOutputStream)
-            throws IOException
+    public void writeOrderedPair(ObjectOutputStream graphFileObjectOutputStream) throws IOException
     {
-
         graphFileObjectOutputStream.writeDouble(xValue);
         graphFileObjectOutputStream.writeDouble(yValue);
-
     }
     //=====================================================
 
