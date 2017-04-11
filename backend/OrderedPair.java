@@ -8,6 +8,7 @@ it keeps things object oriented and uniform.
 */
 
 import java.io.*;
+import java.text.*;
 
 
 //=========================================================
@@ -21,13 +22,18 @@ double yValue;                                                       //Graph poi
     //=====================================================
     /*
     Constructor accepts the values to be written to file.
+    Additionally, it formats all doubles to three decimal
+    places.
     */
     //=====================================================
     public OrderedPair(double xValue, double yValue)                  //Constructor
     {
+    DecimalFormat df;
 
-    this.xValue = xValue;
-    this.yValue = yValue;
+    df = new DecimalFormat("0.000");
+
+    this.xValue = Double.parseDouble(df.format(xValue));
+    this.yValue = Double.parseDouble(df.format(yValue));
 
     }
     //=====================================================
