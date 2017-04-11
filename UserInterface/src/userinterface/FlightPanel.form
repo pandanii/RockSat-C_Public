@@ -234,7 +234,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="dispToggleButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="dispXToggleButton" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="dispYToggleButton" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="dispZToggleButton" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -246,7 +246,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="dispToggleButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="dispXToggleButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="dispYToggleButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -257,12 +257,12 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JToggleButton" name="dispToggleButton">
+                <Component class="javax.swing.JToggleButton" name="dispXToggleButton">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Displacement X Axis"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dispToggleButtonActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dispXToggleButtonActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="dispYToggleButton">

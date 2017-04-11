@@ -333,7 +333,7 @@ public class FlightPanel extends javax.swing.JPanel
             System.out.println("writing: " + accelZFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(accelZFile.toString());
 
-            velocityXFile = new File(tempFileName + "_MPU9250_TxV_x.dat");;
+            velocityXFile = new File(tempFileName + "_MPU9250_TxV_x.dat");
             System.out.println("writing: " + velocityXFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(velocityXFile.toString());
 
@@ -449,7 +449,7 @@ public class FlightPanel extends javax.swing.JPanel
         accelPanel = new javax.swing.JPanel();
         displacementSplitPane = new javax.swing.JSplitPane();
         displacementOptionPanel = new javax.swing.JPanel();
-        dispToggleButton = new javax.swing.JToggleButton();
+        dispXToggleButton = new javax.swing.JToggleButton();
         dispYToggleButton = new javax.swing.JToggleButton();
         dispZToggleButton = new javax.swing.JToggleButton();
         displacementScrollPane = new javax.swing.JScrollPane();
@@ -582,12 +582,12 @@ public class FlightPanel extends javax.swing.JPanel
 
         flightPanelJTabbedPane.addTab("Acceleration", AccelerationSplitPane);
 
-        dispToggleButton.setText("Displacement X Axis");
-        dispToggleButton.addActionListener(new java.awt.event.ActionListener()
+        dispXToggleButton.setText("Displacement X Axis");
+        dispXToggleButton.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                dispToggleButtonActionPerformed(evt);
+                dispXToggleButtonActionPerformed(evt);
             }
         });
 
@@ -616,7 +616,7 @@ public class FlightPanel extends javax.swing.JPanel
             .addGroup(displacementOptionPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(displacementOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dispToggleButton)
+                    .addComponent(dispXToggleButton)
                     .addComponent(dispYToggleButton)
                     .addComponent(dispZToggleButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -625,7 +625,7 @@ public class FlightPanel extends javax.swing.JPanel
             displacementOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(displacementOptionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(dispToggleButton)
+                .addComponent(dispXToggleButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dispYToggleButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -719,11 +719,13 @@ public class FlightPanel extends javax.swing.JPanel
         // TODO add your handling code here:
         if (accelYToggleButton.isSelected())
         {
-
         }
         else
         {
-
+            if (!accelYSeries.getData().isEmpty())
+            {
+                accelYSeries.getData().clear();
+            }
         }
     }//GEN-LAST:event_accelYToggleButtonActionPerformed
 
@@ -732,11 +734,13 @@ public class FlightPanel extends javax.swing.JPanel
         // TODO add your handling code here:
         if (accelXToggleButton.isSelected())
         {
-
         }
         else
         {
-
+            if (!accelXSeries.getData().isEmpty())
+            {
+                accelXSeries.getData().clear();
+            }
         }
     }//GEN-LAST:event_accelXToggleButtonActionPerformed
 
@@ -745,11 +749,13 @@ public class FlightPanel extends javax.swing.JPanel
         // TODO add your handling code here:
         if (gyroXToggleButton.isSelected())
         {
-
         }
         else
         {
-
+            if (!gyroXSeries.getData().isEmpty())
+            {
+                gyroXSeries.getData().clear();
+            }
         }
     }//GEN-LAST:event_gyroXToggleButtonActionPerformed
 
@@ -758,11 +764,13 @@ public class FlightPanel extends javax.swing.JPanel
         // TODO add your handling code here:
         if (gyroYToggleButton.isSelected())
         {
-
         }
         else
         {
-
+            if (!gyroYSeries.getData().isEmpty())
+            {
+                gyroYSeries.getData().clear();
+            }
         }
     }//GEN-LAST:event_gyroYToggleButtonActionPerformed
 
@@ -770,7 +778,7 @@ public class FlightPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_velXToggleButtonActionPerformed
         if (velXToggleButton.isSelected())
         {
-            if (velocityYFile != null)
+            if (velocityXFile != null)
             {
                 OrderedPair op;
                 FileInputStream fis;
@@ -860,29 +868,33 @@ public class FlightPanel extends javax.swing.JPanel
         }
     }//GEN-LAST:event_velYToggleButtonActionPerformed
 
-    private void dispToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispToggleButtonActionPerformed
-    {//GEN-HEADEREND:event_dispToggleButtonActionPerformed
+    private void dispXToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispXToggleButtonActionPerformed
+    {//GEN-HEADEREND:event_dispXToggleButtonActionPerformed
         // TODO add your handling code here:
-        if (dispToggleButton.isSelected())
+        if (dispXToggleButton.isSelected())
         {
-
         }
         else
         {
-
+            if (!dispXSeries.getData().isEmpty())
+            {
+                dispXSeries.getData().clear();
+            }
         }
-    }//GEN-LAST:event_dispToggleButtonActionPerformed
+    }//GEN-LAST:event_dispXToggleButtonActionPerformed
 
     private void dispYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispYToggleButtonActionPerformed
     {//GEN-HEADEREND:event_dispYToggleButtonActionPerformed
         // TODO add your handling code here:
         if (dispYToggleButton.isSelected())
         {
-
         }
         else
         {
-
+            if (!dispYSeries.getData().isEmpty())
+            {
+                dispYSeries.getData().clear();
+            }
         }
     }//GEN-LAST:event_dispYToggleButtonActionPerformed
 
@@ -934,11 +946,13 @@ public class FlightPanel extends javax.swing.JPanel
         // TODO add your handling code here:
         if (accelZToggleButton.isSelected())
         {
-
         }
         else
         {
-
+            if (!accelZSeries.getData().isEmpty())
+            {
+                accelZSeries.getData().clear();
+            }
         }
     }//GEN-LAST:event_accelZToggleButtonActionPerformed
 
@@ -947,11 +961,13 @@ public class FlightPanel extends javax.swing.JPanel
         // TODO add your handling code here:
         if (dispZToggleButton.isSelected())
         {
-
         }
         else
         {
-
+            if (!dispZSeries.getData().isEmpty())
+            {
+                dispZSeries.getData().clear();
+            }
         }
     }//GEN-LAST:event_dispZToggleButtonActionPerformed
 
@@ -960,11 +976,13 @@ public class FlightPanel extends javax.swing.JPanel
         // TODO add your handling code here:
         if (gyroZToggleButton.isSelected())
         {
-
         }
         else
         {
-
+            if (!gyroZSeries.getData().isEmpty())
+            {
+                gyroZSeries.getData().clear();
+            }
         }
     }//GEN-LAST:event_gyroZToggleButtonActionPerformed
 
@@ -976,7 +994,7 @@ public class FlightPanel extends javax.swing.JPanel
     private javax.swing.JToggleButton accelXToggleButton;
     private javax.swing.JToggleButton accelYToggleButton;
     private javax.swing.JToggleButton accelZToggleButton;
-    private javax.swing.JToggleButton dispToggleButton;
+    private javax.swing.JToggleButton dispXToggleButton;
     private javax.swing.JToggleButton dispYToggleButton;
     private javax.swing.JToggleButton dispZToggleButton;
     private javax.swing.JPanel displacementOptionPanel;
