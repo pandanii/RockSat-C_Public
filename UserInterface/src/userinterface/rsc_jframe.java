@@ -40,7 +40,7 @@ public class rsc_jframe extends javax.swing.JFrame
         LoadFlightMenutItem = new javax.swing.JMenuItem();
         SaveFlightMenuItem = new javax.swing.JMenuItem();
         EditMenu = new javax.swing.JMenu();
-        jMenu8 = new javax.swing.JMenu();
+        testMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(" RockSat-C");
@@ -48,6 +48,7 @@ public class rsc_jframe extends javax.swing.JFrame
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         setForeground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
+        setMinimumSize(new java.awt.Dimension(640, 480));
         setName("Welcome"); // NOI18N
 
         WelcomeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -110,8 +111,15 @@ public class rsc_jframe extends javax.swing.JFrame
 
         EditMenu.setText("Edit");
 
-        jMenu8.setText("jMenu8");
-        EditMenu.add(jMenu8);
+        testMenuItem.setText("jMenuItem1");
+        testMenuItem.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                testMenuItemActionPerformed(evt);
+            }
+        });
+        EditMenu.add(testMenuItem);
 
         rscJMenuBar.add(EditMenu);
 
@@ -189,6 +197,11 @@ public class rsc_jframe extends javax.swing.JFrame
         }
     }//GEN-LAST:event_SaveFlightMenuItemActionPerformed
 
+    private void testMenuItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_testMenuItemActionPerformed
+    {//GEN-HEADEREND:event_testMenuItemActionPerformed
+        rscJTabbedPane.addTab("Test Flight", null, new FlightPanel());
+    }//GEN-LAST:event_testMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -245,8 +258,8 @@ public class rsc_jframe extends javax.swing.JFrame
     private javax.swing.JMenuItem SaveFlightMenuItem;
     private javax.swing.JLabel WelcomeLabel;
     private javax.swing.JPanel WelcomePanel;
-    private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuBar rscJMenuBar;
     private javax.swing.JTabbedPane rscJTabbedPane;
+    private javax.swing.JMenuItem testMenuItem;
     // End of variables declaration//GEN-END:variables
 }
