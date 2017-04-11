@@ -3,3 +3,5 @@ LOG00015 is supposed to be the hardware flipped over 180 degrees while held in t
 LOG00023 is supposed to be the hardware ran across the cave on a chair at high speed.
 Units for velocity and acceleration are supposed to be meters/sec and meters/sec^2, but this seems to indicate severe accuracy
 problems or that these are not the correct units.
+
+Test graphs are from a hand created raw data file to show the relations between acceleration, velocity, and displacement.
