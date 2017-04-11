@@ -1,0 +1,5 @@
+LOG00003 is supposed to be an elevator ride from the bottom floor of the ET to the third floor. 
+LOG00015 is supposed to be the hardware flipped over 180 degrees while held in the same position.
+LOG00023 is supposed to be the hardware ran across the cave on a chair at high speed.
+Units for velocity and acceleration are supposed to be meters/sec and meters/sec^2, but this seems to indicate severe accuracy
+problems or that these are not the correct units.
