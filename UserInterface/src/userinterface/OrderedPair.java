@@ -8,28 +8,31 @@ just be useless overhead and if the software runs slowly
 this could be done by parent classes, but for now
 it keeps things object oriented and uniform.
  */
-
 import java.io.*;
+import java.text.*;
 
 //=========================================================
-public
-        class OrderedPair
+public class OrderedPair
 {
 
-    float xValue;                                                       //Graph point in the xAxis
-    float yValue;                                                       //Graph point in the yAxis
+    double xValue;                                                       //Graph point in the xAxis
+    double yValue;                                                       //Graph point in the yAxis
 
     //=====================================================
     /*
     Constructor accepts the values to be written to file.
+    Additionally, it formats all doubles to three decimal
+    places.
      */
     //=====================================================
-    public
-            OrderedPair(float xValue, float yValue)                  //Constructor
+    public OrderedPair(double xValue, double yValue)                  //Constructor
     {
+        DecimalFormat df;
 
-        this.xValue = xValue;
-        this.yValue = yValue;
+        df = new DecimalFormat("0.000");
+
+        this.xValue = Double.parseDouble(df.format(xValue));
+        this.yValue = Double.parseDouble(df.format(yValue));
 
     }
 
@@ -39,8 +42,7 @@ public
     will be read from file.
      */
     //=====================================================
-    public
-            OrderedPair()                                        //Constructor
+    public OrderedPair()                                        //Constructor
     {
 
         this.xValue = 0;
@@ -56,13 +58,12 @@ public
     and throws IOExceptions.
      */
     //=====================================================
-    public
-            void readOrderedPair(ObjectInputStream graphFileObjectInputStream)
+    public void readOrderedPair(ObjectInputStream graphFileObjectInputStream)
             throws IOException
     {
 
-        xValue = graphFileObjectInputStream.readFloat();
-        yValue = graphFileObjectInputStream.readFloat();
+        xValue = graphFileObjectInputStream.readDouble();
+        yValue = graphFileObjectInputStream.readDouble();
 
     }
 
@@ -74,13 +75,12 @@ public
     and throws IOExceptions.
      */
     //=====================================================
-    public
-            void writeOrderedPair(ObjectOutputStream graphFileObjectOutputStream)
+    public void writeOrderedPair(ObjectOutputStream graphFileObjectOutputStream)
             throws IOException
     {
 
-        graphFileObjectOutputStream.writeFloat(xValue);
-        graphFileObjectOutputStream.writeFloat(yValue);
+        graphFileObjectOutputStream.writeDouble(xValue);
+        graphFileObjectOutputStream.writeDouble(yValue);
 
     }
     //=====================================================

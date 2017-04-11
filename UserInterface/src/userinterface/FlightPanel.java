@@ -9,107 +9,66 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
-public
-        class FlightPanel extends javax.swing.JPanel
+public class FlightPanel extends javax.swing.JPanel
 {
 
-    private static final
-            long serialVersionUID = 1L;
-    public static final
-            int LOAD_RAW = 0;
-    public static final
-            int LOAD_FLIGHT = 1;
+    private static final long serialVersionUID = 1L;
+    public static final int LOAD_RAW = 0;
+    public static final int LOAD_FLIGHT = 1;
 
-    private
-            Calculator calculator;
-    private
-            File flightFile;
+    private Calculator calculator;
+    private File flightFile;
 
     // Java FX Stuff for Velocity
-    private
-            JFXPanel velocityJFXPanel;
-    private
-            LineChart<Number, Number> velocityLineChart;
-    private
-            XYChart.Series velocityXSeries;
-    private
-            XYChart.Series velocityYSeries;
-    private
-            XYChart.Series velocityZSeries;
-    private
-            Scene velocityScene;
-    private
-            File velocityXFile;
-    private
-            File velocityYFile;
-    private
-            File velocityZFile;
+    private JFXPanel velocityJFXPanel;
+    private LineChart<Number, Number> velocityLineChart;
+    private XYChart.Series velocityXSeries;
+    private XYChart.Series velocityYSeries;
+    private XYChart.Series velocityZSeries;
+    private Scene velocityScene;
+    private File velocityXFile;
+    private File velocityYFile;
+    private File velocityZFile;
 
     // Java FX Stuff for Accel
-    private
-            JFXPanel accelJFXPanel;
-    private
-            LineChart<Number, Number> accelLineChart;
-    private
-            XYChart.Series accelXSeries;
-    private
-            XYChart.Series accelYSeries;
-    private
-            XYChart.Series accelZSeries;
-    private
-            Scene accelScene;
-    private
-            File accelXFile;
-    private
-            File accelYFile;
-    private
-            File accelZFile;
+    private JFXPanel accelJFXPanel;
+    private LineChart<Number, Number> accelLineChart;
+    private XYChart.Series accelXSeries;
+    private XYChart.Series accelYSeries;
+    private XYChart.Series accelZSeries;
+    private Scene accelScene;
+    private File accelXFile;
+    private File accelYFile;
+    private File accelZFile;
 
     // Java FX Stuff for Accel
-    private
-            JFXPanel gyroJFXPanel;
-    private
-            LineChart<Number, Number> gyroLineChart;
-    private
-            XYChart.Series gyroXSeries;
-    private
-            XYChart.Series gyroYSeries;
-    private
-            XYChart.Series gyroZSeries;
-    private
-            Scene gyroScene;
-    private
-            File gyroXFile;
-    private
-            File gyroYFile;
-    private
-            File gyroZFile;
+    private JFXPanel gyroJFXPanel;
+    private LineChart<Number, Number> gyroLineChart;
+    private XYChart.Series gyroXSeries;
+    private XYChart.Series gyroYSeries;
+    private XYChart.Series gyroZSeries;
+    private Scene gyroScene;
+    private File gyroXFile;
+    private File gyroYFile;
+    private File gyroZFile;
 
     // Java FX Stuff for Displacement
-    private
-            JFXPanel dispJFXPanel;
-    private
-            LineChart<Number, Number> dispLineChart;
-    private
-            XYChart.Series dispXSeries;
-    private
-            XYChart.Series dispYSeries;
-    private
-            XYChart.Series dispZSeries;
-    private
-            Scene dispScene;
-    private
-            File dispXFile;
-    private
-            File dispYFile;
-    private
-            File dispZFile;
+    private JFXPanel dispJFXPanel;
+    private LineChart<Number, Number> dispLineChart;
+    private XYChart.Series dispXSeries;
+    private XYChart.Series dispYSeries;
+    private XYChart.Series dispZSeries;
+    private Scene dispScene;
+    private File dispXFile;
+    private File dispYFile;
+    private File dispZFile;
 
     /**
      * Creates new form FlightPanel (Taking NO ARGUMENTS)
@@ -118,18 +77,15 @@ public
      * will have more detail.
      */
     @SuppressWarnings("unchecked")
-    public
-            FlightPanel()
+    public FlightPanel()
     {
         initComponents();
 
         // Setup Axis
         // NOTE a JFXPanel() must be setup to initialize the toolkit to stop an exception from occuring with NumberAxis initialization.
         velocityJFXPanel = new JFXPanel();
-        final
-                NumberAxis velocityXAxis = new NumberAxis();
-        final
-                NumberAxis velocityYAxis = new NumberAxis();
+        final NumberAxis velocityXAxis = new NumberAxis();
+        final NumberAxis velocityYAxis = new NumberAxis();
         velocityXAxis.setLabel("Time");
         velocityYAxis.setLabel("Y-Axis");
         velocityLineChart = new LineChart<>(velocityXAxis, velocityYAxis);
@@ -155,10 +111,8 @@ public
 
         // Setup Axis
         accelJFXPanel = new JFXPanel();
-        final
-                NumberAxis accelXAxis = new NumberAxis();
-        final
-                NumberAxis accelYAxis = new NumberAxis();
+        final NumberAxis accelXAxis = new NumberAxis();
+        final NumberAxis accelYAxis = new NumberAxis();
         accelXAxis.setLabel("Time");
         accelYAxis.setLabel("Y-Axis");
         accelLineChart = new LineChart<>(accelXAxis, accelYAxis);
@@ -184,10 +138,8 @@ public
 
         // Setup Axis
         gyroJFXPanel = new JFXPanel();
-        final
-                NumberAxis gyroXAxis = new NumberAxis();
-        final
-                NumberAxis gyroYAxis = new NumberAxis();
+        final NumberAxis gyroXAxis = new NumberAxis();
+        final NumberAxis gyroYAxis = new NumberAxis();
         gyroXAxis.setLabel("Time");
         gyroYAxis.setLabel("Y-Axis");
         gyroLineChart = new LineChart<>(gyroXAxis, gyroYAxis);
@@ -213,10 +165,8 @@ public
 
         // Setup Axis
         dispJFXPanel = new JFXPanel();
-        final
-                NumberAxis distXAxis = new NumberAxis();
-        final
-                NumberAxis distYAxis = new NumberAxis();
+        final NumberAxis distXAxis = new NumberAxis();
+        final NumberAxis distYAxis = new NumberAxis();
         distXAxis.setLabel("Time");
         distYAxis.setLabel("Y-Axis");
         dispLineChart = new LineChart<>(distXAxis, distYAxis);
@@ -254,8 +204,7 @@ public
      *      ** 'loadValue' is used to differentiate between the different types of
      * loading performed.
      */
-    public
-            FlightPanel(File file, int loadValue)
+    public FlightPanel(File file, int loadValue)
     {
         initComponents();
         if (loadValue == LOAD_RAW)
@@ -271,10 +220,8 @@ public
         // Setup Axis
         // NOTE a JFXPanel() must be setup to initialize the toolkit to stop an exception from occuring with NumberAxis initialization.
         velocityJFXPanel = new JFXPanel();
-        final
-                NumberAxis velocityXAxis = new NumberAxis();
-        final
-                NumberAxis velocityYAxis = new NumberAxis();
+        final NumberAxis velocityXAxis = new NumberAxis();
+        final NumberAxis velocityYAxis = new NumberAxis();
         velocityXAxis.setLabel("Time");
         velocityYAxis.setLabel("Y-Axis");
         velocityLineChart = new LineChart<>(velocityXAxis, velocityYAxis);
@@ -294,10 +241,8 @@ public
 
         // Setup Axis
         accelJFXPanel = new JFXPanel();
-        final
-                NumberAxis accelXAxis = new NumberAxis();
-        final
-                NumberAxis accelYAxis = new NumberAxis();
+        final NumberAxis accelXAxis = new NumberAxis();
+        final NumberAxis accelYAxis = new NumberAxis();
         accelXAxis.setLabel("Time");
         accelYAxis.setLabel("Y-Axis");
         accelLineChart = new LineChart<>(accelXAxis, accelYAxis);
@@ -318,10 +263,8 @@ public
 
         // Setup Axis
         gyroJFXPanel = new JFXPanel();
-        final
-                NumberAxis gyroXAxis = new NumberAxis();
-        final
-                NumberAxis gyroYAxis = new NumberAxis();
+        final NumberAxis gyroXAxis = new NumberAxis();
+        final NumberAxis gyroYAxis = new NumberAxis();
         gyroXAxis.setLabel("Time");
         gyroYAxis.setLabel("Y-Axis");
         gyroLineChart = new LineChart<>(gyroXAxis, gyroYAxis);
@@ -341,10 +284,8 @@ public
 
         // Setup Axis
         dispJFXPanel = new JFXPanel();
-        final
-                NumberAxis distXAxis = new NumberAxis();
-        final
-                NumberAxis distYAxis = new NumberAxis();
+        final NumberAxis distXAxis = new NumberAxis();
+        final NumberAxis distYAxis = new NumberAxis();
         distXAxis.setLabel("Time");
         distYAxis.setLabel("Y-Axis");
         dispLineChart = new LineChart<>(distXAxis, distYAxis);
@@ -368,8 +309,7 @@ public
      * This method is used for saving the flight once the calculator class has saved them all.
      * It is used to create the rsc file
      */
-    public
-            void saveFlight(File file)
+    public void saveFlight(File file)
     {
         try
         {
@@ -441,8 +381,7 @@ public
      * This method is used for loading the flight once the calculator class has saved them all.
      * It is used to open the rsc file
      */
-    public
-            void loadFlight(File file)
+    public void loadFlight(File file)
     {
         try
         {
@@ -493,34 +432,35 @@ public
     private void initComponents()
     {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        flightPanelJTabbedPane = new javax.swing.JTabbedPane();
         velocitySplitPlane = new javax.swing.JSplitPane();
-        velocityPanel = new javax.swing.JPanel();
         velocityOptionsPanel = new javax.swing.JPanel();
         velXToggleButton = new javax.swing.JToggleButton();
         velYToggleButton = new javax.swing.JToggleButton();
         velZToggleButton = new javax.swing.JToggleButton();
+        velocityscrollPane = new javax.swing.JScrollPane();
+        velocityPanel = new javax.swing.JPanel();
         AccelerationSplitPane = new javax.swing.JSplitPane();
-        accelPanel = new javax.swing.JPanel();
         accelOptionPanel = new javax.swing.JPanel();
         accelXToggleButton = new javax.swing.JToggleButton();
         accelYToggleButton = new javax.swing.JToggleButton();
         accelZToggleButton = new javax.swing.JToggleButton();
+        accelScrollPane = new javax.swing.JScrollPane();
+        accelPanel = new javax.swing.JPanel();
         displacementSplitPane = new javax.swing.JSplitPane();
-        displacementPanel = new javax.swing.JPanel();
         displacementOptionPanel = new javax.swing.JPanel();
         dispToggleButton = new javax.swing.JToggleButton();
         dispYToggleButton = new javax.swing.JToggleButton();
         dispZToggleButton = new javax.swing.JToggleButton();
+        displacementScrollPane = new javax.swing.JScrollPane();
+        displacementPanel = new javax.swing.JPanel();
         gyroscopeSplitPane = new javax.swing.JSplitPane();
+        gyroScrollPane = new javax.swing.JScrollPane();
         gyroPanel = new javax.swing.JPanel();
         gyroAccelPanel = new javax.swing.JPanel();
         gyroXToggleButton = new javax.swing.JToggleButton();
         gyroYToggleButton = new javax.swing.JToggleButton();
         gyroZToggleButton = new javax.swing.JToggleButton();
-
-        velocityPanel.setLayout(new java.awt.BorderLayout());
-        velocitySplitPlane.setRightComponent(velocityPanel);
 
         velXToggleButton.setText("Velocity X Axis");
         velXToggleButton.addActionListener(new java.awt.event.ActionListener()
@@ -575,10 +515,12 @@ public
 
         velocitySplitPlane.setLeftComponent(velocityOptionsPanel);
 
-        jTabbedPane1.addTab("Velocity", velocitySplitPlane);
+        velocityPanel.setLayout(new java.awt.BorderLayout());
+        velocityscrollPane.setViewportView(velocityPanel);
 
-        accelPanel.setLayout(new java.awt.BorderLayout());
-        AccelerationSplitPane.setRightComponent(accelPanel);
+        velocitySplitPlane.setRightComponent(velocityscrollPane);
+
+        flightPanelJTabbedPane.addTab("Velocity", velocitySplitPlane);
 
         accelXToggleButton.setText("Acceleration X Axis");
         accelXToggleButton.addActionListener(new java.awt.event.ActionListener()
@@ -633,10 +575,12 @@ public
 
         AccelerationSplitPane.setLeftComponent(accelOptionPanel);
 
-        jTabbedPane1.addTab("Acceleration", AccelerationSplitPane);
+        accelPanel.setLayout(new java.awt.BorderLayout());
+        accelScrollPane.setViewportView(accelPanel);
 
-        displacementPanel.setLayout(new java.awt.BorderLayout());
-        displacementSplitPane.setRightComponent(displacementPanel);
+        AccelerationSplitPane.setRightComponent(accelScrollPane);
+
+        flightPanelJTabbedPane.addTab("Acceleration", AccelerationSplitPane);
 
         dispToggleButton.setText("Displacement X Axis");
         dispToggleButton.addActionListener(new java.awt.event.ActionListener()
@@ -691,10 +635,17 @@ public
 
         displacementSplitPane.setLeftComponent(displacementOptionPanel);
 
-        jTabbedPane1.addTab("Displacement", displacementSplitPane);
+        displacementPanel.setLayout(new java.awt.BorderLayout());
+        displacementScrollPane.setViewportView(displacementPanel);
+
+        displacementSplitPane.setRightComponent(displacementScrollPane);
+
+        flightPanelJTabbedPane.addTab("Displacement", displacementSplitPane);
 
         gyroPanel.setLayout(new java.awt.BorderLayout());
-        gyroscopeSplitPane.setRightComponent(gyroPanel);
+        gyroScrollPane.setViewportView(gyroPanel);
+
+        gyroscopeSplitPane.setRightComponent(gyroScrollPane);
 
         gyroXToggleButton.setText("Gyroscope X Axis");
         gyroXToggleButton.addActionListener(new java.awt.event.ActionListener()
@@ -749,17 +700,17 @@ public
 
         gyroscopeSplitPane.setLeftComponent(gyroAccelPanel);
 
-        jTabbedPane1.addTab("GyroScope", gyroscopeSplitPane);
+        flightPanelJTabbedPane.addTab("GyroScope", gyroscopeSplitPane);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(flightPanelJTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+            .addComponent(flightPanelJTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -817,70 +768,95 @@ public
 
     private void velXToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_velXToggleButtonActionPerformed
     {//GEN-HEADEREND:event_velXToggleButtonActionPerformed
-        // TODO add your handling code here:
         if (velXToggleButton.isSelected())
         {
-            OrderedPair op;
-            FileInputStream fis;
-            ObjectInputStream ois;
-
-            try
+            if (velocityYFile != null)
             {
-                fis = new FileInputStream(velocityXFile);
-                ois = new ObjectInputStream(fis);
-                for (int i = 0; i < 100; i++)//while (true) // will stop once EOF has been reached.
+                OrderedPair op;
+                FileInputStream fis;
+                ObjectInputStream ois;
+                XYChart.Data data;
+                ObservableList tempList;
+                int count = 0;
+
+                try
                 {
+                    fis = new FileInputStream(velocityXFile);
+                    ois = new ObjectInputStream(fis);
+                    tempList = velocityXSeries.getData();
+
+                    for (int i = 0; i < 10; i++)//while (true) // will stop once EOF has been reached.
+                    {
+                        op = new OrderedPair();
+                        op.readOrderedPair(ois);
+                        System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
+                        data = new XYChart.Data(op.xValue, op.yValue);
+                        tempList.add(data);
+                        count++;
+                    }
                     op = new OrderedPair();
                     op.readOrderedPair(ois);
-                    System.out.println("OrderedPair xAxis: " + op.xValue + " yAxis: " + op.yValue);
+                    System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
                     velocityXSeries.getData().add(new XYChart.Data(op.xValue, op.yValue));
                 }
+                catch (IOException iOEException)
+                {
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!AN IO EXCEPTION OCCURED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, iOEException);
+                    iOEException.printStackTrace();
+                }
+                catch (Exception exception)
+                {
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!AN  EXCEPTION OCCURED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, exception);
+                    exception.printStackTrace();
+                }
+                System.out.println("There were: " + count + " points printed");
             }
-            catch (IOException iOEException)
-            {
-                Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, iOEException);
-                iOEException.printStackTrace();
-            }
-            //eofe.printStackTrace();
         }
         else
         {
-            velocityXSeries = new XYChart.Series();
-            velocityXSeries.setName("Velocity X Axis");
+            if (!velocityXSeries.getData().isEmpty())
+            {
+                velocityXSeries.getData().clear();
+            }
         }
     }//GEN-LAST:event_velXToggleButtonActionPerformed
 
     private void velYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_velYToggleButtonActionPerformed
     {//GEN-HEADEREND:event_velYToggleButtonActionPerformed
-        // TODO add your handling code here:
         if (velYToggleButton.isSelected())
         {
-            OrderedPair op;
-            FileInputStream fis;
-            ObjectInputStream ois;
-
-            try
+            if (velocityYFile != null)
             {
-                fis = new FileInputStream(velocityYFile);
-                ois = new ObjectInputStream(fis);
-                for (int i = 0; i < 100; i++)//while (true) // will stop once EOF has been reached.
+                OrderedPair op;
+                FileInputStream fis;
+                ObjectInputStream ois;
+                try
                 {
-                    op = new OrderedPair();
-                    op.readOrderedPair(ois);
-                    System.out.println("OrderedPair xAxis: " + op.xValue + " yAxis: " + op.yValue);
-                    velocityYSeries.getData().add(new XYChart.Data(op.xValue, op.yValue));
+                    fis = new FileInputStream(velocityYFile);
+                    ois = new ObjectInputStream(fis);
+                    for (int i = 0; i < 100; i++)//while (true) // will stop once EOF has been reached.
+                    {
+                        op = new OrderedPair();
+                        op.readOrderedPair(ois);
+                        System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
+                        velocityYSeries.getData().add(new XYChart.Data(op.xValue, op.yValue));
+                    }
+                }
+                catch (IOException iOEException)
+                {
+                    Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, iOEException);
+                    iOEException.printStackTrace();
                 }
             }
-            catch (IOException iOEException)
-            {
-                Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, iOEException);
-                iOEException.printStackTrace();
-            }
-            //eofe.printStackTrace();
         }
         else
         {
-
+            if (!velocityYSeries.getData().isEmpty())
+            {
+                velocityYSeries.getData().clear();
+            }
         }
     }//GEN-LAST:event_velYToggleButtonActionPerformed
 
@@ -918,30 +894,38 @@ public
             OrderedPair op;
             FileInputStream fis;
             ObjectInputStream ois;
+            int count = 0;
 
             try
             {
                 fis = new FileInputStream(velocityZFile);
                 ois = new ObjectInputStream(fis);
-                for (int i = 0; i < 100; i++)//while (true) // will stop once EOF has been reached.
+                while (true)//for (int i = 0; i < 100; i++)// // will stop once EOF has been reached.
                 {
                     op = new OrderedPair();
                     op.readOrderedPair(ois);
-                    System.out.println("OrderedPair xAxis: " + op.xValue + " yAxis: " + op.yValue);
+                    System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
                     velocityZSeries.getData().add(new XYChart.Data(op.xValue, op.yValue));
+                    count++;
+                    System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
+                    velocityZSeries.getData().add(new XYChart.Data(op.xValue, op.yValue));
+
                 }
             }
             catch (IOException iOEException)
             {
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!AN IO EXCEPTION OCCURED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, iOEException);
                 iOEException.printStackTrace();
             }
-            //eofe.printStackTrace();
+            System.out.println("There were: " + count + " points printed");
         }
         else
         {
-            velocityZSeries = new XYChart.Series();
-            velocityZSeries.setName("Velocit Z Axis");
+            if (!velocityZSeries.getData().isEmpty())
+            {
+                velocityZSeries.getData().clear();
+            }
         }
     }//GEN-LAST:event_velZToggleButtonActionPerformed
 
@@ -988,6 +972,7 @@ public
     private javax.swing.JSplitPane AccelerationSplitPane;
     private javax.swing.JPanel accelOptionPanel;
     private javax.swing.JPanel accelPanel;
+    private javax.swing.JScrollPane accelScrollPane;
     private javax.swing.JToggleButton accelXToggleButton;
     private javax.swing.JToggleButton accelYToggleButton;
     private javax.swing.JToggleButton accelZToggleButton;
@@ -996,19 +981,22 @@ public
     private javax.swing.JToggleButton dispZToggleButton;
     private javax.swing.JPanel displacementOptionPanel;
     private javax.swing.JPanel displacementPanel;
+    private javax.swing.JScrollPane displacementScrollPane;
     private javax.swing.JSplitPane displacementSplitPane;
+    private javax.swing.JTabbedPane flightPanelJTabbedPane;
     private javax.swing.JPanel gyroAccelPanel;
     private javax.swing.JPanel gyroPanel;
+    private javax.swing.JScrollPane gyroScrollPane;
     private javax.swing.JToggleButton gyroXToggleButton;
     private javax.swing.JToggleButton gyroYToggleButton;
     private javax.swing.JToggleButton gyroZToggleButton;
     private javax.swing.JSplitPane gyroscopeSplitPane;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToggleButton velXToggleButton;
     private javax.swing.JToggleButton velYToggleButton;
     private javax.swing.JToggleButton velZToggleButton;
     private javax.swing.JPanel velocityOptionsPanel;
     private javax.swing.JPanel velocityPanel;
     private javax.swing.JSplitPane velocitySplitPlane;
+    private javax.swing.JScrollPane velocityscrollPane;
     // End of variables declaration//GEN-END:variables
 }
