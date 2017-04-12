@@ -60,6 +60,12 @@ public class Calculator
         {
             this.rawFileName = rawFileName.trim();
 
+            // Needs updated (Line 69):
+            //Reliance on default encoding
+            //Found a call to a method which will perform a byte to String (or String to byte) conversion, and will assume that the default platform encoding is suitable.
+            //This will cause the application behaviour to vary between platforms.
+            //Use an alternative API and specify a charset name or Charset object explicitly.
+            //Bug kind and pattern: Dm - DM_DEFAULT_ENCODING
             fileReader = new FileReader(this.rawFileName);
             bufferedReader = new BufferedReader(fileReader);
 

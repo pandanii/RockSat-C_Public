@@ -34,7 +34,6 @@ class RawDataLine
     //=====================================================
     RawDataLine()                                               //Constructor
     {
-
         timeInMicroSeconds = 0;
         xAxisAccel_MPU9250 = 0;
         yAxisAccel_MPU9250 = 0;
@@ -45,7 +44,6 @@ class RawDataLine
         xAxisAccel_ADXL377 = 0;
         yAxisAccel_ADXL377 = 0;
         zAxisAccel_ADXL377 = 0;
-
     }
 
     //=====================================================
@@ -63,15 +61,11 @@ class RawDataLine
     be thrown out.
      */
     //=====================================================
-    void readFileLine(BufferedReader rawFileBufferedReader)
-            throws IOException,
-            EOFException
+    void readFileLine(BufferedReader rawFileBufferedReader) throws IOException, EOFException
     {
         String fileLine;
-
         try
         {
-
             fileLine = rawFileBufferedReader.readLine();
 
             if (fileLine == null)
@@ -113,7 +107,10 @@ class RawDataLine
         String regularExpressionForFileLine;
         String[] stringArray;
 
-        regularExpressionForFileLine = new String("[0-9]+[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*");
+        regularExpressionForFileLine = "[0-9]+[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*";
+        // removed "new String(...)"
+        //Using the java.lang.String(String) constructor wastes memory because the object so constructed will be functionally indistinguishable from the String passed as a parameter. 
+        //Just use the argument String directly.
 
         if (fileLine.matches(regularExpressionForFileLine))
         {
@@ -163,41 +160,31 @@ class RawDataLine
             catch (NumberFormatException nfe)
             {
                 nfe.printStackTrace();
-
                 System.out.println("NumberFormatException thrown in RawDataLine.parseLine");
-
                 throw new DataFormatException();
             }
             catch (NullPointerException npe)
             {
                 npe.printStackTrace();
-
                 System.out.println("NullPointerException thrown in RawDataLine.parseLine");
-
                 throw new DataFormatException();
             }
             catch (IllegalArgumentException iae)
             {
                 iae.printStackTrace();
-
                 System.out.println("IllegalArgumentException thrown in RawDataLine.parseLine");
-
                 throw new DataFormatException();
             }
             catch (ArrayIndexOutOfBoundsException aioobe)
             {
                 aioobe.printStackTrace();
-
                 System.out.println("ArrayIndexOutOfBoundsException thrown in RawDataLine.parseLine");
-
                 throw new DataFormatException();
             }
             catch (Exception ex)
             {
                 ex.printStackTrace();
-
                 System.out.println("Exception thrown in RawDataLine.parseLine");
-
                 throw new DataFormatException();
             }
         }

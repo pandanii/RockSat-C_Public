@@ -274,16 +274,13 @@ public class FlightPanel extends javax.swing.JPanel
      */
     private void saveFlight(File file)
     {
-        try
+        String tempFileName = file.toString().substring(0, file.toString().indexOf("."));
+        System.out.println("fileName after substring: " + tempFileName);
+        flightFile = new File(tempFileName + ".rsc");
+        System.out.println("SAVING FILE: " + flightFile);
+
+        try (DataOutputStream tempDOS = new DataOutputStream(new FileOutputStream(flightFile));)
         {
-            String tempFileName = file.toString().substring(0, file.toString().indexOf("."));
-            System.out.println("fileName after substring: " + tempFileName);
-            DataOutputStream tempDOS;
-
-            flightFile = new File(tempFileName + ".rsc");
-            System.out.println("SAVING FILE: " + flightFile);
-            tempDOS = new DataOutputStream(new FileOutputStream(flightFile));
-
             accelXFile = new File(tempFileName + "_MPU9250_TxA_x.dat");
             System.out.println("writing: " + accelXFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(accelXFile.toString());
