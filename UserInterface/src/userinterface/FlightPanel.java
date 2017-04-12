@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
@@ -29,9 +29,9 @@ public class FlightPanel extends javax.swing.JPanel
     // Java FX Stuff for Velocity
     private JFXPanel velocityJFXPanel;
     private LineChart<Number, Number> velocityLineChart;
-    private XYChart.Series velocityXSeries;
-    private XYChart.Series velocityYSeries;
-    private XYChart.Series velocityZSeries;
+    private XYChart.Series<Number, Number> velocityXSeries;
+    private XYChart.Series<Number, Number> velocityYSeries;
+    private XYChart.Series<Number, Number> velocityZSeries;
     private Scene velocityScene;
     private File velocityXFile;
     private File velocityYFile;
@@ -40,9 +40,9 @@ public class FlightPanel extends javax.swing.JPanel
     // Java FX Stuff for Accel
     private JFXPanel accelJFXPanel;
     private LineChart<Number, Number> accelLineChart;
-    private XYChart.Series accelXSeries;
-    private XYChart.Series accelYSeries;
-    private XYChart.Series accelZSeries;
+    private XYChart.Series<Number, Number> accelXSeries;
+    private XYChart.Series<Number, Number> accelYSeries;
+    private XYChart.Series<Number, Number> accelZSeries;
     private Scene accelScene;
     private File accelXFile;
     private File accelYFile;
@@ -51,9 +51,9 @@ public class FlightPanel extends javax.swing.JPanel
     // Java FX Stuff for Accel
     private JFXPanel gyroJFXPanel;
     private LineChart<Number, Number> gyroLineChart;
-    private XYChart.Series gyroXSeries;
-    private XYChart.Series gyroYSeries;
-    private XYChart.Series gyroZSeries;
+    private XYChart.Series<Number, Number> gyroXSeries;
+    private XYChart.Series<Number, Number> gyroYSeries;
+    private XYChart.Series<Number, Number> gyroZSeries;
     private Scene gyroScene;
     private File gyroXFile;
     private File gyroYFile;
@@ -62,9 +62,9 @@ public class FlightPanel extends javax.swing.JPanel
     // Java FX Stuff for Displacement
     private JFXPanel dispJFXPanel;
     private LineChart<Number, Number> dispLineChart;
-    private XYChart.Series dispXSeries;
-    private XYChart.Series dispYSeries;
-    private XYChart.Series dispZSeries;
+    private XYChart.Series<Number, Number> dispXSeries;
+    private XYChart.Series<Number, Number> dispYSeries;
+    private XYChart.Series<Number, Number> dispZSeries;
     private Scene dispScene;
     private File dispXFile;
     private File dispYFile;
@@ -89,21 +89,21 @@ public class FlightPanel extends javax.swing.JPanel
         velocityXAxis.setLabel("Time");
         velocityYAxis.setLabel("Y-Axis");
         velocityLineChart = new LineChart<>(velocityXAxis, velocityYAxis);
-        velocityXSeries = new XYChart.Series();
+        velocityXSeries = new XYChart.Series<>();
         velocityLineChart.setTitle("Velocity Chart");
         velocityXSeries.setName("Data Point");
-        velocityXSeries.getData().add(new XYChart.Data(1, 10));
-        velocityXSeries.getData().add(new XYChart.Data(2, 8));
-        velocityXSeries.getData().add(new XYChart.Data(3, 5));
-        velocityXSeries.getData().add(new XYChart.Data(4, 24));
-        velocityXSeries.getData().add(new XYChart.Data(5, 3));
-        velocityXSeries.getData().add(new XYChart.Data(6, 2));
-        velocityXSeries.getData().add(new XYChart.Data(7, 22));
-        velocityXSeries.getData().add(new XYChart.Data(8, 100));
-        velocityXSeries.getData().add(new XYChart.Data(9, 8));
-        velocityXSeries.getData().add(new XYChart.Data(10, 2));
-        velocityXSeries.getData().add(new XYChart.Data(11, 29));
-        velocityXSeries.getData().add(new XYChart.Data(12, 275));
+        velocityXSeries.getData().add(new XYChart.Data<>(1.0, 10.0));
+        velocityXSeries.getData().add(new XYChart.Data<>(2.0, 8.0));
+        velocityXSeries.getData().add(new XYChart.Data<>(3.0, 5.0));
+        velocityXSeries.getData().add(new XYChart.Data<>(4.0, 24.0));
+        velocityXSeries.getData().add(new XYChart.Data<>(5.0, 3.0));
+        velocityXSeries.getData().add(new XYChart.Data<>(6.0, 2.0));
+        velocityXSeries.getData().add(new XYChart.Data<>(7.0, 22.0));
+        velocityXSeries.getData().add(new XYChart.Data<>(8.0, 100.0));
+        velocityXSeries.getData().add(new XYChart.Data<>(9.0, 8.0));
+        velocityXSeries.getData().add(new XYChart.Data<>(10.0, 2.0));
+        velocityXSeries.getData().add(new XYChart.Data<>(11.0, 29.0));
+        velocityXSeries.getData().add(new XYChart.Data<>(12.0, 275.0));
         velocityScene = new Scene(velocityLineChart, 800, 600);
         velocityLineChart.getData().add(velocityXSeries);
         velocityJFXPanel.setScene(velocityScene);
@@ -116,21 +116,21 @@ public class FlightPanel extends javax.swing.JPanel
         accelXAxis.setLabel("Time");
         accelYAxis.setLabel("Y-Axis");
         accelLineChart = new LineChart<>(accelXAxis, accelYAxis);
-        accelXSeries = new XYChart.Series();
+        accelXSeries = new XYChart.Series<>();
         accelLineChart.setTitle("Acceleration Chart");
         accelXSeries.setName("Data Point");
-        accelXSeries.getData().add(new XYChart.Data(1, 23));
-        accelXSeries.getData().add(new XYChart.Data(2, 14));
-        accelXSeries.getData().add(new XYChart.Data(3, 15));
-        accelXSeries.getData().add(new XYChart.Data(4, 24));
-        accelXSeries.getData().add(new XYChart.Data(5, 34));
-        accelXSeries.getData().add(new XYChart.Data(6, 36));
-        accelXSeries.getData().add(new XYChart.Data(7, 22));
-        accelXSeries.getData().add(new XYChart.Data(8, 45));
-        accelXSeries.getData().add(new XYChart.Data(9, 43));
-        accelXSeries.getData().add(new XYChart.Data(10, 17));
-        accelXSeries.getData().add(new XYChart.Data(11, 29));
-        accelXSeries.getData().add(new XYChart.Data(12, 25));
+        accelXSeries.getData().add(new XYChart.Data<>(1, 23));
+        accelXSeries.getData().add(new XYChart.Data<>(2, 14));
+        accelXSeries.getData().add(new XYChart.Data<>(3, 15));
+        accelXSeries.getData().add(new XYChart.Data<>(4, 24));
+        accelXSeries.getData().add(new XYChart.Data<>(5, 34));
+        accelXSeries.getData().add(new XYChart.Data<>(6, 36));
+        accelXSeries.getData().add(new XYChart.Data<>(7, 22));
+        accelXSeries.getData().add(new XYChart.Data<>(8, 45));
+        accelXSeries.getData().add(new XYChart.Data<>(9, 43));
+        accelXSeries.getData().add(new XYChart.Data<>(10, 17));
+        accelXSeries.getData().add(new XYChart.Data<>(11, 29));
+        accelXSeries.getData().add(new XYChart.Data<>(12, 25));
         accelScene = new Scene(accelLineChart, 800, 600);
         accelLineChart.getData().add(accelXSeries);
         accelJFXPanel.setScene(accelScene);
@@ -143,21 +143,21 @@ public class FlightPanel extends javax.swing.JPanel
         gyroXAxis.setLabel("Time");
         gyroYAxis.setLabel("Y-Axis");
         gyroLineChart = new LineChart<>(gyroXAxis, gyroYAxis);
-        gyroXSeries = new XYChart.Series();
+        gyroXSeries = new XYChart.Series<>();
         gyroLineChart.setTitle("Gyroscope Chart");
         gyroXSeries.setName("Data Point");
-        gyroXSeries.getData().add(new XYChart.Data(1, 1));
-        gyroXSeries.getData().add(new XYChart.Data(2, 2));
-        gyroXSeries.getData().add(new XYChart.Data(3, 3));
-        gyroXSeries.getData().add(new XYChart.Data(4, 4));
-        gyroXSeries.getData().add(new XYChart.Data(5, 5));
-        gyroXSeries.getData().add(new XYChart.Data(6, 7));
-        gyroXSeries.getData().add(new XYChart.Data(7, 8));
-        gyroXSeries.getData().add(new XYChart.Data(8, 0));
-        gyroXSeries.getData().add(new XYChart.Data(9, 2));
-        gyroXSeries.getData().add(new XYChart.Data(10, 5));
-        gyroXSeries.getData().add(new XYChart.Data(11, 1));
-        gyroXSeries.getData().add(new XYChart.Data(12, 27));
+        gyroXSeries.getData().add(new XYChart.Data<>(1, 1));
+        gyroXSeries.getData().add(new XYChart.Data<>(2, 2));
+        gyroXSeries.getData().add(new XYChart.Data<>(3, 3));
+        gyroXSeries.getData().add(new XYChart.Data<>(4, 4));
+        gyroXSeries.getData().add(new XYChart.Data<>(5, 5));
+        gyroXSeries.getData().add(new XYChart.Data<>(6, 7));
+        gyroXSeries.getData().add(new XYChart.Data<>(7, 8));
+        gyroXSeries.getData().add(new XYChart.Data<>(8, 0));
+        gyroXSeries.getData().add(new XYChart.Data<>(9, 2));
+        gyroXSeries.getData().add(new XYChart.Data<>(10, 5));
+        gyroXSeries.getData().add(new XYChart.Data<>(11, 1));
+        gyroXSeries.getData().add(new XYChart.Data<>(12, 27));
         gyroScene = new Scene(gyroLineChart, 800, 600);
         gyroLineChart.getData().add(gyroXSeries);
         gyroJFXPanel.setScene(gyroScene);
@@ -170,21 +170,21 @@ public class FlightPanel extends javax.swing.JPanel
         distXAxis.setLabel("Time");
         distYAxis.setLabel("Y-Axis");
         dispLineChart = new LineChart<>(distXAxis, distYAxis);
-        dispXSeries = new XYChart.Series();
+        dispXSeries = new XYChart.Series<>();
         dispLineChart.setTitle("Displacement Chart");
         dispXSeries.setName("Data Point");
-        dispXSeries.getData().add(new XYChart.Data(1, 1));
-        dispXSeries.getData().add(new XYChart.Data(2, 2));
-        dispXSeries.getData().add(new XYChart.Data(3, 3));
-        dispXSeries.getData().add(new XYChart.Data(4, 4));
-        dispXSeries.getData().add(new XYChart.Data(5, 5));
-        dispXSeries.getData().add(new XYChart.Data(6, 7));
-        dispXSeries.getData().add(new XYChart.Data(7, 8));
-        dispXSeries.getData().add(new XYChart.Data(8, 0));
-        dispXSeries.getData().add(new XYChart.Data(9, 2));
-        dispXSeries.getData().add(new XYChart.Data(10, 5));
-        dispXSeries.getData().add(new XYChart.Data(11, 1));
-        dispXSeries.getData().add(new XYChart.Data(12, 27));
+        dispXSeries.getData().add(new XYChart.Data<>(1, 1));
+        dispXSeries.getData().add(new XYChart.Data<>(2, 2));
+        dispXSeries.getData().add(new XYChart.Data<>(3, 3));
+        dispXSeries.getData().add(new XYChart.Data<>(4, 4));
+        dispXSeries.getData().add(new XYChart.Data<>(5, 5));
+        dispXSeries.getData().add(new XYChart.Data<>(6, 7));
+        dispXSeries.getData().add(new XYChart.Data<>(7, 8));
+        dispXSeries.getData().add(new XYChart.Data<>(8, 0));
+        dispXSeries.getData().add(new XYChart.Data<>(9, 2));
+        dispXSeries.getData().add(new XYChart.Data<>(10, 5));
+        dispXSeries.getData().add(new XYChart.Data<>(11, 1));
+        dispXSeries.getData().add(new XYChart.Data<>(12, 27));
         dispScene = new Scene(dispLineChart, 800, 600);
         dispLineChart.getData().add(dispXSeries);
         dispJFXPanel.setScene(dispScene);
@@ -226,15 +226,6 @@ public class FlightPanel extends javax.swing.JPanel
         velocityYAxis.setLabel("Y-Axis");
         velocityLineChart = new LineChart<>(velocityXAxis, velocityYAxis);
         velocityLineChart.setTitle("Velocity Chart");
-        velocityXSeries = new XYChart.Series();
-        velocityXSeries.setName("Velocity X Axis");
-        velocityLineChart.getData().add(velocityXSeries);
-        velocityYSeries = new XYChart.Series();
-        velocityYSeries.setName("Velocity Y Axis");
-        velocityLineChart.getData().add(velocityYSeries);
-        velocityZSeries = new XYChart.Series();
-        velocityZSeries.setName("Velocity Z Axis");
-        velocityLineChart.getData().add(velocityZSeries);
         velocityScene = new Scene(velocityLineChart, 800, 600);
         velocityJFXPanel.setScene(velocityScene);
         velocityPanel.add(velocityJFXPanel);
@@ -249,15 +240,6 @@ public class FlightPanel extends javax.swing.JPanel
 
         accelLineChart.setTitle("Acceleration Chart");
         accelScene = new Scene(accelLineChart, 800, 600);
-        accelXSeries = new XYChart.Series();
-        accelXSeries.setName("Acceleration X Axis");
-        accelLineChart.getData().add(accelXSeries);
-        accelYSeries = new XYChart.Series();
-        accelYSeries.setName("Acceleration Y Axis");
-        accelLineChart.getData().add(accelYSeries);
-        accelZSeries = new XYChart.Series();
-        accelZSeries.setName("Acceleration Z Axis");
-        accelLineChart.getData().add(accelZSeries);
         accelJFXPanel.setScene(accelScene);
         accelPanel.add(accelJFXPanel);
 
@@ -269,15 +251,6 @@ public class FlightPanel extends javax.swing.JPanel
         gyroYAxis.setLabel("Y-Axis");
         gyroLineChart = new LineChart<>(gyroXAxis, gyroYAxis);
         gyroLineChart.setTitle("Gyroscope Chart");
-        gyroXSeries = new XYChart.Series();
-        gyroXSeries.setName("Gyroscope X Axis");
-        gyroLineChart.getData().add(gyroXSeries);
-        gyroYSeries = new XYChart.Series();
-        gyroYSeries.setName("Gyroscope Y Axis");
-        gyroLineChart.getData().add(gyroYSeries);
-        gyroZSeries = new XYChart.Series();
-        gyroZSeries.setName("Gyroscope Z Axis");
-        gyroLineChart.getData().add(gyroZSeries);
         gyroScene = new Scene(gyroLineChart, 800, 600);
         gyroJFXPanel.setScene(gyroScene);
         gyroPanel.add(gyroJFXPanel);
@@ -290,15 +263,6 @@ public class FlightPanel extends javax.swing.JPanel
         distYAxis.setLabel("Y-Axis");
         dispLineChart = new LineChart<>(distXAxis, distYAxis);
         dispLineChart.setTitle("Displacement Chart");
-        dispXSeries = new XYChart.Series();
-        dispXSeries.setName("Displacement X Axis");
-        dispLineChart.getData().add(dispXSeries);
-        dispYSeries = new XYChart.Series();
-        dispYSeries.setName("Displacement Y Axis");
-        dispLineChart.getData().add(dispYSeries);
-        dispZSeries = new XYChart.Series();
-        dispZSeries.setName("Displacement Z Axis");
-        dispLineChart.getData().add(dispZSeries);
         dispScene = new Scene(dispLineChart, 800, 600);
         dispJFXPanel.setScene(dispScene);
         displacementPanel.add(dispJFXPanel);
@@ -309,7 +273,7 @@ public class FlightPanel extends javax.swing.JPanel
      * This method is used for saving the flight once the calculator class has saved them all.
      * It is used to create the rsc file
      */
-    public void saveFlight(File file)
+    private void saveFlight(File file)
     {
         try
         {
@@ -381,7 +345,7 @@ public class FlightPanel extends javax.swing.JPanel
      * This method is used for loading the flight once the calculator class has saved them all.
      * It is used to open the rsc file
      */
-    public void loadFlight(File file)
+    private void loadFlight(File file)
     {
         try
         {
@@ -421,36 +385,35 @@ public class FlightPanel extends javax.swing.JPanel
         }
     }
 
-    private void generateGraph(File dataFile, XYChart.Series series)
+    private void generateSeries(File dataFile, final XYChart.Series<Number, Number> series, LineChart<Number, Number> lineChart)
     {
         if (dataFile != null)
         {
             OrderedPair op;
             FileInputStream fis;
             ObjectInputStream ois;
-            XYChart.Data data;
-            ObservableList tempList;
+
             int count = 0;
 
             try
             {
                 fis = new FileInputStream(dataFile);
                 ois = new ObjectInputStream(fis);
-                tempList = series.getData();
 
-                for (int i = 0; i < 10; i++)//while (true) // will stop once EOF has been reached.
+                for (int i = 0; i < 50; i++)//while (true) // will stop once EOF has been reached.
                 {
                     op = new OrderedPair();
                     op.readOrderedPair(ois);
                     System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
-                    data = new XYChart.Data(op.xValue, op.yValue);
-                    tempList.add(data);
+                    series.getData().add(new XYChart.Data<>(op.xValue, op.yValue));
                     count++;
                 }
-                op = new OrderedPair();
-                op.readOrderedPair(ois);
-                System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
-                series.getData().add(new XYChart.Data(op.xValue, op.yValue));
+                System.out.println("There were: " + count + " points read in and printed");
+
+                Platform.runLater(() ->
+                {
+                    lineChart.getData().add(series);
+                });
             }
             catch (IOException iOEException)
             {
@@ -464,8 +427,8 @@ public class FlightPanel extends javax.swing.JPanel
                 Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, exception);
                 exception.printStackTrace();
             }
-            System.out.println("There were: " + count + " points printed");
         }
+
     }
 
     /**
@@ -765,13 +728,19 @@ public class FlightPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_accelYToggleButtonActionPerformed
         if (accelYToggleButton.isSelected())
         {
-            generateGraph(accelYFile, accelYSeries);
+            accelYSeries = new XYChart.Series<>();
+            accelYSeries.setName("Acceleration Y");
+            generateSeries(accelYFile, accelYSeries, accelLineChart);
         }
         else
         {
             if (!accelYSeries.getData().isEmpty())
             {
                 accelYSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    accelLineChart.getData().remove(accelYSeries);
+                });
             }
         }
     }//GEN-LAST:event_accelYToggleButtonActionPerformed
@@ -780,13 +749,19 @@ public class FlightPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_accelXToggleButtonActionPerformed
         if (accelXToggleButton.isSelected())
         {
-            generateGraph(accelXFile, accelXSeries);
+            accelXSeries = new XYChart.Series<>();
+            accelXSeries.setName("Acceleration X");
+            generateSeries(accelXFile, accelXSeries, accelLineChart);
         }
         else
         {
             if (!accelXSeries.getData().isEmpty())
             {
                 accelXSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    accelLineChart.getData().remove(accelXSeries);
+                });
             }
         }
     }//GEN-LAST:event_accelXToggleButtonActionPerformed
@@ -795,13 +770,19 @@ public class FlightPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_gyroXToggleButtonActionPerformed
         if (gyroXToggleButton.isSelected())
         {
-            generateGraph(gyroXFile, gyroXSeries);
+            gyroXSeries = new XYChart.Series<>();
+            gyroXSeries.setName("Gyroscope X");
+            generateSeries(gyroXFile, gyroXSeries, gyroLineChart);
         }
         else
         {
             if (!gyroXSeries.getData().isEmpty())
             {
                 gyroXSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    gyroLineChart.getData().remove(gyroXSeries);
+                });
             }
         }
     }//GEN-LAST:event_gyroXToggleButtonActionPerformed
@@ -810,13 +791,19 @@ public class FlightPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_gyroYToggleButtonActionPerformed
         if (gyroYToggleButton.isSelected())
         {
-            generateGraph(gyroYFile, gyroYSeries);
+            gyroYSeries = new XYChart.Series<>();
+            gyroYSeries.setName("Gyroscope Y");
+            generateSeries(gyroYFile, gyroYSeries, gyroLineChart);
         }
         else
         {
             if (!gyroYSeries.getData().isEmpty())
             {
                 gyroYSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    gyroLineChart.getData().remove(gyroYSeries);
+                });
             }
         }
     }//GEN-LAST:event_gyroYToggleButtonActionPerformed
@@ -825,13 +812,19 @@ public class FlightPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_velXToggleButtonActionPerformed
         if (velXToggleButton.isSelected())
         {
-            generateGraph(velocityXFile, velocityXSeries);
+            velocityXSeries = new XYChart.Series<>();
+            velocityXSeries.setName("Velocity X");
+            generateSeries(velocityXFile, velocityXSeries, velocityLineChart);
         }
         else
         {
             if (!velocityXSeries.getData().isEmpty())
             {
                 velocityXSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    velocityLineChart.getData().remove(velocityXSeries);
+                });
             }
         }
     }//GEN-LAST:event_velXToggleButtonActionPerformed
@@ -840,13 +833,19 @@ public class FlightPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_velYToggleButtonActionPerformed
         if (velYToggleButton.isSelected())
         {
-            generateGraph(velocityYFile, velocityYSeries);
+            velocityYSeries = new XYChart.Series<>();
+            velocityYSeries.setName("Velocity Y");
+            generateSeries(velocityYFile, velocityYSeries, velocityLineChart);
         }
         else
         {
             if (!velocityYSeries.getData().isEmpty())
             {
                 velocityYSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    velocityLineChart.getData().remove(velocityYSeries);
+                });
             }
         }
     }//GEN-LAST:event_velYToggleButtonActionPerformed
@@ -855,13 +854,19 @@ public class FlightPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_dispXToggleButtonActionPerformed
         if (dispXToggleButton.isSelected())
         {
-            generateGraph(dispXFile, dispXSeries);
+            dispXSeries = new XYChart.Series<>();
+            dispXSeries.setName("Displacement X");
+            generateSeries(dispXFile, dispXSeries, dispLineChart);
         }
         else
         {
             if (!dispXSeries.getData().isEmpty())
             {
                 dispXSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    dispLineChart.getData().remove(dispXSeries);
+                });
             }
         }
     }//GEN-LAST:event_dispXToggleButtonActionPerformed
@@ -870,13 +875,19 @@ public class FlightPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_dispYToggleButtonActionPerformed
         if (dispYToggleButton.isSelected())
         {
-            generateGraph(dispYFile, dispYSeries);
+            dispYSeries = new XYChart.Series<>();
+            dispYSeries.setName("Displacement Y");
+            generateSeries(dispYFile, dispYSeries, dispLineChart);
         }
         else
         {
             if (!dispYSeries.getData().isEmpty())
             {
                 dispYSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    dispLineChart.getData().remove(dispYSeries);
+                });
             }
         }
     }//GEN-LAST:event_dispYToggleButtonActionPerformed
@@ -885,13 +896,19 @@ public class FlightPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_velZToggleButtonActionPerformed
         if (velZToggleButton.isSelected())
         {
-            generateGraph(velocityZFile, velocityZSeries);
+            velocityZSeries = new XYChart.Series<>();
+            velocityZSeries.setName("Velocity Z");
+            generateSeries(velocityZFile, velocityZSeries, velocityLineChart);
         }
         else
         {
             if (!velocityZSeries.getData().isEmpty())
             {
                 velocityZSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    velocityLineChart.getData().remove(velocityZSeries);
+                });
             }
         }
     }//GEN-LAST:event_velZToggleButtonActionPerformed
@@ -900,13 +917,19 @@ public class FlightPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_accelZToggleButtonActionPerformed
         if (accelZToggleButton.isSelected())
         {
-            generateGraph(accelZFile, accelZSeries);
+            accelZSeries = new XYChart.Series<>();
+            accelZSeries.setName("Acceleration Z");
+            generateSeries(accelZFile, accelZSeries, accelLineChart);
         }
         else
         {
             if (!accelZSeries.getData().isEmpty())
             {
                 accelZSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    accelLineChart.getData().remove(accelZSeries);
+                });
             }
         }
     }//GEN-LAST:event_accelZToggleButtonActionPerformed
@@ -915,13 +938,19 @@ public class FlightPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_dispZToggleButtonActionPerformed
         if (dispZToggleButton.isSelected())
         {
-            generateGraph(dispZFile, dispZSeries);
+            dispZSeries = new XYChart.Series<>();
+            dispZSeries.setName("Displacement Z");
+            generateSeries(dispZFile, dispZSeries, dispLineChart);
         }
         else
         {
             if (!dispZSeries.getData().isEmpty())
             {
                 dispZSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    dispLineChart.getData().remove(dispZSeries);
+                });
             }
         }
     }//GEN-LAST:event_dispZToggleButtonActionPerformed
@@ -930,13 +959,19 @@ public class FlightPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_gyroZToggleButtonActionPerformed
         if (gyroZToggleButton.isSelected())
         {
-            generateGraph(gyroZFile, gyroZSeries);
+            gyroZSeries = new XYChart.Series<>();
+            gyroZSeries.setName("Gyroscope Z");
+            generateSeries(gyroZFile, gyroZSeries, gyroLineChart);
         }
         else
         {
             if (!gyroZSeries.getData().isEmpty())
             {
                 gyroZSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    gyroLineChart.getData().remove(gyroZSeries);
+                });
             }
         }
     }//GEN-LAST:event_gyroZToggleButtonActionPerformed
