@@ -56,10 +56,8 @@ public class Calculator
     //=====================================================
     public Calculator(String rawFileName)
     {
-
         try
         {
-
             this.rawFileName = rawFileName.trim();
 
             fileReader = new FileReader(this.rawFileName);
@@ -68,7 +66,6 @@ public class Calculator
             dataLineList = new DefaultListModel<RawDataLine>();
 
             preLoadSomeLines();
-
             calculateValues();
 
         }
@@ -101,20 +98,14 @@ public class Calculator
     from the raw data file.
      */
     //=====================================================
-    private void preLoadSomeLines() throws IOException,
-            EOFException
+    private void preLoadSomeLines() throws IOException, EOFException
     {
         RawDataLine rawDataLine;
-        int counter;
-
-        counter = 0;
+        int counter = 0;
         while (counter < 10)
         {
-
             rawDataLine = new RawDataLine();
-
             rawDataLine.readFileLine(bufferedReader);
-
             if (rawDataLine.timeInMicroSeconds != -1)
             {
                 dataLineList.addElement(rawDataLine);
@@ -494,13 +485,13 @@ public class Calculator
                 accelerationAverage_z = accelerationAverage_z * 10
                         - dataLineList.firstElement().zAxisAccel_MPU9250;
 
-                averageRadiansPerSecondInGyroXAxis = averageRadiansPerSecondInGyroXAxis * 10 * 180 / 3.1416
+                averageRadiansPerSecondInGyroXAxis = averageRadiansPerSecondInGyroXAxis * 10 * 180 / Math.PI
                         - dataLineList.firstElement().xAxisGyro_MPU9250;
 
-                averageRadiansPerSecondInGyroYAxis = averageRadiansPerSecondInGyroYAxis * 10 * 180 / 3.1416
+                averageRadiansPerSecondInGyroYAxis = averageRadiansPerSecondInGyroYAxis * 10 * 180 / Math.PI
                         - dataLineList.firstElement().yAxisGyro_MPU9250;
 
-                averageRadiansPerSecondInGyroZAxis = averageRadiansPerSecondInGyroZAxis * 10 * 180 / 3.1416
+                averageRadiansPerSecondInGyroZAxis = averageRadiansPerSecondInGyroZAxis * 10 * 180 / Math.PI
                         - dataLineList.firstElement().zAxisGyro_MPU9250;
 
                 //remove the first row from the listmodel
@@ -516,15 +507,15 @@ public class Calculator
 
                 averageRadiansPerSecondInGyroXAxis = (averageRadiansPerSecondInGyroXAxis
                         + dataLineList.lastElement().xAxisGyro_MPU9250)
-                        * 3.1416 / 180 / 10;
+                        * Math.PI / 180 / 10;
 
                 averageRadiansPerSecondInGyroYAxis = (averageRadiansPerSecondInGyroYAxis
                         + dataLineList.lastElement().yAxisGyro_MPU9250)
-                        * 3.1416 / 180 / 10;
+                        * Math.PI / 180 / 10;
 
                 averageRadiansPerSecondInGyroZAxis = (averageRadiansPerSecondInGyroZAxis
                         + dataLineList.lastElement().zAxisGyro_MPU9250)
-                        * 3.1416 / 180 / 10;
+                        * Math.PI / 180 / 10;
 
                 //Set previous values to current
                 previousVelocity_x = currentVelocity_x;

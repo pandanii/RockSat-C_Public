@@ -23,7 +23,6 @@ public class FlightPanel extends javax.swing.JPanel
     public static final int LOAD_RAW = 0;
     public static final int LOAD_FLIGHT = 1;
 
-    private Calculator calculator;
     private File flightFile;
 
     // Java FX Stuff for Velocity
@@ -209,7 +208,7 @@ public class FlightPanel extends javax.swing.JPanel
         initComponents();
         if (loadValue == LOAD_RAW)
         {
-            calculator = new Calculator(file.toString());
+            Calculator calculator = new Calculator(file.toString());
             saveFlight(file);
         }
         else if (loadValue == LOAD_FLIGHT)
@@ -332,6 +331,9 @@ public class FlightPanel extends javax.swing.JPanel
             gyroZFile = new File(tempFileName + "_MPU9250_TxGyro_z.dat");
             System.out.println("writing: " + gyroZFile.toString() + " to: " + flightFile.toString());
             tempDOS.writeUTF(gyroZFile.toString());
+            tempDOS.flush();
+            tempDOS.close();
+
         }
         catch (IOException iOEException)
         {
@@ -347,12 +349,10 @@ public class FlightPanel extends javax.swing.JPanel
      */
     private void loadFlight(File file)
     {
-        try
+        flightFile = file;
+        System.out.println("Loading FILE: " + flightFile);
+        try (DataInputStream tempDIS = new DataInputStream(new FileInputStream(flightFile));)
         {
-            DataInputStream tempDIS;
-            flightFile = file;
-            System.out.println("Loading FILE: " + flightFile);
-            tempDIS = new DataInputStream(new FileInputStream(flightFile));
             accelXFile = new File(tempDIS.readUTF());
             System.out.println("Read: " + accelXFile.toString() + " from: " + flightFile.toString());
             accelYFile = new File(tempDIS.readUTF());
@@ -377,6 +377,7 @@ public class FlightPanel extends javax.swing.JPanel
             System.out.println("Read: " + gyroYFile.toString() + " from: " + flightFile.toString());
             gyroZFile = new File(tempDIS.readUTF());
             System.out.println("Read: " + gyroZFile.toString() + " from: " + flightFile.toString());
+            tempDIS.close();
         }
         catch (IOException iOEException)
         {
@@ -390,17 +391,11 @@ public class FlightPanel extends javax.swing.JPanel
         if (dataFile != null)
         {
             OrderedPair op;
-            FileInputStream fis;
-            ObjectInputStream ois;
-
             int count = 0;
 
-            try
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(dataFile)))
             {
-                fis = new FileInputStream(dataFile);
-                ois = new ObjectInputStream(fis);
-
-                for (int i = 0; i < 50; i++)//while (true) // will stop once EOF has been reached.
+                for (int i = 0; i < 100; i++)//while (true)// will stop once EOF has been reached.
                 {
                     op = new OrderedPair();
                     op.readOrderedPair(ois);
@@ -408,12 +403,6 @@ public class FlightPanel extends javax.swing.JPanel
                     series.getData().add(new XYChart.Data<>(op.xValue, op.yValue));
                     count++;
                 }
-                System.out.println("There were: " + count + " points read in and printed");
-
-                Platform.runLater(() ->
-                {
-                    lineChart.getData().add(series);
-                });
             }
             catch (IOException iOEException)
             {
@@ -427,6 +416,12 @@ public class FlightPanel extends javax.swing.JPanel
                 Logger.getLogger(FlightPanel.class.getName()).log(Level.SEVERE, null, exception);
                 exception.printStackTrace();
             }
+            System.out.println("There were: " + count + " points read in and printed");
+
+            Platform.runLater(() ->
+            {
+                lineChart.getData().add(series);
+            });
         }
 
     }
@@ -450,7 +445,7 @@ public class FlightPanel extends javax.swing.JPanel
         velZToggleButton = new javax.swing.JToggleButton();
         velocityscrollPane = new javax.swing.JScrollPane();
         velocityPanel = new javax.swing.JPanel();
-        AccelerationSplitPane = new javax.swing.JSplitPane();
+        accelerationSplitPane = new javax.swing.JSplitPane();
         accelOptionPanel = new javax.swing.JPanel();
         accelXToggleButton = new javax.swing.JToggleButton();
         accelYToggleButton = new javax.swing.JToggleButton();
@@ -583,14 +578,14 @@ public class FlightPanel extends javax.swing.JPanel
                 .addContainerGap(502, Short.MAX_VALUE))
         );
 
-        AccelerationSplitPane.setLeftComponent(accelOptionPanel);
+        accelerationSplitPane.setLeftComponent(accelOptionPanel);
 
         accelPanel.setLayout(new java.awt.BorderLayout());
         accelScrollPane.setViewportView(accelPanel);
 
-        AccelerationSplitPane.setRightComponent(accelScrollPane);
+        accelerationSplitPane.setRightComponent(accelScrollPane);
 
-        flightPanelJTabbedPane.addTab("Acceleration", AccelerationSplitPane);
+        flightPanelJTabbedPane.addTab("Acceleration", accelerationSplitPane);
 
         dispXToggleButton.setText("Displacement X Axis");
         dispXToggleButton.addActionListener(new java.awt.event.ActionListener()
@@ -977,13 +972,13 @@ public class FlightPanel extends javax.swing.JPanel
     }//GEN-LAST:event_gyroZToggleButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JSplitPane AccelerationSplitPane;
     private javax.swing.JPanel accelOptionPanel;
     private javax.swing.JPanel accelPanel;
     private javax.swing.JScrollPane accelScrollPane;
     private javax.swing.JToggleButton accelXToggleButton;
     private javax.swing.JToggleButton accelYToggleButton;
     private javax.swing.JToggleButton accelZToggleButton;
+    private javax.swing.JSplitPane accelerationSplitPane;
     private javax.swing.JToggleButton dispXToggleButton;
     private javax.swing.JToggleButton dispYToggleButton;
     private javax.swing.JToggleButton dispZToggleButton;
