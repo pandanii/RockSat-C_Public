@@ -87,7 +87,7 @@ double zAxisAccel_ADXL377;
         }
     catch (DataFormatException dfe)
         {
-        System.out.println("File line doesn't match regular expression.");
+        System.out.println("Bad File Line.");
 
         timeInMicroSeconds = -1;
         }
@@ -141,6 +141,22 @@ double zAxisAccel_ADXL377;
 
             zAxisAccel_MPU9250 = Double.parseDouble(
                            (String)Array.get(stringArray, 3));
+                                                                //test for bound of unit
+                                                                //the MPU9250 can't have more than 16g's
+                                                                //of acceleration
+            if (xAxisAccel_MPU9250 > 16 * 9.81 ||
+                yAxisAccel_MPU9250 > 16 * 9.81 ||
+                zAxisAccel_MPU9250 > 16 * 9.81)
+                {
+                throw new DataFormatException();
+                }
+
+            if (xAxisAccel_MPU9250 < -16 * 9.81 ||
+                yAxisAccel_MPU9250 < -16 * 9.81 ||
+                zAxisAccel_MPU9250 < -16 * 9.81)
+                {
+                throw new DataFormatException();
+                }
 
             xAxisGyro_MPU9250 = Double.parseDouble(
                            (String)Array.get(stringArray, 4));
@@ -150,6 +166,22 @@ double zAxisAccel_ADXL377;
 
             zAxisGyro_MPU9250 = Double.parseDouble(
                            (String)Array.get(stringArray, 6));
+                                                                //test for bound of unit
+                                                                //MPUGyro can have more than 2000
+                                                                //degrees per second velocity
+            if (xAxisGyro_MPU9250 > 2000 ||
+                yAxisGyro_MPU9250 > 2000 ||
+                zAxisGyro_MPU9250 > 2000)
+                {
+                throw new DataFormatException();
+                }
+
+            if (xAxisGyro_MPU9250 < -2000 ||
+                yAxisGyro_MPU9250 < -2000 ||
+                zAxisGyro_MPU9250 < -2000)
+                {
+                throw new DataFormatException();
+                }
 
             xAxisAccel_ADXL377 = Double.parseDouble(
                            (String)Array.get(stringArray, 7));

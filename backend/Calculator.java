@@ -39,10 +39,13 @@ DefaultListModel<RawDataLine> dataLineList;
 
 String rawFileName;
 
-double accelerationAverage_x;
-double accelerationAverage_y;
-double accelerationAverage_z;
+double accelerationAverage_xRotated;
+double accelerationAverage_yRotated;
+double accelerationAverage_zRotated;
 
+double accelerationAverage_xRotatedOffset;
+double accelerationAverage_yRotatedOffset;
+double accelerationAverage_zRotatedOffset;
 
     //=====================================================
     /*
@@ -149,7 +152,7 @@ double accelerationAverage_z;
     For the change in time, since there is some variation in the
     hardware's read rate, we will average a delta time as follows.
 
-    deltaTime = (time0 + time2) / 2 - (time1 + time3) / 2
+    deltaTime = (time1 + time3) / 2 - (time0 + time2) / 2
 
     This method also calls rotateAccelerationsAboutXIn3D, rotateAccelerationsAboutYIn3D,
     and rotateAccelerationsAboutZIn3D to re-orthogonalize the acceleration
@@ -207,17 +210,21 @@ double accelerationAverage_z;
     double radiansFromY;
     double radiansFromZ;
 
-    double averageRadiansPerSecondInGyroXAxis;
-    double averageRadiansPerSecondInGyroYAxis;
-    double averageRadiansPerSecondInGyroZAxis;
-
-    double averageRadiansPerSecondInGyroXAxisOffset;
-    double averageRadiansPerSecondInGyroYAxisOffset;
-    double averageRadiansPerSecondInGyroZAxisOffset;
+    double accelerationAverage_x;
+    double accelerationAverage_y;
+    double accelerationAverage_z;
 
     double accelerationAverage_xOffset;
     double accelerationAverage_yOffset;
     double accelerationAverage_zOffset;
+
+    double averageRadiansPerSecondInGyro_XAxis;
+    double averageRadiansPerSecondInGyro_YAxis;
+    double averageRadiansPerSecondInGyro_ZAxis;
+
+    double averageRadiansPerSecondInGyro_XAxisOffset;
+    double averageRadiansPerSecondInGyro_YAxisOffset;
+    double averageRadiansPerSecondInGyro_ZAxisOffset;
 
     double currentVelocity_x;
     double currentVelocity_y;
@@ -254,91 +261,83 @@ double accelerationAverage_z;
         radiansFromY = 0;
         radiansFromZ = 0;
 
+        averageRadiansPerSecondInGyro_XAxis = 0;
+        averageRadiansPerSecondInGyro_YAxis = 0;
+        averageRadiansPerSecondInGyro_ZAxis = 0;
+
+        accelerationAverage_xRotated = 0;
+        accelerationAverage_yRotated = 0;
+        accelerationAverage_zRotated = 0;
+
+        accelerationAverage_xRotatedOffset = 0;
+        accelerationAverage_yRotatedOffset = 0;
+        accelerationAverage_zRotatedOffset = 0;
+
+        for (int i=0; i < 10; i++)
+            {
+            averageRadiansPerSecondInGyro_XAxis = averageRadiansPerSecondInGyro_XAxis +
+                                                  dataLineList.elementAt(i).xAxisGyro_MPU9250;
+            }
+
+        averageRadiansPerSecondInGyro_XAxis = averageRadiansPerSecondInGyro_XAxis * (3.1416/180 / 10);
+        averageRadiansPerSecondInGyro_XAxisOffset = averageRadiansPerSecondInGyro_XAxis;
 
 
-        averageRadiansPerSecondInGyroXAxis = (
-                                              dataLineList.elementAt(0).xAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(1).xAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(2).xAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(3).xAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(4).xAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(5).xAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(6).xAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(7).xAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(8).xAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(9).xAxisGyro_MPU9250
-                                                                                         ) * (3.1416/180 / 10);
-        averageRadiansPerSecondInGyroXAxisOffset = averageRadiansPerSecondInGyroXAxis;
 
-        averageRadiansPerSecondInGyroYAxis = (
-                                              dataLineList.elementAt(0).yAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(1).yAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(2).yAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(3).yAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(4).yAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(5).yAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(6).yAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(7).yAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(8).yAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(9).yAxisGyro_MPU9250
-                                                                                         ) * (3.1416/180 / 10);
-        averageRadiansPerSecondInGyroYAxisOffset = averageRadiansPerSecondInGyroYAxis;
+        for (int i=0; i < 10; i++)
+            {
+            averageRadiansPerSecondInGyro_YAxis = averageRadiansPerSecondInGyro_YAxis +
+                                                  dataLineList.elementAt(i).yAxisGyro_MPU9250;
+            }
 
-        averageRadiansPerSecondInGyroZAxis = (
-                                              dataLineList.elementAt(0).zAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(1).zAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(2).zAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(3).zAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(4).zAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(5).zAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(6).zAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(7).zAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(8).zAxisGyro_MPU9250 +
-                                              dataLineList.elementAt(9).zAxisGyro_MPU9250
-                                                                                         ) * (3.1416/180 / 10);
-        averageRadiansPerSecondInGyroZAxisOffset = averageRadiansPerSecondInGyroZAxis;
+        averageRadiansPerSecondInGyro_YAxis = averageRadiansPerSecondInGyro_YAxis * (3.1416/180 / 10);
+        averageRadiansPerSecondInGyro_YAxisOffset = averageRadiansPerSecondInGyro_YAxis;
 
-        accelerationAverage_x = (
-                                 dataLineList.elementAt(0).xAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(1).xAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(2).xAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(3).xAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(4).xAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(5).xAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(6).xAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(7).xAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(8).xAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(9).xAxisAccel_MPU9250
-                                                                             ) / 10;
+
+
+
+        for (int i=0; i < 10; i++)
+            {
+            averageRadiansPerSecondInGyro_ZAxis = averageRadiansPerSecondInGyro_ZAxis +
+                                                  dataLineList.elementAt(i).zAxisGyro_MPU9250;
+            }
+
+        averageRadiansPerSecondInGyro_ZAxis = averageRadiansPerSecondInGyro_ZAxis * (3.1416/180 / 10);
+        averageRadiansPerSecondInGyro_ZAxisOffset = averageRadiansPerSecondInGyro_ZAxis;
+
+        accelerationAverage_x = 0;
+        accelerationAverage_y = 0;
+        accelerationAverage_z = 0;
+
+        for (int i=0; i < 10; i++)
+            {
+            accelerationAverage_x = accelerationAverage_x +
+                                    dataLineList.elementAt(i).xAxisAccel_MPU9250;
+            }
+
+        accelerationAverage_x = accelerationAverage_x / 10;
         accelerationAverage_xOffset = accelerationAverage_x;
 
-        accelerationAverage_y = (
-                                 dataLineList.elementAt(0).yAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(1).yAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(2).yAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(3).yAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(4).yAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(5).yAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(6).yAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(7).yAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(8).yAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(9).yAxisAccel_MPU9250
-                                                                             ) / 10;
+
+        for (int i=0; i < 10; i++)
+            {
+            accelerationAverage_y = accelerationAverage_y +
+                                    dataLineList.elementAt(i).yAxisAccel_MPU9250;
+            }
+
+        accelerationAverage_y = accelerationAverage_y / 10;
         accelerationAverage_yOffset = accelerationAverage_y;
 
-        accelerationAverage_z = (
-                                 dataLineList.elementAt(0).zAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(1).zAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(2).zAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(3).zAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(4).zAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(5).zAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(6).zAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(7).zAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(8).zAxisAccel_MPU9250 +
-                                 dataLineList.elementAt(9).zAxisAccel_MPU9250
-                                                                             ) / 10;
+
+        for (int i=0; i < 10; i++)
+            {
+            accelerationAverage_z = accelerationAverage_z +
+                                    dataLineList.elementAt(i).zAxisAccel_MPU9250;
+            }
+
+        accelerationAverage_z = accelerationAverage_z / 10;
         accelerationAverage_zOffset = accelerationAverage_z;
+
 
 //System.out.println("accerlerationAverages: " + accelerationAverage_x + " " + accelerationAverage_y + " " + accelerationAverage_z);
 
@@ -392,46 +391,51 @@ double accelerationAverage_z;
             deltaTime = (time1 + time3) / 2 - (time0 + time2) / 2;
 
 //System.out.println("deltaTime:             " + deltaTime);
+//System.out.println("deltaTime basic:       " + (time1 - time0));
 
                                                                     //Angle calculations
 
-            radiansFromX = (averageRadiansPerSecondInGyroXAxis -
-                            averageRadiansPerSecondInGyroXAxisOffset) *
+            radiansFromX = (averageRadiansPerSecondInGyro_XAxis -
+                            averageRadiansPerSecondInGyro_XAxisOffset) *
                             deltaTime + radiansFromX;
 
-            radiansFromY = (averageRadiansPerSecondInGyroYAxis -
-                            averageRadiansPerSecondInGyroYAxisOffset) *
+            radiansFromY = (averageRadiansPerSecondInGyro_YAxis -
+                            averageRadiansPerSecondInGyro_YAxisOffset) *
                             deltaTime + radiansFromY;
 
-            radiansFromZ = (averageRadiansPerSecondInGyroZAxis -
-                            averageRadiansPerSecondInGyroZAxisOffset) *
+            radiansFromZ = (averageRadiansPerSecondInGyro_ZAxis -
+                            averageRadiansPerSecondInGyro_ZAxisOffset) *
                             deltaTime + radiansFromZ;
 
-//System.out.println("radiansFrom X: " + radiansFromX + " Y: " + radiansFromY + " Z: " + radiansFromZ);
+//System.out.println("averageRadiansPerSecondInGyroXAxis: " + averageRadiansPerSecondInGyroXAxis);
+//System.out.println("averageRadiansPerSecondInGyroYAxis: " + averageRadiansPerSecondInGyroYAxis);
+//System.out.println("averageRadiansPerSecondInGyroZAxis: " + averageRadiansPerSecondInGyroZAxis);
+//System.out.println("radiansFromX: " + radiansFromX + "\nradiansFromY: " + radiansFromY + "\nradiansFromZ: " + radiansFromZ + "\n");
 
                                                                     //Correct for drift from original Axes
                                                                     //Re-orthogonalize with rotational matrices
 
-            rotateAccelerationsAboutXIn3D(accelerationAverage_x, accelerationAverage_y,
-                                          accelerationAverage_z, radiansFromX);
+            rotateAccelerationsIn3D(accelerationAverage_x, accelerationAverage_y,
+                                    accelerationAverage_z, radiansFromX, radiansFromY,
+                                    radiansFromZ);
 
-            rotateAccelerationsAboutYIn3D(accelerationAverage_x, accelerationAverage_y,
-                                          accelerationAverage_z, radiansFromY);
-
-            rotateAccelerationsAboutZIn3D(accelerationAverage_x, accelerationAverage_y,
-                                          accelerationAverage_z, radiansFromZ);
-
+                                                                    //Also need to correct offsets
+            rotateAccelerationOffsetsIn3D(accelerationAverage_xOffset,
+                                          accelerationAverage_yOffset,
+                                          accelerationAverage_zOffset,
+                                          radiansFromX, radiansFromY,
+                                          radiansFromZ);
 
                                                                     //Calculate each pair of points
                                                                     //Acceleration
             orderedPair_TxA_x = new OrderedPair(time0 - timeOffset,
-                                                accelerationAverage_x - accelerationAverage_xOffset);
+                                                accelerationAverage_xRotated - accelerationAverage_xRotatedOffset);
 
             orderedPair_TxA_y = new OrderedPair(time0 - timeOffset,
-                                                accelerationAverage_y - accelerationAverage_yOffset);
+                                                accelerationAverage_yRotated - accelerationAverage_yRotatedOffset);
 
             orderedPair_TxA_z = new OrderedPair(time0 - timeOffset,
-                                                accelerationAverage_z - accelerationAverage_zOffset);
+                                                accelerationAverage_zRotated - accelerationAverage_zRotatedOffset);
 
 //System.out.println("accelerationAverage_x: " + (accelerationAverage_x - accelerationAverage_xOffset));
 //System.out.println("accelerationAverage_y: " + (accelerationAverage_y - accelerationAverage_yOffset));
@@ -440,13 +444,13 @@ double accelerationAverage_z;
 
                                                                     //Velocity
 
-            currentVelocity_x = (accelerationAverage_x - accelerationAverage_xOffset) *
+            currentVelocity_x = (accelerationAverage_xRotated - accelerationAverage_xRotatedOffset) *
                                  deltaTime + previousVelocity_x;
 
-            currentVelocity_y = (accelerationAverage_y - accelerationAverage_yOffset) *
+            currentVelocity_y = (accelerationAverage_yRotated - accelerationAverage_yRotatedOffset) *
                                  deltaTime + previousVelocity_y;
 
-            currentVelocity_z = (accelerationAverage_z - accelerationAverage_zOffset) *
+            currentVelocity_z = (accelerationAverage_zRotated - accelerationAverage_zRotatedOffset) *
                                  deltaTime + previousVelocity_z;
 
             orderedPair_TxV_x = new OrderedPair(time0 - timeOffset, currentVelocity_x);
@@ -484,16 +488,16 @@ double accelerationAverage_z;
 
                                                                     //Gyroscope
             orderedPair_TxGyro_x = new OrderedPair(time0 - timeOffset,
-                                                   averageRadiansPerSecondInGyroXAxis -
-                                                   averageRadiansPerSecondInGyroXAxisOffset);
+                                                   averageRadiansPerSecondInGyro_XAxis -
+                                                   averageRadiansPerSecondInGyro_XAxisOffset);
 
             orderedPair_TxGyro_y = new OrderedPair(time0 - timeOffset,
-                                                   averageRadiansPerSecondInGyroYAxis -
-                                                   averageRadiansPerSecondInGyroYAxisOffset);
+                                                   averageRadiansPerSecondInGyro_YAxis -
+                                                   averageRadiansPerSecondInGyro_YAxisOffset);
 
             orderedPair_TxGyro_z = new OrderedPair(time0 - timeOffset,
-                                                   averageRadiansPerSecondInGyroZAxis -
-                                                   averageRadiansPerSecondInGyroZAxisOffset);
+                                                   averageRadiansPerSecondInGyro_ZAxis -
+                                                   averageRadiansPerSecondInGyro_ZAxisOffset);
 
 //System.out.println("averageRadiansPerSecondInGyroXAxis: " + (averageRadiansPerSecondInGyroXAxis - averageRadiansPerSecondInGyroXAxisOffset));
 
@@ -525,14 +529,14 @@ double accelerationAverage_z;
             accelerationAverage_z = accelerationAverage_z * 10 -
                                     dataLineList.firstElement().zAxisAccel_MPU9250;
 
-            averageRadiansPerSecondInGyroXAxis = averageRadiansPerSecondInGyroXAxis * 10 * 180/3.1416 -
-                                                 dataLineList.firstElement().xAxisGyro_MPU9250;
+            averageRadiansPerSecondInGyro_XAxis = averageRadiansPerSecondInGyro_XAxis * 10 * 180/3.1416 -
+                                                  dataLineList.firstElement().xAxisGyro_MPU9250;
 
-            averageRadiansPerSecondInGyroYAxis = averageRadiansPerSecondInGyroYAxis * 10 * 180/3.1416 -
-                                                 dataLineList.firstElement().yAxisGyro_MPU9250;
+            averageRadiansPerSecondInGyro_YAxis = averageRadiansPerSecondInGyro_YAxis * 10 * 180/3.1416 -
+                                                  dataLineList.firstElement().yAxisGyro_MPU9250;
 
-            averageRadiansPerSecondInGyroZAxis = averageRadiansPerSecondInGyroZAxis * 10 * 180/3.1416 -
-                                                 dataLineList.firstElement().zAxisGyro_MPU9250;
+            averageRadiansPerSecondInGyro_ZAxis = averageRadiansPerSecondInGyro_ZAxis * 10 * 180/3.1416 -
+                                                  dataLineList.firstElement().zAxisGyro_MPU9250;
 
 
                                                                     //remove the first row from the listmodel
@@ -546,17 +550,17 @@ double accelerationAverage_z;
             accelerationAverage_y = (accelerationAverage_y + dataLineList.lastElement().yAxisAccel_MPU9250) / 10;
             accelerationAverage_z = (accelerationAverage_z + dataLineList.lastElement().zAxisAccel_MPU9250) / 10;
 
-            averageRadiansPerSecondInGyroXAxis = (averageRadiansPerSecondInGyroXAxis +
-                                                  dataLineList.lastElement().xAxisGyro_MPU9250) *
-                                                  3.1416/180 / 10;
+            averageRadiansPerSecondInGyro_XAxis = (averageRadiansPerSecondInGyro_XAxis +
+                                                   dataLineList.lastElement().xAxisGyro_MPU9250) *
+                                                   3.1416/180 / 10;
 
-            averageRadiansPerSecondInGyroYAxis = (averageRadiansPerSecondInGyroYAxis +
-                                                  dataLineList.lastElement().yAxisGyro_MPU9250) *
-                                                  3.1416/180 / 10;
+            averageRadiansPerSecondInGyro_YAxis = (averageRadiansPerSecondInGyro_YAxis +
+                                                   dataLineList.lastElement().yAxisGyro_MPU9250) *
+                                                   3.1416/180 / 10;
 
-            averageRadiansPerSecondInGyroZAxis = (averageRadiansPerSecondInGyroZAxis +
-                                                  dataLineList.lastElement().zAxisGyro_MPU9250) *
-                                                  3.1416/180 / 10;
+            averageRadiansPerSecondInGyro_ZAxis = (averageRadiansPerSecondInGyro_ZAxis +
+                                                   dataLineList.lastElement().zAxisGyro_MPU9250) *
+                                                   3.1416/180 / 10;
 
 
 
@@ -740,83 +744,132 @@ double accelerationAverage_z;
     }
     //=====================================================
     /*
-    rotateAccelerationsAboutXIn3D accepts three accelerations
-    to transform and an angle from the X axis to transform them
-    about. It returns nothing as it modifies the accelerations
-    given to it. No exceptions are caught.
+    rotateAccelerationsIn3D accepts three accelerations
+    to transform and three angles from the axes to transform them
+    about. It returns nothing, but sets three classwide variables.
+    No exceptions are caught.
     */
     //=====================================================
-    void rotateAccelerationsAboutXIn3D(double accelerationAverage_x,
-                                       double accelerationAverage_y,
-                                       double accelerationAverage_z,
-                                       double radiansFromX)
+    void rotateAccelerationsIn3D(double accelerationAverage_x,
+                                 double accelerationAverage_y,
+                                 double accelerationAverage_z,
+                                 double radiansFromX,
+                                 double radiansFromY,
+                                 double radiansFromZ)
     {
     //Matrix multiplications, see project notes.
-    this.accelerationAverage_x = 1 * accelerationAverage_x +
-                                 0 * accelerationAverage_y +
-                                 0 * accelerationAverage_z;
 
-    this.accelerationAverage_y = 0 * accelerationAverage_x +
-                                 Math.cos(radiansFromX) * accelerationAverage_y +
-                                 (-1) * Math.sin(radiansFromX) * accelerationAverage_z;
+//accel in x about the x axis
+    accelerationAverage_xRotated = 1 * accelerationAverage_x +
+                                   0 * accelerationAverage_y +
+                                   0 * accelerationAverage_z;
 
-    this.accelerationAverage_z = 0 * accelerationAverage_x +
-                                 Math.sin(radiansFromX) * accelerationAverage_y +
-                                 Math.cos(radiansFromX) * accelerationAverage_z;
+//accel in y about the x axis
+    accelerationAverage_yRotated = 0 * accelerationAverage_x +
+                                   Math.cos(radiansFromX) * accelerationAverage_y +
+                                   (-1) * Math.sin(radiansFromX) * accelerationAverage_z;
+
+//accel in z about the x axis
+    accelerationAverage_zRotated = 0 * accelerationAverage_x +
+                                   Math.sin(radiansFromX) * accelerationAverage_y +
+                                   Math.cos(radiansFromX) * accelerationAverage_z;
+
+//accel in x about the y axis
+    accelerationAverage_xRotated = Math.cos(radiansFromY) * accelerationAverage_xRotated +
+                                   0 * accelerationAverage_yRotated +
+                                   Math.sin(radiansFromY) * accelerationAverage_zRotated;
+
+//accel in y about the y axis
+    accelerationAverage_yRotated = 0 * accelerationAverage_xRotated +
+                                   1 * accelerationAverage_yRotated +
+                                   0 * accelerationAverage_zRotated;
+
+//accel in z about the y axis
+    accelerationAverage_zRotated = (-1) * Math.sin(radiansFromY) * accelerationAverage_xRotated +
+                                   0 * accelerationAverage_yRotated +
+                                   Math.cos(radiansFromY) * accelerationAverage_zRotated;
+
+//accel in x about the z axis
+    accelerationAverage_xRotated = Math.cos(radiansFromZ) * accelerationAverage_xRotated +
+                                   (-1) * Math.sin(radiansFromZ) * accelerationAverage_yRotated +
+                                   0 * accelerationAverage_zRotated;
+
+//accel in y about the z axis
+    accelerationAverage_yRotated = Math.sin(radiansFromZ) * accelerationAverage_xRotated +
+                                   Math.cos(radiansFromZ) * accelerationAverage_yRotated +
+                                   0 * accelerationAverage_zRotated;
+
+//accel in z about the z axis
+    accelerationAverage_zRotated = 0 * accelerationAverage_xRotated +
+                                   0 * accelerationAverage_yRotated +
+                                   1 * accelerationAverage_zRotated;
+
     }
     //=====================================================
     /*
-    rotateAccelerationsAboutYIn3D accepts three accelerations
-    to transform and an angle from the Y axis to transform them
-    about. It returns nothing as it modifies the accelerations
-    given to it. No exceptions are caught.
+    rotateAccelerationOffsetsIn3D accepts three accelerations
+    to transform and three angles from the axss to transform them
+    about. It returns nothing, but sets three classwide variables.
+    No exceptions are caught.
     */
     //=====================================================
-    void rotateAccelerationsAboutYIn3D(double accelerationAverage_x,
-                                       double accelerationAverage_y,
-                                       double accelerationAverage_z,
-                                       double radiansFromY)
-    {
-    //Matrix multiplications, see project notes.
-    this.accelerationAverage_x = Math.cos(radiansFromY) * accelerationAverage_x +
-                                 0 * accelerationAverage_y +
-                                 Math.sin(radiansFromY) * accelerationAverage_z;
-
-    this.accelerationAverage_y = 0 * accelerationAverage_x +
-                                 1 * accelerationAverage_y +
-                                 0 * accelerationAverage_z;
-
-    this.accelerationAverage_z = (-1) * Math.sin(radiansFromY) * accelerationAverage_x +
-                                 0 * accelerationAverage_y +
-                                 Math.cos(radiansFromY) * accelerationAverage_z;
-    }
-    //=====================================================
-    /*
-    rotateAccelerationsAboutZIn3D accepts three accelerations
-    to transform and an angle from the Z axis to transform them
-    about. It returns nothing as it modifies the accelerations
-    given to it. No exceptions are caught.
-    */
-    //=====================================================
-    void rotateAccelerationsAboutZIn3D(double accelerationAverage_x,
-                                       double accelerationAverage_y,
-                                       double accelerationAverage_z,
+    void rotateAccelerationOffsetsIn3D(double accelerationAverage_xOffset,
+                                       double accelerationAverage_yOffset,
+                                       double accelerationAverage_zOffset,
+                                       double radiansFromX,
+                                       double radiansFromY,
                                        double radiansFromZ)
     {
     //Matrix multiplications, see project notes.
-    this.accelerationAverage_x = Math.cos(radiansFromZ) * accelerationAverage_x +
-                                 (-1) * Math.sin(radiansFromZ) * accelerationAverage_y +
-                                 0 * accelerationAverage_z;
 
-    this.accelerationAverage_y = Math.sin(radiansFromZ) * accelerationAverage_x +
-                                 Math.cos(radiansFromZ) * accelerationAverage_y +
-                                 0 * accelerationAverage_z;
+//accel offset x in the x axis
+    accelerationAverage_xRotatedOffset = 1 * accelerationAverage_xOffset +
+                                         0 * accelerationAverage_yOffset +
+                                         0 * accelerationAverage_zOffset;
 
-    this.accelerationAverage_z = 0 * accelerationAverage_x +
-                                 0 * accelerationAverage_y +
-                                 1 * accelerationAverage_z;
+//accel offset y in the x axis
+    accelerationAverage_yRotatedOffset = 0 * accelerationAverage_xOffset +
+                                         Math.cos(radiansFromX) * accelerationAverage_yOffset +
+                                         (-1) * Math.sin(radiansFromX) * accelerationAverage_zOffset;
+
+//accel offset z in the x axis
+    accelerationAverage_zRotatedOffset = 0 * accelerationAverage_xOffset +
+                                         Math.sin(radiansFromX) * accelerationAverage_yOffset +
+                                         Math.cos(radiansFromX) * accelerationAverage_zOffset;
+
+//accel offset x in the y axis
+    accelerationAverage_xRotatedOffset = Math.cos(radiansFromY) * accelerationAverage_xRotatedOffset +
+                                         0 * accelerationAverage_yRotatedOffset +
+                                         Math.sin(radiansFromY) * accelerationAverage_zRotatedOffset;
+
+//accel offset y in the y axis
+    accelerationAverage_yRotatedOffset = 0 * accelerationAverage_xRotatedOffset +
+                                         1 * accelerationAverage_yRotatedOffset +
+                                         0 * accelerationAverage_zRotatedOffset;
+
+//accel offset z in the y axis
+    accelerationAverage_zRotatedOffset = (-1) * Math.sin(radiansFromY) * accelerationAverage_xRotatedOffset +
+                                         0 * accelerationAverage_yRotatedOffset +
+                                         Math.cos(radiansFromY) * accelerationAverage_zRotatedOffset;
+
+//accel offset x in the z axis
+    accelerationAverage_xRotatedOffset = Math.cos(radiansFromZ) * accelerationAverage_xRotatedOffset +
+                                         (-1) * Math.sin(radiansFromZ) * accelerationAverage_yRotatedOffset +
+                                         0 * accelerationAverage_zRotatedOffset;
+
+//accel offset y in the z axis
+    accelerationAverage_yRotatedOffset = Math.sin(radiansFromZ) * accelerationAverage_xRotatedOffset +
+                                         Math.cos(radiansFromZ) * accelerationAverage_yRotatedOffset +
+                                         0 * accelerationAverage_zRotatedOffset;
+
+//accel offset z in the z axis
+    accelerationAverage_zRotatedOffset = 0 * accelerationAverage_xRotatedOffset +
+                                         0 * accelerationAverage_yRotatedOffset +
+                                         1 * accelerationAverage_zRotatedOffset;
+
     }
     //=====================================================
+
 
 
 
