@@ -14,10 +14,8 @@ import javax.swing.DefaultListModel;
 public class Calculator
 {
 
-//FileInputStream fileInputStream;
 FileOutputStream fileOutputStream;
 
-//ObjectInputStream objectInputStream;
 ObjectOutputStream oos_TxA_x;
 ObjectOutputStream oos_TxA_y;
 ObjectOutputStream oos_TxA_z;
@@ -366,15 +364,6 @@ double accelerationAverage_zRotatedOffset;
         counter = 0;
         while (true)                                                //end of file exception will kick out of the loop.
             {
-                                                                    //The initial averages for acceleration have been
-                                                                    //calculated using every point, but now for computational
-                                                                    //efficiency we will multiply by ten, subtract oldest
-                                                                    //acceleration, then add newest, then divide by ten again.
-                                                                    //Is one addition, one subtraction, one multiply, and one
-                                                                    //divide actually faster than 9 additions and one dividsion?
-                                                                    //If we scale up to more points per average, then obviously
-                                                                    //this method gets faster. Additionally, multiplying and dividing by
-                                                                    //10 should just be a shift operation.
 
                                                                     //Delta Time calculations
             time0 = dataLineList.elementAt(0).timeInMicroSeconds;
@@ -392,6 +381,7 @@ double accelerationAverage_zRotatedOffset;
 
 //System.out.println("deltaTime:             " + deltaTime);
 //System.out.println("deltaTime basic:       " + (time1 - time0));
+
 
                                                                     //Angle calculations
 
@@ -425,6 +415,27 @@ double accelerationAverage_zRotatedOffset;
                                           accelerationAverage_zOffset,
                                           radiansFromX, radiansFromY,
                                           radiansFromZ);
+
+
+
+                                                                    //Test for noise about zero and ignore it.
+            if (accelerationAverage_xRotated - accelerationAverage_xRotatedOffset < 0.2 &&
+                accelerationAverage_xRotated - accelerationAverage_xRotatedOffset > -0.2)
+                {
+                accelerationAverage_xRotated = accelerationAverage_xRotatedOffset;
+                }
+
+            if (accelerationAverage_yRotated - accelerationAverage_yRotatedOffset < 0.2 &&
+                accelerationAverage_yRotated - accelerationAverage_yRotatedOffset > -0.2)
+                {
+                accelerationAverage_yRotated = accelerationAverage_yRotatedOffset;
+                }
+
+            if (accelerationAverage_zRotated - accelerationAverage_zRotatedOffset < 0.2 &&
+                accelerationAverage_zRotated - accelerationAverage_zRotatedOffset > -0.2)
+                {
+                accelerationAverage_zRotated = accelerationAverage_zRotatedOffset;
+                }
 
                                                                     //Calculate each pair of points
                                                                     //Acceleration
