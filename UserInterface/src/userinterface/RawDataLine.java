@@ -12,6 +12,7 @@ class uses a BufferedReader over a FileReader for convenience.
 The order of the datamembers is hard coded, so the file lines
 should be ordered appropriately.
  */
+
 import java.io.*;
 import java.lang.reflect.*;
 import java.util.zip.DataFormatException;
@@ -34,6 +35,7 @@ class RawDataLine
     //=====================================================
     RawDataLine()                                               //Constructor
     {
+
         timeInMicroSeconds = 0;
         xAxisAccel_MPU9250 = 0;
         yAxisAccel_MPU9250 = 0;
@@ -44,6 +46,7 @@ class RawDataLine
         xAxisAccel_ADXL377 = 0;
         yAxisAccel_ADXL377 = 0;
         zAxisAccel_ADXL377 = 0;
+
     }
 
     //=====================================================
@@ -61,11 +64,15 @@ class RawDataLine
     be thrown out.
      */
     //=====================================================
-    void readFileLine(BufferedReader rawFileBufferedReader) throws IOException, EOFException
+    void readFileLine(BufferedReader rawFileBufferedReader)
+            throws IOException,
+            EOFException
     {
         String fileLine;
+
         try
         {
+
             fileLine = rawFileBufferedReader.readLine();
 
             if (fileLine == null)
@@ -80,7 +87,7 @@ class RawDataLine
         }
         catch (DataFormatException dfe)
         {
-            System.out.println("File line doesn't match regular expression.");
+            System.out.println("Bad File Line.");
 
             timeInMicroSeconds = -1;
         }
@@ -107,10 +114,7 @@ class RawDataLine
         String regularExpressionForFileLine;
         String[] stringArray;
 
-        regularExpressionForFileLine = "[0-9]+[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*";
-        // removed "new String(...)"
-        //Using the java.lang.String(String) constructor wastes memory because the object so constructed will be functionally indistinguishable from the String passed as a parameter. 
-        //Just use the argument String directly.
+        regularExpressionForFileLine = new String("[0-9]+[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*[,][-]?[0-9]+[.]?[0-9]*");
 
         if (fileLine.matches(regularExpressionForFileLine))
         {
@@ -137,6 +141,22 @@ class RawDataLine
 
                 zAxisAccel_MPU9250 = Double.parseDouble(
                         (String) Array.get(stringArray, 3));
+                //test for bound of unit
+                //the MPU9250 can't have more than 16g's
+                //of acceleration
+                if (xAxisAccel_MPU9250 > 16 * 9.81
+                        || yAxisAccel_MPU9250 > 16 * 9.81
+                        || zAxisAccel_MPU9250 > 16 * 9.81)
+                {
+                    throw new DataFormatException();
+                }
+
+                if (xAxisAccel_MPU9250 < -16 * 9.81
+                        || yAxisAccel_MPU9250 < -16 * 9.81
+                        || zAxisAccel_MPU9250 < -16 * 9.81)
+                {
+                    throw new DataFormatException();
+                }
 
                 xAxisGyro_MPU9250 = Double.parseDouble(
                         (String) Array.get(stringArray, 4));
@@ -146,6 +166,22 @@ class RawDataLine
 
                 zAxisGyro_MPU9250 = Double.parseDouble(
                         (String) Array.get(stringArray, 6));
+                //test for bound of unit
+                //MPUGyro can have more than 2000
+                //degrees per second velocity
+                if (xAxisGyro_MPU9250 > 2000
+                        || yAxisGyro_MPU9250 > 2000
+                        || zAxisGyro_MPU9250 > 2000)
+                {
+                    throw new DataFormatException();
+                }
+
+                if (xAxisGyro_MPU9250 < -2000
+                        || yAxisGyro_MPU9250 < -2000
+                        || zAxisGyro_MPU9250 < -2000)
+                {
+                    throw new DataFormatException();
+                }
 
                 xAxisAccel_ADXL377 = Double.parseDouble(
                         (String) Array.get(stringArray, 7));
@@ -160,31 +196,41 @@ class RawDataLine
             catch (NumberFormatException nfe)
             {
                 nfe.printStackTrace();
+
                 System.out.println("NumberFormatException thrown in RawDataLine.parseLine");
+
                 throw new DataFormatException();
             }
             catch (NullPointerException npe)
             {
                 npe.printStackTrace();
+
                 System.out.println("NullPointerException thrown in RawDataLine.parseLine");
+
                 throw new DataFormatException();
             }
             catch (IllegalArgumentException iae)
             {
                 iae.printStackTrace();
+
                 System.out.println("IllegalArgumentException thrown in RawDataLine.parseLine");
+
                 throw new DataFormatException();
             }
             catch (ArrayIndexOutOfBoundsException aioobe)
             {
                 aioobe.printStackTrace();
+
                 System.out.println("ArrayIndexOutOfBoundsException thrown in RawDataLine.parseLine");
+
                 throw new DataFormatException();
             }
             catch (Exception ex)
             {
                 ex.printStackTrace();
+
                 System.out.println("Exception thrown in RawDataLine.parseLine");
+
                 throw new DataFormatException();
             }
         }
