@@ -392,7 +392,7 @@ public class FlightPanel extends javax.swing.JPanel
 
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(dataFile)))
             {
-                for (int i = 0; i < 100; i++)//while (true)// will stop once EOF has been reached.
+                while (true)//for (int i = 0; i < 100; i++)// will stop once EOF has been reached.
                 {
                     op = new OrderedPair();
                     op.readOrderedPair(ois);
@@ -434,7 +434,6 @@ public class FlightPanel extends javax.swing.JPanel
     private void initComponents()
     {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
         flightPanelJTabbedPane = new javax.swing.JTabbedPane();
         velocitySplitPlane = new javax.swing.JSplitPane();
         velocityOptionsPanel = new javax.swing.JPanel();
@@ -464,6 +463,12 @@ public class FlightPanel extends javax.swing.JPanel
         gyroXToggleButton = new javax.swing.JToggleButton();
         gyroYToggleButton = new javax.swing.JToggleButton();
         gyroZToggleButton = new javax.swing.JToggleButton();
+
+        setMinimumSize(new java.awt.Dimension(640, 480));
+        setOpaque(false);
+
+        flightPanelJTabbedPane.setMinimumSize(new java.awt.Dimension(1280, 720));
+        flightPanelJTabbedPane.setPreferredSize(new java.awt.Dimension(1280, 720));
 
         velXToggleButton.setText("Velocity X Axis");
         velXToggleButton.addActionListener(new java.awt.event.ActionListener()
@@ -513,10 +518,12 @@ public class FlightPanel extends javax.swing.JPanel
                 .addComponent(velYToggleButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(velZToggleButton)
-                .addContainerGap(550, Short.MAX_VALUE))
+                .addContainerGap(500, Short.MAX_VALUE))
         );
 
         velocitySplitPlane.setLeftComponent(velocityOptionsPanel);
+
+        velocityscrollPane.setMinimumSize(new java.awt.Dimension(1280, 960));
 
         velocityPanel.setLayout(new java.awt.BorderLayout());
         velocityscrollPane.setViewportView(velocityPanel);
@@ -524,6 +531,8 @@ public class FlightPanel extends javax.swing.JPanel
         velocitySplitPlane.setRightComponent(velocityscrollPane);
 
         flightPanelJTabbedPane.addTab("Velocity", velocitySplitPlane);
+
+        accelerationSplitPane.setMinimumSize(new java.awt.Dimension(640, 480));
 
         accelXToggleButton.setText("Acceleration X Axis");
         accelXToggleButton.addActionListener(new java.awt.event.ActionListener()
@@ -573,10 +582,12 @@ public class FlightPanel extends javax.swing.JPanel
                 .addComponent(accelYToggleButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(accelZToggleButton)
-                .addContainerGap(550, Short.MAX_VALUE))
+                .addContainerGap(500, Short.MAX_VALUE))
         );
 
         accelerationSplitPane.setLeftComponent(accelOptionPanel);
+
+        accelScrollPane.setMinimumSize(new java.awt.Dimension(1280, 960));
 
         accelPanel.setLayout(new java.awt.BorderLayout());
         accelScrollPane.setViewportView(accelPanel);
@@ -633,10 +644,12 @@ public class FlightPanel extends javax.swing.JPanel
                 .addComponent(dispYToggleButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dispZToggleButton)
-                .addContainerGap(550, Short.MAX_VALUE))
+                .addContainerGap(500, Short.MAX_VALUE))
         );
 
         displacementSplitPane.setLeftComponent(displacementOptionPanel);
+
+        displacementScrollPane.setMinimumSize(new java.awt.Dimension(1280, 960));
 
         displacementPanel.setLayout(new java.awt.BorderLayout());
         displacementScrollPane.setViewportView(displacementPanel);
@@ -644,6 +657,8 @@ public class FlightPanel extends javax.swing.JPanel
         displacementSplitPane.setRightComponent(displacementScrollPane);
 
         flightPanelJTabbedPane.addTab("Displacement", displacementSplitPane);
+
+        gyroScrollPane.setMinimumSize(new java.awt.Dimension(1280, 960));
 
         gyroPanel.setLayout(new java.awt.BorderLayout());
         gyroScrollPane.setViewportView(gyroPanel);
@@ -698,26 +713,174 @@ public class FlightPanel extends javax.swing.JPanel
                 .addComponent(gyroYToggleButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(gyroZToggleButton)
-                .addContainerGap(550, Short.MAX_VALUE))
+                .addContainerGap(500, Short.MAX_VALUE))
         );
 
         gyroscopeSplitPane.setLeftComponent(gyroAccelPanel);
 
         flightPanelJTabbedPane.addTab("GyroScope", gyroscopeSplitPane);
 
-        jScrollPane1.setViewportView(flightPanelJTabbedPane);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1056, Short.MAX_VALUE)
+            .addComponent(flightPanelJTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1056, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(flightPanelJTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 642, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void gyroZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_gyroZToggleButtonActionPerformed
+    {//GEN-HEADEREND:event_gyroZToggleButtonActionPerformed
+        if (gyroZToggleButton.isSelected())
+        {
+            gyroZSeries = new XYChart.Series<>();
+            gyroZSeries.setName("Gyroscope Z");
+            generateSeries(gyroZFile, gyroZSeries, gyroLineChart);
+        }
+        else
+        {
+            if (!gyroZSeries.getData().isEmpty())
+            {
+                gyroZSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    gyroLineChart.getData().remove(gyroZSeries);
+                });
+            }
+        }
+    }//GEN-LAST:event_gyroZToggleButtonActionPerformed
+
+    private void gyroYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_gyroYToggleButtonActionPerformed
+    {//GEN-HEADEREND:event_gyroYToggleButtonActionPerformed
+        if (gyroYToggleButton.isSelected())
+        {
+            gyroYSeries = new XYChart.Series<>();
+            gyroYSeries.setName("Gyroscope Y");
+            generateSeries(gyroYFile, gyroYSeries, gyroLineChart);
+        }
+        else
+        {
+            if (!gyroYSeries.getData().isEmpty())
+            {
+                gyroYSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    gyroLineChart.getData().remove(gyroYSeries);
+                });
+            }
+        }
+    }//GEN-LAST:event_gyroYToggleButtonActionPerformed
+
+    private void gyroXToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_gyroXToggleButtonActionPerformed
+    {//GEN-HEADEREND:event_gyroXToggleButtonActionPerformed
+        if (gyroXToggleButton.isSelected())
+        {
+            gyroXSeries = new XYChart.Series<>();
+            gyroXSeries.setName("Gyroscope X");
+            generateSeries(gyroXFile, gyroXSeries, gyroLineChart);
+        }
+        else
+        {
+            if (!gyroXSeries.getData().isEmpty())
+            {
+                gyroXSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    gyroLineChart.getData().remove(gyroXSeries);
+                });
+            }
+        }
+    }//GEN-LAST:event_gyroXToggleButtonActionPerformed
+
+    private void dispZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispZToggleButtonActionPerformed
+    {//GEN-HEADEREND:event_dispZToggleButtonActionPerformed
+        if (dispZToggleButton.isSelected())
+        {
+            dispZSeries = new XYChart.Series<>();
+            dispZSeries.setName("Displacement Z");
+            generateSeries(dispZFile, dispZSeries, dispLineChart);
+        }
+        else
+        {
+            if (!dispZSeries.getData().isEmpty())
+            {
+                dispZSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    dispLineChart.getData().remove(dispZSeries);
+                });
+            }
+        }
+    }//GEN-LAST:event_dispZToggleButtonActionPerformed
+
+    private void dispYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispYToggleButtonActionPerformed
+    {//GEN-HEADEREND:event_dispYToggleButtonActionPerformed
+        if (dispYToggleButton.isSelected())
+        {
+            dispYSeries = new XYChart.Series<>();
+            dispYSeries.setName("Displacement Y");
+            generateSeries(dispYFile, dispYSeries, dispLineChart);
+        }
+        else
+        {
+            if (!dispYSeries.getData().isEmpty())
+            {
+                dispYSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    dispLineChart.getData().remove(dispYSeries);
+                });
+            }
+        }
+    }//GEN-LAST:event_dispYToggleButtonActionPerformed
+
+    private void dispXToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispXToggleButtonActionPerformed
+    {//GEN-HEADEREND:event_dispXToggleButtonActionPerformed
+        if (dispXToggleButton.isSelected())
+        {
+            dispXSeries = new XYChart.Series<>();
+            dispXSeries.setName("Displacement X");
+            generateSeries(dispXFile, dispXSeries, dispLineChart);
+        }
+        else
+        {
+            if (!dispXSeries.getData().isEmpty())
+            {
+                dispXSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    dispLineChart.getData().remove(dispXSeries);
+                });
+            }
+        }
+    }//GEN-LAST:event_dispXToggleButtonActionPerformed
+
+    private void accelZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_accelZToggleButtonActionPerformed
+    {//GEN-HEADEREND:event_accelZToggleButtonActionPerformed
+        if (accelZToggleButton.isSelected())
+        {
+            accelZSeries = new XYChart.Series<>();
+            accelZSeries.setName("Acceleration Z");
+            generateSeries(accelZFile, accelZSeries, accelLineChart);
+        }
+        else
+        {
+            if (!accelZSeries.getData().isEmpty())
+            {
+                accelZSeries.getData().clear();
+                Platform.runLater(() ->
+                {
+                    accelLineChart.getData().remove(accelZSeries);
+                });
+            }
+        }
+    }//GEN-LAST:event_accelZToggleButtonActionPerformed
 
     private void accelYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_accelYToggleButtonActionPerformed
     {//GEN-HEADEREND:event_accelYToggleButtonActionPerformed
@@ -761,68 +924,26 @@ public class FlightPanel extends javax.swing.JPanel
         }
     }//GEN-LAST:event_accelXToggleButtonActionPerformed
 
-    private void gyroXToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_gyroXToggleButtonActionPerformed
-    {//GEN-HEADEREND:event_gyroXToggleButtonActionPerformed
-        if (gyroXToggleButton.isSelected())
+    private void velZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_velZToggleButtonActionPerformed
+    {//GEN-HEADEREND:event_velZToggleButtonActionPerformed
+        if (velZToggleButton.isSelected())
         {
-            gyroXSeries = new XYChart.Series<>();
-            gyroXSeries.setName("Gyroscope X");
-            generateSeries(gyroXFile, gyroXSeries, gyroLineChart);
+            velocityZSeries = new XYChart.Series<>();
+            velocityZSeries.setName("Velocity Z");
+            generateSeries(velocityZFile, velocityZSeries, velocityLineChart);
         }
         else
         {
-            if (!gyroXSeries.getData().isEmpty())
+            if (!velocityZSeries.getData().isEmpty())
             {
-                gyroXSeries.getData().clear();
+                velocityZSeries.getData().clear();
                 Platform.runLater(() ->
                 {
-                    gyroLineChart.getData().remove(gyroXSeries);
+                    velocityLineChart.getData().remove(velocityZSeries);
                 });
             }
         }
-    }//GEN-LAST:event_gyroXToggleButtonActionPerformed
-
-    private void gyroYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_gyroYToggleButtonActionPerformed
-    {//GEN-HEADEREND:event_gyroYToggleButtonActionPerformed
-        if (gyroYToggleButton.isSelected())
-        {
-            gyroYSeries = new XYChart.Series<>();
-            gyroYSeries.setName("Gyroscope Y");
-            generateSeries(gyroYFile, gyroYSeries, gyroLineChart);
-        }
-        else
-        {
-            if (!gyroYSeries.getData().isEmpty())
-            {
-                gyroYSeries.getData().clear();
-                Platform.runLater(() ->
-                {
-                    gyroLineChart.getData().remove(gyroYSeries);
-                });
-            }
-        }
-    }//GEN-LAST:event_gyroYToggleButtonActionPerformed
-
-    private void velXToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_velXToggleButtonActionPerformed
-    {//GEN-HEADEREND:event_velXToggleButtonActionPerformed
-        if (velXToggleButton.isSelected())
-        {
-            velocityXSeries = new XYChart.Series<>();
-            velocityXSeries.setName("Velocity X");
-            generateSeries(velocityXFile, velocityXSeries, velocityLineChart);
-        }
-        else
-        {
-            if (!velocityXSeries.getData().isEmpty())
-            {
-                velocityXSeries.getData().clear();
-                Platform.runLater(() ->
-                {
-                    velocityLineChart.getData().remove(velocityXSeries);
-                });
-            }
-        }
-    }//GEN-LAST:event_velXToggleButtonActionPerformed
+    }//GEN-LAST:event_velZToggleButtonActionPerformed
 
     private void velYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_velYToggleButtonActionPerformed
     {//GEN-HEADEREND:event_velYToggleButtonActionPerformed
@@ -845,131 +966,26 @@ public class FlightPanel extends javax.swing.JPanel
         }
     }//GEN-LAST:event_velYToggleButtonActionPerformed
 
-    private void dispXToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispXToggleButtonActionPerformed
-    {//GEN-HEADEREND:event_dispXToggleButtonActionPerformed
-        if (dispXToggleButton.isSelected())
+    private void velXToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_velXToggleButtonActionPerformed
+    {//GEN-HEADEREND:event_velXToggleButtonActionPerformed
+        if (velXToggleButton.isSelected())
         {
-            dispXSeries = new XYChart.Series<>();
-            dispXSeries.setName("Displacement X");
-            generateSeries(dispXFile, dispXSeries, dispLineChart);
+            velocityXSeries = new XYChart.Series<>();
+            velocityXSeries.setName("Velocity X");
+            generateSeries(velocityXFile, velocityXSeries, velocityLineChart);
         }
         else
         {
-            if (!dispXSeries.getData().isEmpty())
+            if (!velocityXSeries.getData().isEmpty())
             {
-                dispXSeries.getData().clear();
+                velocityXSeries.getData().clear();
                 Platform.runLater(() ->
                 {
-                    dispLineChart.getData().remove(dispXSeries);
+                    velocityLineChart.getData().remove(velocityXSeries);
                 });
             }
         }
-    }//GEN-LAST:event_dispXToggleButtonActionPerformed
-
-    private void dispYToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispYToggleButtonActionPerformed
-    {//GEN-HEADEREND:event_dispYToggleButtonActionPerformed
-        if (dispYToggleButton.isSelected())
-        {
-            dispYSeries = new XYChart.Series<>();
-            dispYSeries.setName("Displacement Y");
-            generateSeries(dispYFile, dispYSeries, dispLineChart);
-        }
-        else
-        {
-            if (!dispYSeries.getData().isEmpty())
-            {
-                dispYSeries.getData().clear();
-                Platform.runLater(() ->
-                {
-                    dispLineChart.getData().remove(dispYSeries);
-                });
-            }
-        }
-    }//GEN-LAST:event_dispYToggleButtonActionPerformed
-
-    private void velZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_velZToggleButtonActionPerformed
-    {//GEN-HEADEREND:event_velZToggleButtonActionPerformed
-        if (velZToggleButton.isSelected())
-        {
-            velocityZSeries = new XYChart.Series<>();
-            velocityZSeries.setName("Velocity Z");
-            generateSeries(velocityZFile, velocityZSeries, velocityLineChart);
-        }
-        else
-        {
-            if (!velocityZSeries.getData().isEmpty())
-            {
-                velocityZSeries.getData().clear();
-                Platform.runLater(() ->
-                {
-                    velocityLineChart.getData().remove(velocityZSeries);
-                });
-            }
-        }
-    }//GEN-LAST:event_velZToggleButtonActionPerformed
-
-    private void accelZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_accelZToggleButtonActionPerformed
-    {//GEN-HEADEREND:event_accelZToggleButtonActionPerformed
-        if (accelZToggleButton.isSelected())
-        {
-            accelZSeries = new XYChart.Series<>();
-            accelZSeries.setName("Acceleration Z");
-            generateSeries(accelZFile, accelZSeries, accelLineChart);
-        }
-        else
-        {
-            if (!accelZSeries.getData().isEmpty())
-            {
-                accelZSeries.getData().clear();
-                Platform.runLater(() ->
-                {
-                    accelLineChart.getData().remove(accelZSeries);
-                });
-            }
-        }
-    }//GEN-LAST:event_accelZToggleButtonActionPerformed
-
-    private void dispZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_dispZToggleButtonActionPerformed
-    {//GEN-HEADEREND:event_dispZToggleButtonActionPerformed
-        if (dispZToggleButton.isSelected())
-        {
-            dispZSeries = new XYChart.Series<>();
-            dispZSeries.setName("Displacement Z");
-            generateSeries(dispZFile, dispZSeries, dispLineChart);
-        }
-        else
-        {
-            if (!dispZSeries.getData().isEmpty())
-            {
-                dispZSeries.getData().clear();
-                Platform.runLater(() ->
-                {
-                    dispLineChart.getData().remove(dispZSeries);
-                });
-            }
-        }
-    }//GEN-LAST:event_dispZToggleButtonActionPerformed
-
-    private void gyroZToggleButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_gyroZToggleButtonActionPerformed
-    {//GEN-HEADEREND:event_gyroZToggleButtonActionPerformed
-        if (gyroZToggleButton.isSelected())
-        {
-            gyroZSeries = new XYChart.Series<>();
-            gyroZSeries.setName("Gyroscope Z");
-            generateSeries(gyroZFile, gyroZSeries, gyroLineChart);
-        }
-        else
-        {
-            if (!gyroZSeries.getData().isEmpty())
-            {
-                gyroZSeries.getData().clear();
-                Platform.runLater(() ->
-                {
-                    gyroLineChart.getData().remove(gyroZSeries);
-                });
-            }
-        }
-    }//GEN-LAST:event_gyroZToggleButtonActionPerformed
+    }//GEN-LAST:event_velXToggleButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accelOptionPanel;
@@ -994,7 +1010,6 @@ public class FlightPanel extends javax.swing.JPanel
     private javax.swing.JToggleButton gyroYToggleButton;
     private javax.swing.JToggleButton gyroZToggleButton;
     private javax.swing.JSplitPane gyroscopeSplitPane;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToggleButton velXToggleButton;
     private javax.swing.JToggleButton velYToggleButton;
     private javax.swing.JToggleButton velZToggleButton;
