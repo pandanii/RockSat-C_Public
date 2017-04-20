@@ -524,6 +524,7 @@ public class FlightPanel extends javax.swing.JPanel
         velocitySplitPlane.setLeftComponent(velocityOptionsPanel);
 
         velocityscrollPane.setMinimumSize(new java.awt.Dimension(1280, 960));
+        velocityscrollPane.setName(""); // NOI18N
 
         velocityPanel.setLayout(new java.awt.BorderLayout());
         velocityscrollPane.setViewportView(velocityPanel);

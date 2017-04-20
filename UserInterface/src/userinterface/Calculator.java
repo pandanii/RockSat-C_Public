@@ -404,20 +404,20 @@ public class Calculator
                         radiansFromZ);
 
                 //Test for noise about zero and ignore it.
-                if (accelerationAverage_xRotated - accelerationAverage_xRotatedOffset < 0.2
-                        && accelerationAverage_xRotated - accelerationAverage_xRotatedOffset > -0.2)
+                if (accelerationAverage_xRotated - accelerationAverage_xRotatedOffset < 0.1
+                        && accelerationAverage_xRotated - accelerationAverage_xRotatedOffset > -0.1)
                 {
                     accelerationAverage_xRotated = accelerationAverage_xRotatedOffset;
                 }
 
-                if (accelerationAverage_yRotated - accelerationAverage_yRotatedOffset < 0.2
-                        && accelerationAverage_yRotated - accelerationAverage_yRotatedOffset > -0.2)
+                if (accelerationAverage_yRotated - accelerationAverage_yRotatedOffset < 0.1
+                        && accelerationAverage_yRotated - accelerationAverage_yRotatedOffset > -0.1)
                 {
                     accelerationAverage_yRotated = accelerationAverage_yRotatedOffset;
                 }
 
-                if (accelerationAverage_zRotated - accelerationAverage_zRotatedOffset < 0.2
-                        && accelerationAverage_zRotated - accelerationAverage_zRotatedOffset > -0.2)
+                if (accelerationAverage_zRotated - accelerationAverage_zRotatedOffset < 0.1
+                        && accelerationAverage_zRotated - accelerationAverage_zRotatedOffset > -0.1)
                 {
                     accelerationAverage_zRotated = accelerationAverage_zRotatedOffset;
                 }
