@@ -1,5 +1,6 @@
 package userinterface;
 
+import java.io.File;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -147,13 +148,13 @@ public class rsc_jframe extends javax.swing.JFrame
 
     private void loadRawMenuItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_loadRawMenuItemActionPerformed
     {//GEN-HEADEREND:event_loadRawMenuItemActionPerformed
-        rawFlightfile = new java.io.File(".");
-        tempFileChooser = new javax.swing.JFileChooser(rawFlightfile);
+        rawFlightfile = new File(".");
+        tempFileChooser = new JFileChooser(rawFlightfile);
         FileNameExtensionFilter tempFileNameExtensionFilter = new FileNameExtensionFilter("Raw Flight Format (txt, or csv)", "csv", "txt");
         tempFileChooser.addChoosableFileFilter(tempFileNameExtensionFilter);
         tempFileChooser.setFileFilter(tempFileNameExtensionFilter);
         int returnVal = tempFileChooser.showOpenDialog(this);
-        if (returnVal == javax.swing.JFileChooser.APPROVE_OPTION)
+        if (returnVal == JFileChooser.APPROVE_OPTION)
         {
             rawFlightfile = tempFileChooser.getSelectedFile();
             JOptionPane.showMessageDialog(null, "File selected:" + rawFlightfile.getName());
@@ -163,14 +164,14 @@ public class rsc_jframe extends javax.swing.JFrame
 
     private void loadFlightMenutItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_loadFlightMenutItemActionPerformed
     {//GEN-HEADEREND:event_loadFlightMenutItemActionPerformed
-        flightFile = new java.io.File(".");
-        tempFileChooser = new javax.swing.JFileChooser(flightFile);
+        flightFile = new File(".");
+        tempFileChooser = new JFileChooser(flightFile);
         tempFileChooser.setMultiSelectionEnabled(false);
         FileNameExtensionFilter tempFileNameExtensionFilter = new FileNameExtensionFilter("Flight File Format (rsc)", "rsc");
         tempFileChooser.addChoosableFileFilter(tempFileNameExtensionFilter);
         tempFileChooser.setFileFilter(tempFileNameExtensionFilter);
         int returnVal = tempFileChooser.showOpenDialog(this);
-        if (returnVal == javax.swing.JFileChooser.APPROVE_OPTION)
+        if (returnVal == JFileChooser.APPROVE_OPTION)
         {
             flightFile = tempFileChooser.getSelectedFile();
             JOptionPane.showMessageDialog(null, "File selected: " + flightFile.getName());
