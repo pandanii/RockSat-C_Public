@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1" sequence="0" timestamp="1491966680746" analysisTimestamp="1491967036945" release="">
+  <Project projectName="rocksatc">
+    <Jar>C:\Users\John\Desktop\RockSat-C\UserInterface</Jar>
+  </Project>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N">
+    <Class classname="userinterface.Calculator">
+      <SourceLine classname="userinterface.Calculator" sourcefile="Calculator.java" sourcepath="userinterface/Calculator.java"/>
+    </Class>
+    <Method classname="userinterface.Calculator" name="&lt;init&gt;" signature="(Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="userinterface.Calculator" start="58" end="88" startBytecode="0" endBytecode="324" sourcefile="Calculator.java" sourcepath="userinterface/Calculator.java"/>
+    </Method>
+    <Method classname="java.io.FileReader" name="&lt;init&gt;" signature="(Ljava/lang/String;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.FileReader"/>
+    </Method>
+    <SourceLine classname="userinterface.Calculator" start="63" end="63" startBytecode="21" endBytecode="21" sourcefile="Calculator.java" sourcepath="userinterface/Calculator.java"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Method classname="userinterface.FlightPanel" name="&lt;init&gt;" signature="(Ljava/io/File;I)V" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" start="207" end="269" startBytecode="0" endBytecode="222" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Method>
+    <LocalVariable name="calculator" register="3" pc="24" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="userinterface.FlightPanel" start="211" end="211" startBytecode="23" endBytecode="23" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEAD_OBJECT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.KILLED_BY_SUBSEQUENT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="calculator"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="accelLineChart" signature="Ljavafx/scene/chart/LineChart;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/LineChart;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.LineChart" start="79" end="637" sourcefile="LineChart.java" sourcepath="javafx/scene/chart/LineChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="accelScene" signature="Ljavafx/scene/Scene;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/Scene;" role="TYPE_FOUND">
+      <SourceLine classname="javafx.scene.Scene" start="158" end="6374" sourcefile="Scene.java" sourcepath="javafx/scene/Scene.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="accelXSeries" signature="Ljavafx/scene/chart/XYChart$Series;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/XYChart$Series;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.XYChart$Series" start="1435" end="1663" sourcefile="XYChart.java" sourcepath="javafx/scene/chart/XYChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="accelYSeries" signature="Ljavafx/scene/chart/XYChart$Series;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/XYChart$Series;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.XYChart$Series" start="1435" end="1663" sourcefile="XYChart.java" sourcepath="javafx/scene/chart/XYChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="accelZSeries" signature="Ljavafx/scene/chart/XYChart$Series;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/XYChart$Series;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.XYChart$Series" start="1435" end="1663" sourcefile="XYChart.java" sourcepath="javafx/scene/chart/XYChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="dispLineChart" signature="Ljavafx/scene/chart/LineChart;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/LineChart;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.LineChart" start="79" end="637" sourcefile="LineChart.java" sourcepath="javafx/scene/chart/LineChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="dispScene" signature="Ljavafx/scene/Scene;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/Scene;" role="TYPE_FOUND">
+      <SourceLine classname="javafx.scene.Scene" start="158" end="6374" sourcefile="Scene.java" sourcepath="javafx/scene/Scene.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="dispXSeries" signature="Ljavafx/scene/chart/XYChart$Series;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/XYChart$Series;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.XYChart$Series" start="1435" end="1663" sourcefile="XYChart.java" sourcepath="javafx/scene/chart/XYChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="dispYSeries" signature="Ljavafx/scene/chart/XYChart$Series;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/XYChart$Series;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.XYChart$Series" start="1435" end="1663" sourcefile="XYChart.java" sourcepath="javafx/scene/chart/XYChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="dispZSeries" signature="Ljavafx/scene/chart/XYChart$Series;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/XYChart$Series;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.XYChart$Series" start="1435" end="1663" sourcefile="XYChart.java" sourcepath="javafx/scene/chart/XYChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="gyroLineChart" signature="Ljavafx/scene/chart/LineChart;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/LineChart;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.LineChart" start="79" end="637" sourcefile="LineChart.java" sourcepath="javafx/scene/chart/LineChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="gyroScene" signature="Ljavafx/scene/Scene;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/Scene;" role="TYPE_FOUND">
+      <SourceLine classname="javafx.scene.Scene" start="158" end="6374" sourcefile="Scene.java" sourcepath="javafx/scene/Scene.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="gyroXSeries" signature="Ljavafx/scene/chart/XYChart$Series;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/XYChart$Series;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.XYChart$Series" start="1435" end="1663" sourcefile="XYChart.java" sourcepath="javafx/scene/chart/XYChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="gyroYSeries" signature="Ljavafx/scene/chart/XYChart$Series;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/XYChart$Series;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.XYChart$Series" start="1435" end="1663" sourcefile="XYChart.java" sourcepath="javafx/scene/chart/XYChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="gyroZSeries" signature="Ljavafx/scene/chart/XYChart$Series;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/XYChart$Series;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.XYChart$Series" start="1435" end="1663" sourcefile="XYChart.java" sourcepath="javafx/scene/chart/XYChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="velocityLineChart" signature="Ljavafx/scene/chart/LineChart;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/LineChart;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.LineChart" start="79" end="637" sourcefile="LineChart.java" sourcepath="javafx/scene/chart/LineChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="velocityScene" signature="Ljavafx/scene/Scene;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/Scene;" role="TYPE_FOUND">
+      <SourceLine classname="javafx.scene.Scene" start="158" end="6374" sourcefile="Scene.java" sourcepath="javafx/scene/Scene.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="velocityXSeries" signature="Ljavafx/scene/chart/XYChart$Series;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/XYChart$Series;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.XYChart$Series" start="1435" end="1663" sourcefile="XYChart.java" sourcepath="javafx/scene/chart/XYChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="velocityYSeries" signature="Ljavafx/scene/chart/XYChart$Series;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/XYChart$Series;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.XYChart$Series" start="1435" end="1663" sourcefile="XYChart.java" sourcepath="javafx/scene/chart/XYChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="SE_BAD_FIELD" priority="3" rank="19" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="userinterface.FlightPanel">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Class>
+    <Field classname="userinterface.FlightPanel" name="velocityZSeries" signature="Ljavafx/scene/chart/XYChart$Series;" isStatic="false">
+      <SourceLine classname="userinterface.FlightPanel" sourcefile="FlightPanel.java" sourcepath="userinterface/FlightPanel.java"/>
+    </Field>
+    <Type descriptor="Ljavafx/scene/chart/XYChart$Series;" role="TYPE_FOUND" typeParameters="&lt;java.lang.Number,java.lang.Number&gt;">
+      <SourceLine classname="javafx.scene.chart.XYChart$Series" start="1435" end="1663" sourcefile="XYChart.java" sourcepath="javafx/scene/chart/XYChart.java"/>
+    </Type>
+  </BugInstance>
+  <BugInstance type="DM_STRING_CTOR" priority="2" rank="18" abbrev="Dm" category="PERFORMANCE">
+    <Class classname="userinterface.RawDataLine">
+      <SourceLine classname="userinterface.RawDataLine" sourcefile="RawDataLine.java" sourcepath="userinterface/RawDataLine.java"/>
+    </Class>
+    <Method classname="userinterface.RawDataLine" name="parseLine" signature="(Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="userinterface.RawDataLine" start="116" end="209" startBytecode="0" endBytecode="754" sourcefile="RawDataLine.java" sourcepath="userinterface/RawDataLine.java"/>
+    </Method>
+    <SourceLine classname="userinterface.RawDataLine" start="116" end="116" startBytecode="6" endBytecode="6" sourcefile="RawDataLine.java" sourcepath="userinterface/RawDataLine.java"/>
+  </BugInstance>
+  <BugInstance type="URF_UNREAD_FIELD" priority="2" rank="18" abbrev="UrF" category="PERFORMANCE">
+    <Class classname="userinterface.RawDataLine">
+      <SourceLine classname="userinterface.RawDataLine" sourcefile="RawDataLine.java" sourcepath="userinterface/RawDataLine.java"/>
+    </Class>
+    <Field classname="userinterface.RawDataLine" name="xAxisAccel_ADXL377" signature="D" isStatic="false">
+      <SourceLine classname="userinterface.RawDataLine" sourcefile="RawDataLine.java" sourcepath="userinterface/RawDataLine.java"/>
+    </Field>
+    <SourceLine classname="userinterface.RawDataLine" start="45" end="45" startBytecode="41" endBytecode="41" sourcefile="RawDataLine.java" sourcepath="userinterface/RawDataLine.java"/>
+  </BugInstance>
+  <BugInstance type="URF_UNREAD_FIELD" priority="2" rank="18" abbrev="UrF" category="PERFORMANCE">
+    <Class classname="userinterface.RawDataLine">
+      <SourceLine classname="userinterface.RawDataLine" sourcefile="RawDataLine.java" sourcepath="userinterface/RawDataLine.java"/>
+    </Class>
+    <Field classname="userinterface.RawDataLine" name="yAxisAccel_ADXL377" signature="D" isStatic="false">
+      <SourceLine classname="userinterface.RawDataLine" sourcefile="RawDataLine.java" sourcepath="userinterface/RawDataLine.java"/>
+    </Field>
+    <SourceLine classname="userinterface.RawDataLine" start="46" end="46" startBytecode="46" endBytecode="46" sourcefile="RawDataLine.java" sourcepath="userinterface/RawDataLine.java"/>
+  </BugInstance>
+  <BugInstance type="URF_UNREAD_FIELD" priority="2" rank="18" abbrev="UrF" category="PERFORMANCE">
+    <Class classname="userinterface.RawDataLine">
+      <SourceLine classname="userinterface.RawDataLine" sourcefile="RawDataLine.java" sourcepath="userinterface/RawDataLine.java"/>
+    </Class>
+    <Field classname="userinterface.RawDataLine" name="zAxisAccel_ADXL377" signature="D" isStatic="false">
+      <SourceLine classname="userinterface.RawDataLine" sourcefile="RawDataLine.java" sourcepath="userinterface/RawDataLine.java"/>
+    </Field>
+    <SourceLine classname="userinterface.RawDataLine" start="47" end="47" startBytecode="51" endBytecode="51" sourcefile="RawDataLine.java" sourcepath="userinterface/RawDataLine.java"/>
+  </BugInstance>
+  <BugInstance type="UI_INHERITANCE_UNSAFE_GETRESOURCE" priority="3" rank="19" abbrev="UI" category="BAD_PRACTICE">
+    <Class classname="userinterface.rsc_jframe">
+      <SourceLine classname="userinterface.rsc_jframe" sourcefile="rsc_jframe.java" sourcepath="userinterface/rsc_jframe.java"/>
+    </Class>
+    <Method classname="userinterface.rsc_jframe" name="initComponents" signature="()V" isStatic="false">
+      <SourceLine classname="userinterface.rsc_jframe" start="34" end="144" startBytecode="0" endBytecode="1050" sourcefile="rsc_jframe.java" sourcepath="userinterface/rsc_jframe.java"/>
+    </Method>
+    <SourceLine classname="userinterface.rsc_jframe" start="55" end="55" startBytecode="218" endBytecode="218" sourcefile="rsc_jframe.java" sourcepath="userinterface/rsc_jframe.java"/>
+  </BugInstance>
+  <Errors errors="0" missingClasses="1">
+    <MissingClass>com.bulenkov.darcula.DarculaLaf</MissingClass>
+  </Errors>
+  <FindBugsSummary timestamp="Tue, 11 Apr 2017 23:11:20 -0400" total_classes="23" referenced_classes="395" total_bugs="27" total_size="1360" num_packages="1" java_version="1.8.0_121" vm_version="25.121-b13" cpu_seconds="34.16" clock_seconds="415.30" peak_mbytes="350.73" alloc_mbytes="1799.50" gc_seconds="0.29" priority_3="21" priority_2="5" priority_1="1">
+    <PackageStats package="userinterface" total_bugs="27" total_types="23" total_size="1360" priority_3="21" priority_2="5" priority_1="1">
+      <ClassStats class="userinterface.Calculator" sourceFile="Calculator.java" interface="false" size="329" bugs="1" priority_1="1"/>
+      <ClassStats class="userinterface.FlightPanel" sourceFile="FlightPanel.java" interface="false" size="659" bugs="21" priority_3="20" priority_2="1"/>
+      <ClassStats class="userinterface.FlightPanel$1" sourceFile="FlightPanel.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.FlightPanel$10" sourceFile="FlightPanel.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.FlightPanel$11" sourceFile="FlightPanel.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.FlightPanel$12" sourceFile="FlightPanel.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.FlightPanel$2" sourceFile="FlightPanel.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.FlightPanel$3" sourceFile="FlightPanel.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.FlightPanel$4" sourceFile="FlightPanel.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.FlightPanel$5" sourceFile="FlightPanel.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.FlightPanel$6" sourceFile="FlightPanel.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.FlightPanel$7" sourceFile="FlightPanel.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.FlightPanel$8" sourceFile="FlightPanel.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.FlightPanel$9" sourceFile="FlightPanel.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.OrderedPair" sourceFile="OrderedPair.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="userinterface.RawDataLine" sourceFile="RawDataLine.java" interface="false" size="81" bugs="4" priority_2="4"/>
+      <ClassStats class="userinterface.TestClass" sourceFile="TestClass.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="userinterface.rsc_jframe" sourceFile="rsc_jframe.java" interface="false" size="134" bugs="1" priority_3="1"/>
+      <ClassStats class="userinterface.rsc_jframe$1" sourceFile="rsc_jframe.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.rsc_jframe$2" sourceFile="rsc_jframe.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.rsc_jframe$3" sourceFile="rsc_jframe.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.rsc_jframe$4" sourceFile="rsc_jframe.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="userinterface.rsc_jframe$5" sourceFile="rsc_jframe.java" interface="false" size="6" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="631" invocations="2090" avgMicrosecondsPerInvocation="302" maxMicrosecondsPerInvocation="3505" standardDeviationMircosecondsPerInvocation="171"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="571" invocations="2086" avgMicrosecondsPerInvocation="273" maxMicrosecondsPerInvocation="23635" standardDeviationMircosecondsPerInvocation="917"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.StreamResourceTracker" totalMilliseconds="422" invocations="131" avgMicrosecondsPerInvocation="3223" maxMicrosecondsPerInvocation="41616" standardDeviationMircosecondsPerInvocation="4917"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="379" invocations="395" avgMicrosecondsPerInvocation="961" maxMicrosecondsPerInvocation="13295" standardDeviationMircosecondsPerInvocation="1754"/>
+      <ClassProfile name="edu.umd.cs.findbugs.FindBugs2" totalMilliseconds="352" invocations="2" avgMicrosecondsPerInvocation="176233" maxMicrosecondsPerInvocation="183505" standardDeviationMircosecondsPerInvocation="7260"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="351" invocations="395" avgMicrosecondsPerInvocation="889" maxMicrosecondsPerInvocation="14746" standardDeviationMircosecondsPerInvocation="1667"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="238" invocations="974" avgMicrosecondsPerInvocation="245" maxMicrosecondsPerInvocation="4227" standardDeviationMircosecondsPerInvocation="360"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RepeatedConditionals" totalMilliseconds="196" invocations="23" avgMicrosecondsPerInvocation="8534" maxMicrosecondsPerInvocation="187173" standardDeviationMircosecondsPerInvocation="38101"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="169" invocations="114" avgMicrosecondsPerInvocation="1484" maxMicrosecondsPerInvocation="59206" standardDeviationMircosecondsPerInvocation="6112"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="157" invocations="106" avgMicrosecondsPerInvocation="1489" maxMicrosecondsPerInvocation="48918" standardDeviationMircosecondsPerInvocation="5547"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="146" invocations="114" avgMicrosecondsPerInvocation="1281" maxMicrosecondsPerInvocation="38854" standardDeviationMircosecondsPerInvocation="4367"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="127" invocations="106" avgMicrosecondsPerInvocation="1206" maxMicrosecondsPerInvocation="40264" standardDeviationMircosecondsPerInvocation="4504"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="114" invocations="395" avgMicrosecondsPerInvocation="289" maxMicrosecondsPerInvocation="6531" standardDeviationMircosecondsPerInvocation="567"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="92" invocations="395" avgMicrosecondsPerInvocation="234" maxMicrosecondsPerInvocation="22042" standardDeviationMircosecondsPerInvocation="1467"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="83" invocations="478" avgMicrosecondsPerInvocation="173" maxMicrosecondsPerInvocation="14603" standardDeviationMircosecondsPerInvocation="704"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="82" invocations="106" avgMicrosecondsPerInvocation="781" maxMicrosecondsPerInvocation="12707" standardDeviationMircosecondsPerInvocation="2259"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="82" invocations="395" avgMicrosecondsPerInvocation="208" maxMicrosecondsPerInvocation="15810" standardDeviationMircosecondsPerInvocation="865"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History></History>
+</BugCollection>
