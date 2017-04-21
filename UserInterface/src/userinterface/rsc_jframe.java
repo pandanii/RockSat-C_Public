@@ -98,6 +98,7 @@ public class rsc_jframe extends javax.swing.JFrame
 
         saveFlightMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         saveFlightMenuItem.setText("Save Flight");
+        saveFlightMenuItem.setEnabled(false);
         saveFlightMenuItem.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -112,6 +113,7 @@ public class rsc_jframe extends javax.swing.JFrame
         editMenu.setText("Edit");
 
         testMenuItem.setText("LOADTestFlight");
+        testMenuItem.setEnabled(false);
         testMenuItem.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
