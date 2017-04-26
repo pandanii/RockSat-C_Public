@@ -421,7 +421,7 @@ public class FlightPanel extends javax.swing.JPanel
                 {
                     op = new OrderedPair();
                     op.readOrderedPair(ois);
-                    System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
+                    //System.out.println("OrderedPair xValue: " + op.xValue + " yValue: " + op.yValue);
                     series.add(op.xValue, op.yValue);
                     count++;
                 }

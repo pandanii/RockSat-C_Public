@@ -180,9 +180,16 @@ public class rsc_jframe extends javax.swing.JFrame
     private void closeMenuItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_closeMenuItemActionPerformed
     {//GEN-HEADEREND:event_closeMenuItemActionPerformed
         int selectedTab = rscJTabbedPane.getSelectedIndex();
-        if (selectedTab != 0)// we dont want to close the welcome screen tab
+        if (selectedTab != 0)// we dont want to close the welcome screen tab at index 0.
         {
-            rscJTabbedPane.removeTabAt(selectedTab);
+            java.awt.EventQueue.invokeLater(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    rscJTabbedPane.removeTabAt(selectedTab);
+                }
+            });
         }
     }//GEN-LAST:event_closeMenuItemActionPerformed
 
@@ -193,7 +200,7 @@ public class rsc_jframe extends javax.swing.JFrame
     {
         try
         {
-            // imported from https://github.com/bulenkov/Darcula, to compile this you will need to include it as a library. (note to run the JAR it will need to be near by as well)
+            // imported from https://github.com/bulenkov/Darcula to compile this you will need to include it as a library. (note to run the JAR it will need to be near by as well)
             javax.swing.plaf.basic.BasicLookAndFeel darcula = new com.bulenkov.darcula.DarculaLaf();
             javax.swing.UIManager.setLookAndFeel(darcula);
 
