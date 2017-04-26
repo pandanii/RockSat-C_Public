@@ -17,7 +17,6 @@ public class rsc_jframe extends javax.swing.JFrame
     public rsc_jframe()
     {
         initComponents();
-        //rscJTabbedPane.addTab("PreLoadedFlight", null, new FlightPanel());// INITIALIZED WITH A NEW FLIGHT PANEL
     }
 
     /**
@@ -38,7 +37,6 @@ public class rsc_jframe extends javax.swing.JFrame
         fileMenu = new javax.swing.JMenu();
         loadRawMenuItem = new javax.swing.JMenuItem();
         loadFlightMenutItem = new javax.swing.JMenuItem();
-        saveFlightMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         testMenuItem = new javax.swing.JMenuItem();
 
@@ -96,18 +94,6 @@ public class rsc_jframe extends javax.swing.JFrame
         });
         fileMenu.add(loadFlightMenutItem);
 
-        saveFlightMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        saveFlightMenuItem.setText("Save Flight");
-        saveFlightMenuItem.setEnabled(false);
-        saveFlightMenuItem.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                saveFlightMenuItemActionPerformed(evt);
-            }
-        });
-        fileMenu.add(saveFlightMenuItem);
-
         rscJMenuBar.add(fileMenu);
 
         editMenu.setText("Edit");
@@ -147,57 +133,50 @@ public class rsc_jframe extends javax.swing.JFrame
 
     private void loadRawMenuItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_loadRawMenuItemActionPerformed
     {//GEN-HEADEREND:event_loadRawMenuItemActionPerformed
-        rawFlightfile = new java.io.File(".");
-        tempFileChooser = new javax.swing.JFileChooser(rawFlightfile);
-        FileNameExtensionFilter tempFileNameExtensionFilter = new FileNameExtensionFilter("Raw Flight Format (txt, or csv)", "csv", "txt");
-        tempFileChooser.addChoosableFileFilter(tempFileNameExtensionFilter);
-        tempFileChooser.setFileFilter(tempFileNameExtensionFilter);
-        int returnVal = tempFileChooser.showOpenDialog(this);
-        if (returnVal == javax.swing.JFileChooser.APPROVE_OPTION)
+        java.awt.EventQueue.invokeLater(new Runnable()
         {
-            rawFlightfile = tempFileChooser.getSelectedFile();
-            JOptionPane.showMessageDialog(null, "File selected:" + rawFlightfile.getName());
-            rscJTabbedPane.addTab(rawFlightfile.getName(), null, new FlightPanel(rawFlightfile, FlightPanel.LOAD_RAW));
-        }
+            @Override
+            public void run()
+            {
+                rawFlightfile = new java.io.File(".");
+                tempFileChooser = new javax.swing.JFileChooser(rawFlightfile);
+                FileNameExtensionFilter tempFileNameExtensionFilter = new FileNameExtensionFilter("Raw Flight Format (txt, or csv)", "csv", "txt");
+                tempFileChooser.addChoosableFileFilter(tempFileNameExtensionFilter);
+                tempFileChooser.setFileFilter(tempFileNameExtensionFilter);
+                int returnVal = tempFileChooser.showOpenDialog(rsc_jframe.this);
+                if (returnVal == javax.swing.JFileChooser.APPROVE_OPTION)
+                {
+                    rawFlightfile = tempFileChooser.getSelectedFile();
+                    JOptionPane.showMessageDialog(null, "File selected:" + rawFlightfile.getName());
+                    rscJTabbedPane.addTab(rawFlightfile.getName(), null, new FlightPanel(rawFlightfile, FlightPanel.LOAD_RAW));
+                }
+            }
+        });
     }//GEN-LAST:event_loadRawMenuItemActionPerformed
 
     private void loadFlightMenutItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_loadFlightMenutItemActionPerformed
     {//GEN-HEADEREND:event_loadFlightMenutItemActionPerformed
-        flightFile = new java.io.File(".");
-        tempFileChooser = new javax.swing.JFileChooser(flightFile);
-        tempFileChooser.setMultiSelectionEnabled(false);
-        FileNameExtensionFilter tempFileNameExtensionFilter = new FileNameExtensionFilter("Flight File Format (rsc)", "rsc");
-        tempFileChooser.addChoosableFileFilter(tempFileNameExtensionFilter);
-        tempFileChooser.setFileFilter(tempFileNameExtensionFilter);
-        int returnVal = tempFileChooser.showOpenDialog(this);
-        if (returnVal == javax.swing.JFileChooser.APPROVE_OPTION)
+        java.awt.EventQueue.invokeLater(new Runnable()
         {
-            flightFile = tempFileChooser.getSelectedFile();
-            JOptionPane.showMessageDialog(null, "File selected: " + flightFile.getName());
-            rscJTabbedPane.addTab(flightFile.getName(), null, new FlightPanel(flightFile, FlightPanel.LOAD_FLIGHT));
-        }
+            @Override
+            public void run()
+            {
+                flightFile = new java.io.File(".");
+                tempFileChooser = new javax.swing.JFileChooser(flightFile);
+                tempFileChooser.setMultiSelectionEnabled(false);
+                FileNameExtensionFilter tempFileNameExtensionFilter = new FileNameExtensionFilter("Flight File Format (rsc)", "rsc");
+                tempFileChooser.addChoosableFileFilter(tempFileNameExtensionFilter);
+                tempFileChooser.setFileFilter(tempFileNameExtensionFilter);
+                int returnVal = tempFileChooser.showOpenDialog(rsc_jframe.this);
+                if (returnVal == javax.swing.JFileChooser.APPROVE_OPTION)
+                {
+                    flightFile = tempFileChooser.getSelectedFile();
+                    JOptionPane.showMessageDialog(null, "File selected: " + flightFile.getName());
+                    rscJTabbedPane.addTab(flightFile.getName(), null, new FlightPanel(flightFile, FlightPanel.LOAD_FLIGHT));
+                }
+            }
+        });
     }//GEN-LAST:event_loadFlightMenutItemActionPerformed
-
-    private void saveFlightMenuItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_saveFlightMenuItemActionPerformed
-    {//GEN-HEADEREND:event_saveFlightMenuItemActionPerformed
-        if (flightFile == null)
-        {
-            JOptionPane.showMessageDialog(null, "There has not been a flight file loaded yet!");
-        }
-        else
-        {
-            //FlightPanel tempFP = (FlightPanel) rscJTabbedPane.getSelectedComponent();
-            //TODO: ADD THIS ONCE SAVEFLIGHT IS COMPLETED tempFP.saveFlight();
-            //tempFP.saveFlight();
-//            tempFileChooser = new javax.swing.JFileChooser(flightFile);
-//            int returnVal = tempFileChooser.showOpenDialog(this);
-//            if (returnVal == javax.swing.JFileChooser.APPROVE_OPTION)
-//            {
-//                flightFile = tempFileChooser.getSelectedFile();
-//                JOptionPane.showMessageDialog(null, "File selected:" + flightFile);
-//            }
-        }
-    }//GEN-LAST:event_saveFlightMenuItemActionPerformed
 
     private void testMenuItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_testMenuItemActionPerformed
     {//GEN-HEADEREND:event_testMenuItemActionPerformed
@@ -259,7 +238,6 @@ public class rsc_jframe extends javax.swing.JFrame
     private javax.swing.JMenuItem loadRawMenuItem;
     private javax.swing.JMenuBar rscJMenuBar;
     private javax.swing.JTabbedPane rscJTabbedPane;
-    private javax.swing.JMenuItem saveFlightMenuItem;
     private javax.swing.JMenuItem testMenuItem;
     private javax.swing.JLabel welcomeLabel;
     private javax.swing.JPanel welcomePanel;
