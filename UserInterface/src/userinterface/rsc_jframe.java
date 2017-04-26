@@ -38,7 +38,7 @@ public class rsc_jframe extends javax.swing.JFrame
         loadRawMenuItem = new javax.swing.JMenuItem();
         loadFlightMenutItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
-        testMenuItem = new javax.swing.JMenuItem();
+        closeMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(" RockSat-C");
@@ -98,16 +98,15 @@ public class rsc_jframe extends javax.swing.JFrame
 
         editMenu.setText("Edit");
 
-        testMenuItem.setText("LOADTestFlight");
-        testMenuItem.setEnabled(false);
-        testMenuItem.addActionListener(new java.awt.event.ActionListener()
+        closeMenuItem.setText("Close Selected Tab/Flight");
+        closeMenuItem.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                testMenuItemActionPerformed(evt);
+                closeMenuItemActionPerformed(evt);
             }
         });
-        editMenu.add(testMenuItem);
+        editMenu.add(closeMenuItem);
 
         rscJMenuBar.add(editMenu);
 
@@ -178,10 +177,14 @@ public class rsc_jframe extends javax.swing.JFrame
         });
     }//GEN-LAST:event_loadFlightMenutItemActionPerformed
 
-    private void testMenuItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_testMenuItemActionPerformed
-    {//GEN-HEADEREND:event_testMenuItemActionPerformed
-        rscJTabbedPane.addTab("Test Flight", null, new FlightPanel());
-    }//GEN-LAST:event_testMenuItemActionPerformed
+    private void closeMenuItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_closeMenuItemActionPerformed
+    {//GEN-HEADEREND:event_closeMenuItemActionPerformed
+        int selectedTab = rscJTabbedPane.getSelectedIndex();
+        if (selectedTab != 0)// we dont want to close the welcome screen tab
+        {
+            rscJTabbedPane.removeTabAt(selectedTab);
+        }
+    }//GEN-LAST:event_closeMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -232,13 +235,13 @@ public class rsc_jframe extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem closeMenuItem;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem loadFlightMenutItem;
     private javax.swing.JMenuItem loadRawMenuItem;
     private javax.swing.JMenuBar rscJMenuBar;
     private javax.swing.JTabbedPane rscJTabbedPane;
-    private javax.swing.JMenuItem testMenuItem;
     private javax.swing.JLabel welcomeLabel;
     private javax.swing.JPanel welcomePanel;
     // End of variables declaration//GEN-END:variables
