@@ -105,7 +105,6 @@ public class FlightPanel extends javax.swing.JPanel
                 false // Configure chart to generate URLs?
         );
         ChartPanel CP = new ChartPanel(velocityLineChart);
-
         velocityPanel.add(CP, BorderLayout.CENTER);
         velocityPanel.validate();
 
@@ -230,7 +229,7 @@ public class FlightPanel extends javax.swing.JPanel
         // Add the series to your data set
         velocityDataset = new XYSeriesCollection();
         velocityLineChart = ChartFactory.createXYLineChart(
-                "Velocity XY Chart", // Title
+                "Velocity Chart", // Title
                 "Time", // x-axis Label
                 "y-axis", // y-axis Label
                 velocityDataset, // Dataset
@@ -246,7 +245,7 @@ public class FlightPanel extends javax.swing.JPanel
         // Add the series to your data set
         accelDataset = new XYSeriesCollection();
         accelLineChart = ChartFactory.createXYLineChart(
-                "Acceleration XY Chart", // Title
+                "Acceleration Chart", // Title
                 "Time", // x-axis Label
                 "y-axis", // y-axis Label
                 accelDataset, // Dataset
@@ -262,7 +261,7 @@ public class FlightPanel extends javax.swing.JPanel
         // Add the series to your data set
         gyroDataset = new XYSeriesCollection();
         gyroLineChart = ChartFactory.createXYLineChart(
-                "Gyroscope XY Chart", // Title
+                "Gyroscope Chart", // Title
                 "Time", // x-axis Label
                 "y-axis", // y-axis Label
                 gyroDataset, // Dataset
@@ -278,7 +277,7 @@ public class FlightPanel extends javax.swing.JPanel
         // Add the series to your data set
         dispDataset = new XYSeriesCollection();
         dispLineChart = ChartFactory.createXYLineChart(
-                "Displacement XY Chart", // Title
+                "Displacement Chart", // Title
                 "Time", // x-axis Label
                 "y-axis", // y-axis Label
                 dispDataset, // Dataset
@@ -461,28 +460,24 @@ public class FlightPanel extends javax.swing.JPanel
         velXToggleButton = new javax.swing.JToggleButton();
         velYToggleButton = new javax.swing.JToggleButton();
         velZToggleButton = new javax.swing.JToggleButton();
-        velocityscrollPane = new javax.swing.JScrollPane();
         velocityPanel = new javax.swing.JPanel();
         accelerationSplitPane = new javax.swing.JSplitPane();
         accelOptionPanel = new javax.swing.JPanel();
         accelXToggleButton = new javax.swing.JToggleButton();
         accelYToggleButton = new javax.swing.JToggleButton();
         accelZToggleButton = new javax.swing.JToggleButton();
-        accelScrollPane = new javax.swing.JScrollPane();
         accelPanel = new javax.swing.JPanel();
         displacementSplitPane = new javax.swing.JSplitPane();
         displacementOptionPanel = new javax.swing.JPanel();
         dispXToggleButton = new javax.swing.JToggleButton();
         dispYToggleButton = new javax.swing.JToggleButton();
         dispZToggleButton = new javax.swing.JToggleButton();
-        displacementScrollPane = new javax.swing.JScrollPane();
         displacementPanel = new javax.swing.JPanel();
         gyroscopeSplitPane = new javax.swing.JSplitPane();
         gyroAccelPanel = new javax.swing.JPanel();
         gyroXToggleButton = new javax.swing.JToggleButton();
         gyroYToggleButton = new javax.swing.JToggleButton();
         gyroZToggleButton = new javax.swing.JToggleButton();
-        gyroScrollPane = new javax.swing.JScrollPane();
         gyroPanel = new javax.swing.JPanel();
 
         setMinimumSize(new java.awt.Dimension(640, 480));
@@ -553,14 +548,8 @@ public class FlightPanel extends javax.swing.JPanel
 
         velocitySplitPlane.setLeftComponent(velocityOptionsPanel);
 
-        velocityscrollPane.setMinimumSize(flightPanelJTabbedPane.getMinimumSize());
-        velocityscrollPane.setName(""); // NOI18N
-        velocityscrollPane.setPreferredSize(flightPanelJTabbedPane.getPreferredSize());
-
         velocityPanel.setLayout(new java.awt.BorderLayout());
-        velocityscrollPane.setViewportView(velocityPanel);
-
-        velocitySplitPlane.setRightComponent(velocityscrollPane);
+        velocitySplitPlane.setRightComponent(velocityPanel);
 
         flightPanelJTabbedPane.addTab("Velocity", null, velocitySplitPlane, "");
 
@@ -615,19 +604,14 @@ public class FlightPanel extends javax.swing.JPanel
                 .addComponent(accelYToggleButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(accelZToggleButton)
-                .addContainerGap(572, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         accelerationSplitPane.setLeftComponent(accelOptionPanel);
 
-        accelScrollPane.setMinimumSize(new java.awt.Dimension(1280, 720));
-        accelScrollPane.setPreferredSize(new java.awt.Dimension(1280, 720));
-
         accelPanel.setName(""); // NOI18N
         accelPanel.setLayout(new java.awt.BorderLayout());
-        accelScrollPane.setViewportView(accelPanel);
-
-        accelerationSplitPane.setRightComponent(accelScrollPane);
+        accelerationSplitPane.setRightComponent(accelPanel);
 
         flightPanelJTabbedPane.addTab("Acceleration", accelerationSplitPane);
 
@@ -681,18 +665,13 @@ public class FlightPanel extends javax.swing.JPanel
                 .addComponent(dispYToggleButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dispZToggleButton)
-                .addContainerGap(572, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         displacementSplitPane.setLeftComponent(displacementOptionPanel);
 
-        displacementScrollPane.setMinimumSize(new java.awt.Dimension(1280, 720));
-        displacementScrollPane.setPreferredSize(new java.awt.Dimension(1280, 720));
-
         displacementPanel.setLayout(new java.awt.BorderLayout());
-        displacementScrollPane.setViewportView(displacementPanel);
-
-        displacementSplitPane.setRightComponent(displacementScrollPane);
+        displacementSplitPane.setRightComponent(displacementPanel);
 
         flightPanelJTabbedPane.addTab("Displacement", displacementSplitPane);
 
@@ -746,18 +725,13 @@ public class FlightPanel extends javax.swing.JPanel
                 .addComponent(gyroYToggleButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(gyroZToggleButton)
-                .addContainerGap(572, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gyroscopeSplitPane.setLeftComponent(gyroAccelPanel);
 
-        gyroScrollPane.setMinimumSize(new java.awt.Dimension(1280, 720));
-        gyroScrollPane.setPreferredSize(new java.awt.Dimension(1280, 720));
-
         gyroPanel.setLayout(new java.awt.BorderLayout());
-        gyroScrollPane.setViewportView(gyroPanel);
-
-        gyroscopeSplitPane.setRightComponent(gyroScrollPane);
+        gyroscopeSplitPane.setRightComponent(gyroPanel);
 
         flightPanelJTabbedPane.addTab("GyroScope", gyroscopeSplitPane);
 
@@ -765,17 +739,11 @@ public class FlightPanel extends javax.swing.JPanel
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1280, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(flightPanelJTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(flightPanelJTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 936, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 720, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addComponent(flightPanelJTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 714, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addComponent(flightPanelJTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -998,7 +966,6 @@ public class FlightPanel extends javax.swing.JPanel
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accelOptionPanel;
     private javax.swing.JPanel accelPanel;
-    private javax.swing.JScrollPane accelScrollPane;
     private javax.swing.JToggleButton accelXToggleButton;
     private javax.swing.JToggleButton accelYToggleButton;
     private javax.swing.JToggleButton accelZToggleButton;
@@ -1008,12 +975,10 @@ public class FlightPanel extends javax.swing.JPanel
     private javax.swing.JToggleButton dispZToggleButton;
     private javax.swing.JPanel displacementOptionPanel;
     private javax.swing.JPanel displacementPanel;
-    private javax.swing.JScrollPane displacementScrollPane;
     private javax.swing.JSplitPane displacementSplitPane;
     private javax.swing.JTabbedPane flightPanelJTabbedPane;
     private javax.swing.JPanel gyroAccelPanel;
     private javax.swing.JPanel gyroPanel;
-    private javax.swing.JScrollPane gyroScrollPane;
     private javax.swing.JToggleButton gyroXToggleButton;
     private javax.swing.JToggleButton gyroYToggleButton;
     private javax.swing.JToggleButton gyroZToggleButton;
@@ -1024,6 +989,5 @@ public class FlightPanel extends javax.swing.JPanel
     private javax.swing.JPanel velocityOptionsPanel;
     private javax.swing.JPanel velocityPanel;
     private javax.swing.JSplitPane velocitySplitPlane;
-    private javax.swing.JScrollPane velocityscrollPane;
     // End of variables declaration//GEN-END:variables
 }

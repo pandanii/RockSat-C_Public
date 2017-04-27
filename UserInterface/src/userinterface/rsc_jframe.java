@@ -17,6 +17,7 @@ public class rsc_jframe extends javax.swing.JFrame
     public rsc_jframe()
     {
         initComponents();
+        //rscJTabbedPane.addTab("TEST", null, new FlightPanel());
     }
 
     /**
@@ -44,14 +45,21 @@ public class rsc_jframe extends javax.swing.JFrame
         setTitle(" RockSat-C");
         setBackground(javax.swing.UIManager.getDefaults().getColor("Button.darcula.color1"));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         setForeground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
-        setMinimumSize(new java.awt.Dimension(640, 480));
+        setMinimumSize(new java.awt.Dimension(800, 600));
         setName("Welcome"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(800, 600));
+
+        rscJTabbedPane.setMinimumSize(new java.awt.Dimension(640, 480));
 
         welcomeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         welcomeLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/userinterface/WelcomeScreen.jpg"))); // NOI18N
         welcomeLabel.setToolTipText("");
+        welcomeLabel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        welcomeLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        welcomeLabel.setIconTextGap(0);
 
         javax.swing.GroupLayout welcomePanelLayout = new javax.swing.GroupLayout(welcomePanel);
         welcomePanel.setLayout(welcomePanelLayout);
@@ -118,13 +126,13 @@ public class rsc_jframe extends javax.swing.JFrame
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1289, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(rscJTabbedPane))
+                .addComponent(rscJTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 819, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(rscJTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addComponent(rscJTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
