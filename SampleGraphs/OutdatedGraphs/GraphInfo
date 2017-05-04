@@ -1,0 +1,15 @@
+
+LOG00003 is supposed to be an elevator ride from the bottom floor of the ET to the third floor. 
+LOG00015 is supposed to be the hardware flipped over 180 degrees while held in the same position.
+LOG00023 is supposed to be the hardware ran across the cave on a chair at high speed.
+Units for velocity and acceleration are supposed to be meters/sec and meters/sec^2, but this seems to indicate severe accuracy
+problems or that these are not the correct units.
+
+Test graphs are from a hand created raw data file to show the relations between acceleration, velocity, and displacement.
+
+'Non_Rotational'graphs have not been run through rotational matrices to take the gyroscope data into account. These graphs show a clear
+drift created by the rotations because while the acceleration magnitudes are shifted, the offsets calculated early on are not. This
+is a problem that needs addressed. Currently, it is either don't calibrate, which causes significant error, or don't fix the accelerations
+based on the gyroscope which would render finding the initial position of a flight impossible. 
+
+'Non-Rotate_No_Calibrate' is just the result of neither calibrating the data or shifting it though the rotational matices.
