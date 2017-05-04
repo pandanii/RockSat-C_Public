@@ -192,6 +192,9 @@ double zAxisAccel_ADXL377;
             zAxisAccel_ADXL377 = Double.parseDouble(
                            (String)Array.get(stringArray, 9));
 
+                                                                //Never ended up getting the ADXL377
+                                                                //working properly, so no bounds set.
+
             }
         catch (NumberFormatException nfe)
             {

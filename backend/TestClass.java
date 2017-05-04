@@ -1,9 +1,34 @@
+/*
+This class is simply used to turn the resulting
+data files into csv files for easy graphing when
+there is no gui to work with.
+R-Studio works excellent for graphing csv files.
+*/
+
 
 import java.io.*;
 
 public class TestClass
 {
 
+    //=====================================================
+    /*
+    There are several variables to modify based on the files
+    you wish to read and write. It has been modified to write
+    three resulting csv files at a time for convenience.
+    Be careful not to make numberOfLineInRawFile larger than
+    the number of lines in the raw file, but also don't make
+    numberOfLinesInRawFile + numberOfLinesAveraged larger than
+    the number of lines in the raw file either.
+
+    The noiseThreshold only effects MPU9250 accelerations
+    in the programs current state.
+
+    xValue and yValue do not have anything to do with the raw
+    data's x,y,z formatting. They only represent the resulting
+    graph's x axis and y axis, or anther way to put that,
+    the first and second value on a .dat file line.
+    */
     //=====================================================
     public static void main(String[] args)
     {
@@ -20,19 +45,19 @@ public class TestClass
     double noiseThreshold;
 
 
-    rawFileName = new String("test.txt");
+    rawFileName = new String("LOG00003.txt");
 
-    dataFileName_x = new String("test_MPU9250_TxA_x.dat");
-    dataFileName_y = new String("test_MPU9250_TxA_y.dat");
-    dataFileName_z = new String("test_MPU9250_TxA_z.dat");
+    dataFileName_x = new String("LOG00003_ADXL377_TxA_x.dat");
+    dataFileName_y = new String("LOG00003_ADXL377_TxA_y.dat");
+    dataFileName_z = new String("LOG00003_ADXL377_TxA_z.dat");
 
     outputFileName_x = new String("results_x.csv");
     outputFileName_y = new String("results_y.csv");
     outputFileName_z = new String("results_z.csv");
 
-    numberOfLinesInRawFile = 40;
+    numberOfLinesInRawFile = 3300;
 
-    numberOfLinesAveraged = 5;
+    numberOfLinesAveraged = 10;
 
     noiseThreshold = 0.01;
 
@@ -85,8 +110,6 @@ public class TestClass
 
             op.readOrderedPair(ois);
 
-            //System.out.println("xValue: " + op.xValue + "    yValue: " + op.yValue);
-
             pr.print(op.xValue);
             pr.print(",");
             pr.print(op.yValue);
@@ -108,8 +131,6 @@ public class TestClass
 
             op.readOrderedPair(ois);
 
-            //System.out.println("xValue: " + op.xValue + "    yValue: " + op.yValue);
-
             pr.print(op.xValue);
             pr.print(",");
             pr.print(op.yValue);
@@ -130,8 +151,6 @@ public class TestClass
             op = new OrderedPair();
 
             op.readOrderedPair(ois);
-
-            //System.out.println("xValue: " + op.xValue + "    yValue: " + op.yValue);
 
             pr.print(op.xValue);
             pr.print(",");

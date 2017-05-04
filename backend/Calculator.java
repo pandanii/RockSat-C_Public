@@ -19,15 +19,18 @@ FileOutputStream fileOutputStream;
 ObjectOutputStream oos_TxA_x;
 ObjectOutputStream oos_TxA_y;
 ObjectOutputStream oos_TxA_z;
+ObjectOutputStream oos_ADXL377_TxA_x;
+ObjectOutputStream oos_ADXL377_TxA_y;
+ObjectOutputStream oos_ADXL377_TxA_z;
 ObjectOutputStream oos_TxV_x;
 ObjectOutputStream oos_TxV_y;
 ObjectOutputStream oos_TxV_z;
 ObjectOutputStream oos_TxD_x;
 ObjectOutputStream oos_TxD_y;
 ObjectOutputStream oos_TxD_z;
-ObjectOutputStream oos_TxGyro_x;
-ObjectOutputStream oos_TxGyro_y;
-ObjectOutputStream oos_TxGyro_z;
+ObjectOutputStream oos_TxV_Gyro_x;
+ObjectOutputStream oos_TxV_Gyro_y;
+ObjectOutputStream oos_TxV_Gyro_z;
 
 
 FileReader fileReader;
@@ -139,30 +142,37 @@ double noiseThreshold;
     }
     //=====================================================
     /*
-    This method calculates values for velocity and displacement.
-    Assuming the numberOfLinesAveraged is 10, the following is true.
-    Based on ten data points with the following equasions.
+    This method calculates values for velocity and displacement for
+    the MPU9250 unit and writes the resulting OrderedPairs to file.
+    This method does too much work. It needs to be refactored into
+    smaller component methods. One approach might be to split the
+    calculations based on the accelerometer being used, but since
+    both would need the gyro data and the time there would be a lot
+    of redundancy.
+
+    Assuming the numberOfLinesAveraged is 10, which is a variable
+    accepted by the constructor of Calculator, the following is true.
+    Based on the ten data points collected...
 
     Vi = 1/10 (ai-10 +...+ ai) * (ti-1 - ti) + Vi-1
     Si = 1/2 (vi-1 +...+ vi) * (ti-1 - ti) + Si-1
 
-    Averaging 10 points of acceleration instead of 2 to smooth out
-    the outlying points. This can be changed based on what
-    we need. The formulas are somewhat modified because in the code,
-    the average acceleration is calculated before hand.
+    Averaging 10 points of acceleration, meaning numberOfLinesAveraged
+    is 10, instead of 2 in order to smooth out the outlying points.
+    This can be changed to smooth out the acclerations further.
 
-    Averaging 2 points of velocity instead of 10 because we have
-    already smoothed the curve, but some averaging is required for
-    accuracy. See Trapezoid rule.
+    Averaging 2 points of velocity instead of a variable because we
+    have already smoothed the curve, but some averaging is required
+    for accuracy. See Trapezoid rule.
 
     For the change in time, since there is some variation in the
     hardware's read rate, we will average a delta time as follows.
 
     deltaTime = (time1 + time3) / 2 - (time0 + time2) / 2
 
-    This method also calls rotateAccelerationsAboutXIn3D, rotateAccelerationsAboutYIn3D,
-    and rotateAccelerationsAboutZIn3D to re-orthogonalize the acceleration
-    magnitudes based on calculated rotations that come from the Gyroscope.
+    This method also calls rotateAccelerationsIn3D and rotateAccelerationOffsetsIn3D
+    to re-orthogonalize the acceleration magnitudes based on calculated
+    rotations that come from the Gyroscope.
     The rotations are done with rotational matrices. See project
     notes for more info.
 
@@ -172,7 +182,7 @@ double noiseThreshold;
     to find an offset as it is assumed that in most cases,
     the first values of a file are at rest.
 
-    It holds an OrderedPair for every point pair it writes
+    This method holds an OrderedPair for every point pair it writes
     after calculation from the raw data file. It has a
     while(true) loop in it that runs through the lines of
     the raw data file to create OrderedPairs and it only
@@ -185,25 +195,29 @@ double noiseThreshold;
     //=====================================================
     private void calculateValues()
     {
-    OrderedPair orderedPair_TxA_x;                              //Time x Acceleration in rockets xAxis
-    OrderedPair orderedPair_TxV_x;                              //Time x Velocity in rockets xAxis
-    OrderedPair orderedPair_TxD_x;                              //Time x Displacement in rockets xAxis
+    OrderedPair orderedPair_TxA_x;                              //Time x Acceleration in MPU9250 xAxis
+    OrderedPair orderedPair_TxV_x;                              //Time x Velocity in MPU9250 xAxis
+    OrderedPair orderedPair_TxD_x;                              //Time x Displacement in MPU9250 xAxis
 
-    OrderedPair orderedPair_TxA_y;                              //Time x Acceleration in rockets yAxis
-    OrderedPair orderedPair_TxV_y;                              //Time x Velocity in rockets yAxis
-    OrderedPair orderedPair_TxD_y;                              //Time x Displacement in rockets yAxis
+    OrderedPair orderedPair_ADXL377_TxA_x;                      //Time x Acceleration in ADXL377 xAxis
+    OrderedPair orderedPair_ADXL377_TxA_y;                      //Time x Acceleration in ADXL377 yAxis
+    OrderedPair orderedPair_ADXL377_TxA_z;                      //Time x Acceleration in ADXL377 zAxis
 
-    OrderedPair orderedPair_TxA_z;                              //Time x Acceleration in rockets zAxis
-    OrderedPair orderedPair_TxV_z;                              //Time x Velocity in rockets zAxis
-    OrderedPair orderedPair_TxD_z;                              //Time x Displacement in rockets zAxis
+    OrderedPair orderedPair_TxA_y;                              //Time x Acceleration in MPU9250 yAxis
+    OrderedPair orderedPair_TxV_y;                              //Time x Velocity in MPU9250 yAxis
+    OrderedPair orderedPair_TxD_y;                              //Time x Displacement in MPU9250 yAxis
 
-    OrderedPair orderedPair_TxGyro_x;                           //Time x Gyroscope reading in xAxis
-    OrderedPair orderedPair_TxGyro_y;                           //Time x Gyroscope reading in yAxis
-    OrderedPair orderedPair_TxGyro_z;                           //Time x Gyroscope reading in zAxis
+    OrderedPair orderedPair_TxA_z;                              //Time x Acceleration in MPU9250 zAxis
+    OrderedPair orderedPair_TxV_z;                              //Time x Velocity in MPU9250 zAxis
+    OrderedPair orderedPair_TxD_z;                              //Time x Displacement in MPU9250 zAxis
 
-    double distanceTotal_x;
-    double distanceTotal_y;
-    double distanceTotal_z;
+    OrderedPair orderedPair_TxV_Gyro_x;                         //Time x Angular Velocity from Gyroscope in MPU9250 xAxis
+    OrderedPair orderedPair_TxV_Gyro_y;                         //Time x Angular Velocity from Gyroscope in MPU9250 yAxis
+    OrderedPair orderedPair_TxV_Gyro_z;                         //Time x Angular Velocity from Gyroscope in MPU9250 zAxis
+
+    double distanceTotal_x;                                     //These are not currently written or calculated, but to do
+    double distanceTotal_y;                                     //so should be as simple as taking the absolute value of the
+    double distanceTotal_z;                                     //displacements and adding them all up.
 
     double time0;
     double time1;
@@ -213,9 +227,9 @@ double noiseThreshold;
 
     double timeOffset;
 
-    double radiansFromX;                                         //These are values derived from Gyroscope data
-    double radiansFromY;
-    double radiansFromZ;
+    double radiansFromX;                                         //These are values derived from Gyroscope data and are
+    double radiansFromY;                                         //essentially an angular displacement. These would be
+    double radiansFromZ;                                         //another good thing to write to file and graph sometime.
 
     double accelerationAverage_x;
     double accelerationAverage_y;
@@ -282,22 +296,30 @@ double noiseThreshold;
 
         for (int i=0; i < numberOfLinesAveraged; i++)
             {
-            averageRadiansPerSecondInGyro_XAxis = averageRadiansPerSecondInGyro_XAxis +
-                                                  dataLineList.elementAt(i).xAxisGyro_MPU9250;
+            averageRadiansPerSecondInGyro_XAxis =
+            averageRadiansPerSecondInGyro_XAxis +
+            dataLineList.elementAt(i).xAxisGyro_MPU9250;
             }
 
-        averageRadiansPerSecondInGyro_XAxis = averageRadiansPerSecondInGyro_XAxis * (3.1416/180 / numberOfLinesAveraged);
+        averageRadiansPerSecondInGyro_XAxis =
+        averageRadiansPerSecondInGyro_XAxis *
+        (3.1416/180 / numberOfLinesAveraged);
+
         averageRadiansPerSecondInGyro_XAxisOffset = averageRadiansPerSecondInGyro_XAxis;
 
 
 
         for (int i=0; i < numberOfLinesAveraged; i++)
             {
-            averageRadiansPerSecondInGyro_YAxis = averageRadiansPerSecondInGyro_YAxis +
-                                                  dataLineList.elementAt(i).yAxisGyro_MPU9250;
+            averageRadiansPerSecondInGyro_YAxis =
+            averageRadiansPerSecondInGyro_YAxis +
+            dataLineList.elementAt(i).yAxisGyro_MPU9250;
             }
 
-        averageRadiansPerSecondInGyro_YAxis = averageRadiansPerSecondInGyro_YAxis * (3.1416/180 / numberOfLinesAveraged);
+        averageRadiansPerSecondInGyro_YAxis =
+        averageRadiansPerSecondInGyro_YAxis *
+        (3.1416/180 / numberOfLinesAveraged);
+
         averageRadiansPerSecondInGyro_YAxisOffset = averageRadiansPerSecondInGyro_YAxis;
 
 
@@ -305,11 +327,15 @@ double noiseThreshold;
 
         for (int i=0; i < numberOfLinesAveraged; i++)
             {
-            averageRadiansPerSecondInGyro_ZAxis = averageRadiansPerSecondInGyro_ZAxis +
-                                                  dataLineList.elementAt(i).zAxisGyro_MPU9250;
+            averageRadiansPerSecondInGyro_ZAxis =
+            averageRadiansPerSecondInGyro_ZAxis +
+            dataLineList.elementAt(i).zAxisGyro_MPU9250;
             }
 
-        averageRadiansPerSecondInGyro_ZAxis = averageRadiansPerSecondInGyro_ZAxis * (3.1416/180 / numberOfLinesAveraged);
+        averageRadiansPerSecondInGyro_ZAxis =
+        averageRadiansPerSecondInGyro_ZAxis *
+        (3.1416/180 / numberOfLinesAveraged);
+
         averageRadiansPerSecondInGyro_ZAxisOffset = averageRadiansPerSecondInGyro_ZAxis;
 
         accelerationAverage_x = 0;
@@ -322,7 +348,9 @@ double noiseThreshold;
                                     dataLineList.elementAt(i).xAxisAccel_MPU9250;
             }
 
-        accelerationAverage_x = accelerationAverage_x / numberOfLinesAveraged;
+        accelerationAverage_x = accelerationAverage_x /
+                                numberOfLinesAveraged;
+
         accelerationAverage_xOffset = accelerationAverage_x;
 
 
@@ -332,7 +360,9 @@ double noiseThreshold;
                                     dataLineList.elementAt(i).yAxisAccel_MPU9250;
             }
 
-        accelerationAverage_y = accelerationAverage_y / numberOfLinesAveraged;
+        accelerationAverage_y = accelerationAverage_y /
+                                numberOfLinesAveraged;
+
         accelerationAverage_yOffset = accelerationAverage_y;
 
 
@@ -342,11 +372,11 @@ double noiseThreshold;
                                     dataLineList.elementAt(i).zAxisAccel_MPU9250;
             }
 
-        accelerationAverage_z = accelerationAverage_z / numberOfLinesAveraged;
+        accelerationAverage_z = accelerationAverage_z /
+                                numberOfLinesAveraged;
+
         accelerationAverage_zOffset = accelerationAverage_z;
 
-
-//System.out.println("accerlerationAverages: " + accelerationAverage_x + " " + accelerationAverage_y + " " + accelerationAverage_z);
 
         currentVelocity_x = 0;
         currentVelocity_y = 0;
@@ -368,7 +398,8 @@ double noiseThreshold;
         previousDisplacement_y = 0;
         previousDisplacement_z = 0;
 
-        timeOffset = dataLineList.elementAt(0).timeInMicroSeconds * 0.000001;
+        timeOffset = dataLineList.elementAt(0).timeInMicroSeconds *
+                     0.000001;
 
         counter = 0;
         while (true)                                                //end of file exception will kick out of the loop.
@@ -388,9 +419,6 @@ double noiseThreshold;
                                                                     //them by 1*10^-6
             deltaTime = (time1 + time3) / 2 - (time0 + time2) / 2;
 
-//System.out.println("deltaTime:             " + deltaTime);
-//System.out.println("deltaTime basic:       " + (time1 - time0));
-
 
                                                                     //Angle calculations
 
@@ -406,16 +434,15 @@ double noiseThreshold;
                             averageRadiansPerSecondInGyro_ZAxisOffset) *
                             deltaTime + radiansFromZ;
 
-//System.out.println("averageRadiansPerSecondInGyroXAxis: " + averageRadiansPerSecondInGyroXAxis);
-//System.out.println("averageRadiansPerSecondInGyroYAxis: " + averageRadiansPerSecondInGyroYAxis);
-//System.out.println("averageRadiansPerSecondInGyroZAxis: " + averageRadiansPerSecondInGyroZAxis);
-//System.out.println("radiansFromX: " + radiansFromX + "\nradiansFromY: " + radiansFromY + "\nradiansFromZ: " + radiansFromZ + "\n");
 
                                                                     //Correct for drift from original Axes
                                                                     //Re-orthogonalize with rotational matrices
 
-            rotateAccelerationsIn3D(accelerationAverage_x, accelerationAverage_y,
-                                    accelerationAverage_z, radiansFromX, radiansFromY,
+            rotateAccelerationsIn3D(accelerationAverage_x,
+                                    accelerationAverage_y,
+                                    accelerationAverage_z,
+                                    radiansFromX,
+                                    radiansFromY,
                                     radiansFromZ);
 
                                                                     //Also need to correct offsets
@@ -445,22 +472,32 @@ double noiseThreshold;
                 {
                 accelerationAverage_zRotated = accelerationAverage_zRotatedOffset;
                 }
+                                                                    //The noisecanceling should be extended to gyroscope
+                                                                    //velocity too at some point.
 
                                                                     //Calculate each pair of points
                                                                     //Acceleration
             orderedPair_TxA_x = new OrderedPair(time0 - timeOffset,
-                                                accelerationAverage_xRotated - accelerationAverage_xRotatedOffset);
+                                accelerationAverage_xRotated - accelerationAverage_xRotatedOffset);
 
             orderedPair_TxA_y = new OrderedPair(time0 - timeOffset,
-                                                accelerationAverage_yRotated - accelerationAverage_yRotatedOffset);
+                                accelerationAverage_yRotated - accelerationAverage_yRotatedOffset);
 
             orderedPair_TxA_z = new OrderedPair(time0 - timeOffset,
-                                                accelerationAverage_zRotated - accelerationAverage_zRotatedOffset);
+                                accelerationAverage_zRotated - accelerationAverage_zRotatedOffset);
 
-//System.out.println("accelerationAverage_x: " + (accelerationAverage_x - accelerationAverage_xOffset));
-//System.out.println("accelerationAverage_y: " + (accelerationAverage_y - accelerationAverage_yOffset));
-//System.out.println("accelerationAverage_xOffset: " + accelerationAverage_xOffset);
-//System.out.println("accelerationAverage_yOffset: " + accelerationAverage_yOffset);
+                                                                    //ADXL377 accelerometer never worked as expected,
+                                                                    //so just writing it straight to file
+                                                                    //without doing any calculations with it
+            orderedPair_ADXL377_TxA_x = new OrderedPair(time0 - timeOffset,
+                                        dataLineList.firstElement().xAxisAccel_ADXL377);
+
+            orderedPair_ADXL377_TxA_y = new OrderedPair(time0 - timeOffset,
+                                        dataLineList.firstElement().xAxisAccel_ADXL377);
+
+            orderedPair_ADXL377_TxA_z = new OrderedPair(time0 - timeOffset,
+                                        dataLineList.firstElement().xAxisAccel_ADXL377);
+
 
                                                                     //Velocity
 
@@ -477,7 +514,6 @@ double noiseThreshold;
             orderedPair_TxV_y = new OrderedPair(time0 - timeOffset, currentVelocity_y);
             orderedPair_TxV_z = new OrderedPair(time0 - timeOffset, currentVelocity_z);
 
-//System.out.println("currentVelocity_x:     " + currentVelocity_x);
 
                                                                     //Displacement
 
@@ -504,27 +540,28 @@ double noiseThreshold;
             orderedPair_TxD_y = new OrderedPair(time0 - timeOffset, currentDisplacement_y);
             orderedPair_TxD_z = new OrderedPair(time0 - timeOffset, currentDisplacement_z);
 
-//System.out.println("currentDisplacement_x: " + currentDisplacement_x);
 
                                                                     //Gyroscope
-            orderedPair_TxGyro_x = new OrderedPair(time0 - timeOffset,
-                                                   averageRadiansPerSecondInGyro_XAxis -
-                                                   averageRadiansPerSecondInGyro_XAxisOffset);
+            orderedPair_TxV_Gyro_x = new OrderedPair(time0 - timeOffset,
+                                                     averageRadiansPerSecondInGyro_XAxis -
+                                                     averageRadiansPerSecondInGyro_XAxisOffset);
 
-            orderedPair_TxGyro_y = new OrderedPair(time0 - timeOffset,
-                                                   averageRadiansPerSecondInGyro_YAxis -
-                                                   averageRadiansPerSecondInGyro_YAxisOffset);
+            orderedPair_TxV_Gyro_y = new OrderedPair(time0 - timeOffset,
+                                                     averageRadiansPerSecondInGyro_YAxis -
+                                                     averageRadiansPerSecondInGyro_YAxisOffset);
 
-            orderedPair_TxGyro_z = new OrderedPair(time0 - timeOffset,
-                                                   averageRadiansPerSecondInGyro_ZAxis -
-                                                   averageRadiansPerSecondInGyro_ZAxisOffset);
-
-//System.out.println("averageRadiansPerSecondInGyroXAxis: " + (averageRadiansPerSecondInGyroXAxis - averageRadiansPerSecondInGyroXAxisOffset));
+            orderedPair_TxV_Gyro_z = new OrderedPair(time0 - timeOffset,
+                                                     averageRadiansPerSecondInGyro_ZAxis -
+                                                     averageRadiansPerSecondInGyro_ZAxisOffset);
 
                                                                     //have each pair write themselves
             orderedPair_TxA_x.writeOrderedPair(oos_TxA_x);
             orderedPair_TxA_y.writeOrderedPair(oos_TxA_y);
             orderedPair_TxA_z.writeOrderedPair(oos_TxA_z);
+
+            orderedPair_ADXL377_TxA_x.writeOrderedPair(oos_ADXL377_TxA_x);
+            orderedPair_ADXL377_TxA_y.writeOrderedPair(oos_ADXL377_TxA_y);
+            orderedPair_ADXL377_TxA_z.writeOrderedPair(oos_ADXL377_TxA_z);
 
             orderedPair_TxV_x.writeOrderedPair(oos_TxV_x);
             orderedPair_TxV_y.writeOrderedPair(oos_TxV_y);
@@ -534,9 +571,9 @@ double noiseThreshold;
             orderedPair_TxD_y.writeOrderedPair(oos_TxD_y);
             orderedPair_TxD_z.writeOrderedPair(oos_TxD_z);
 
-            orderedPair_TxGyro_x.writeOrderedPair(oos_TxGyro_x);
-            orderedPair_TxGyro_y.writeOrderedPair(oos_TxGyro_y);
-            orderedPair_TxGyro_z.writeOrderedPair(oos_TxGyro_z);
+            orderedPair_TxV_Gyro_x.writeOrderedPair(oos_TxV_Gyro_x);
+            orderedPair_TxV_Gyro_y.writeOrderedPair(oos_TxV_Gyro_y);
+            orderedPair_TxV_Gyro_z.writeOrderedPair(oos_TxV_Gyro_z);
 
                                                                     //remove first element from averages
 
@@ -549,13 +586,16 @@ double noiseThreshold;
             accelerationAverage_z = accelerationAverage_z * numberOfLinesAveraged -
                                     dataLineList.firstElement().zAxisAccel_MPU9250;
 
-            averageRadiansPerSecondInGyro_XAxis = averageRadiansPerSecondInGyro_XAxis * numberOfLinesAveraged * 180/3.1416 -
+            averageRadiansPerSecondInGyro_XAxis = averageRadiansPerSecondInGyro_XAxis *
+                                                  numberOfLinesAveraged * 180/3.1416 -
                                                   dataLineList.firstElement().xAxisGyro_MPU9250;
 
-            averageRadiansPerSecondInGyro_YAxis = averageRadiansPerSecondInGyro_YAxis * numberOfLinesAveraged * 180/3.1416 -
+            averageRadiansPerSecondInGyro_YAxis = averageRadiansPerSecondInGyro_YAxis *
+                                                  numberOfLinesAveraged * 180/3.1416 -
                                                   dataLineList.firstElement().yAxisGyro_MPU9250;
 
-            averageRadiansPerSecondInGyro_ZAxis = averageRadiansPerSecondInGyro_ZAxis * numberOfLinesAveraged * 180/3.1416 -
+            averageRadiansPerSecondInGyro_ZAxis = averageRadiansPerSecondInGyro_ZAxis *
+                                                  numberOfLinesAveraged * 180/3.1416 -
                                                   dataLineList.firstElement().zAxisGyro_MPU9250;
 
 
@@ -566,9 +606,15 @@ double noiseThreshold;
             getNewRawDataLine();
 
                                                                     //recalculate averages with new element
-            accelerationAverage_x = (accelerationAverage_x + dataLineList.lastElement().xAxisAccel_MPU9250) / numberOfLinesAveraged;
-            accelerationAverage_y = (accelerationAverage_y + dataLineList.lastElement().yAxisAccel_MPU9250) / numberOfLinesAveraged;
-            accelerationAverage_z = (accelerationAverage_z + dataLineList.lastElement().zAxisAccel_MPU9250) / numberOfLinesAveraged;
+            accelerationAverage_x = (accelerationAverage_x +
+                                     dataLineList.lastElement().xAxisAccel_MPU9250) /
+                                     numberOfLinesAveraged;
+            accelerationAverage_y = (accelerationAverage_y +
+                                     dataLineList.lastElement().yAxisAccel_MPU9250) /
+                                     numberOfLinesAveraged;
+            accelerationAverage_z = (accelerationAverage_z +
+                                     dataLineList.lastElement().zAxisAccel_MPU9250) /
+                                     numberOfLinesAveraged;
 
             averageRadiansPerSecondInGyro_XAxis = (averageRadiansPerSecondInGyro_XAxis +
                                                    dataLineList.lastElement().xAxisGyro_MPU9250) *
@@ -592,7 +638,6 @@ double noiseThreshold;
             previousDisplacement_x = currentDisplacement_x;
             previousDisplacement_y = currentDisplacement_y;
             previousDisplacement_z = currentDisplacement_z;
-//System.out.println("accerlerationAverages: " + accelerationAverage_x + " " + accelerationAverage_y + " " + accelerationAverage_z);
 
             counter = counter + 1;
             }
@@ -612,6 +657,13 @@ double noiseThreshold;
             oos_TxA_z.flush();
             oos_TxA_z.close();
 
+            oos_ADXL377_TxA_x.flush();
+            oos_ADXL377_TxA_x.close();
+            oos_ADXL377_TxA_y.flush();
+            oos_ADXL377_TxA_y.close();
+            oos_ADXL377_TxA_z.flush();
+            oos_ADXL377_TxA_z.close();
+
             oos_TxV_x.flush();
             oos_TxV_x.close();
             oos_TxV_y.flush();
@@ -626,12 +678,12 @@ double noiseThreshold;
             oos_TxD_z.flush();
             oos_TxD_z.close();
 
-            oos_TxGyro_x.flush();
-            oos_TxGyro_x.close();
-            oos_TxGyro_y.flush();
-            oos_TxGyro_y.close();
-            oos_TxGyro_z.flush();
-            oos_TxGyro_z.close();
+            oos_TxV_Gyro_x.flush();
+            oos_TxV_Gyro_x.close();
+            oos_TxV_Gyro_y.flush();
+            oos_TxV_Gyro_y.close();
+            oos_TxV_Gyro_z.flush();
+            oos_TxV_Gyro_z.close();
             }
         catch (IOException ioe1)
             {
@@ -662,6 +714,9 @@ double noiseThreshold;
     File timeAccelerationFile_x;
     File timeAccelerationFile_y;
     File timeAccelerationFile_z;
+    File timeAccelerationFile_ADXL377_x;
+    File timeAccelerationFile_ADXL377_y;
+    File timeAccelerationFile_ADXL377_z;
     File timeVelocityFile_x;
     File timeVelocityFile_y;
     File timeVelocityFile_z;
@@ -680,6 +735,10 @@ double noiseThreshold;
     timeAccelerationFile_y = new File(rawFileName + "_MPU9250_TxA_y.dat");
     timeAccelerationFile_z = new File(rawFileName + "_MPU9250_TxA_z.dat");
 
+    timeAccelerationFile_ADXL377_x = new File(rawFileName + "_ADXL377_TxA_x.dat");
+    timeAccelerationFile_ADXL377_y = new File(rawFileName + "_ADXL377_TxA_y.dat");
+    timeAccelerationFile_ADXL377_z = new File(rawFileName + "_ADXL377_TxA_z.dat");
+
     timeVelocityFile_x = new File(rawFileName + "_MPU9250_TxV_x.dat");
     timeVelocityFile_y = new File(rawFileName + "_MPU9250_TxV_y.dat");
     timeVelocityFile_z = new File(rawFileName + "_MPU9250_TxV_z.dat");
@@ -688,9 +747,9 @@ double noiseThreshold;
     timeDisplacementFile_y = new File(rawFileName + "_MPU9250_TxD_y.dat");
     timeDisplacementFile_z = new File(rawFileName + "_MPU9250_TxD_z.dat");
 
-    timeGyroFile_x = new File(rawFileName + "_MPU9250_TxGyro_x.dat");
-    timeGyroFile_y = new File(rawFileName + "_MPU9250_TxGyro_y.dat");
-    timeGyroFile_z = new File(rawFileName + "_MPU9250_TxGyro_z.dat");
+    timeGyroFile_x = new File(rawFileName + "_MPU9250_TxV_Gyro_x.dat");
+    timeGyroFile_y = new File(rawFileName + "_MPU9250_TxV_Gyro_y.dat");
+    timeGyroFile_z = new File(rawFileName + "_MPU9250_TxV_Gyro_z.dat");
 
     fileOutputStream = new FileOutputStream(timeAccelerationFile_x);
     oos_TxA_x = new ObjectOutputStream(fileOutputStream);
@@ -700,6 +759,15 @@ double noiseThreshold;
 
     fileOutputStream = new FileOutputStream(timeAccelerationFile_z);
     oos_TxA_z = new ObjectOutputStream(fileOutputStream);
+
+    fileOutputStream = new FileOutputStream(timeAccelerationFile_ADXL377_x);
+    oos_ADXL377_TxA_x = new ObjectOutputStream(fileOutputStream);
+
+    fileOutputStream = new FileOutputStream(timeAccelerationFile_ADXL377_y);
+    oos_ADXL377_TxA_y = new ObjectOutputStream(fileOutputStream);
+
+    fileOutputStream = new FileOutputStream(timeAccelerationFile_ADXL377_z);
+    oos_ADXL377_TxA_z = new ObjectOutputStream(fileOutputStream);
 
     fileOutputStream = new FileOutputStream(timeVelocityFile_x);
     oos_TxV_x = new ObjectOutputStream(fileOutputStream);
@@ -720,13 +788,13 @@ double noiseThreshold;
     oos_TxD_z = new ObjectOutputStream(fileOutputStream);
 
     fileOutputStream = new FileOutputStream(timeGyroFile_x);
-    oos_TxGyro_x = new ObjectOutputStream(fileOutputStream);
+    oos_TxV_Gyro_x = new ObjectOutputStream(fileOutputStream);
 
     fileOutputStream = new FileOutputStream(timeGyroFile_y);
-    oos_TxGyro_y = new ObjectOutputStream(fileOutputStream);
+    oos_TxV_Gyro_y = new ObjectOutputStream(fileOutputStream);
 
     fileOutputStream = new FileOutputStream(timeGyroFile_z);
-    oos_TxGyro_z = new ObjectOutputStream(fileOutputStream);
+    oos_TxV_Gyro_z = new ObjectOutputStream(fileOutputStream);
 
     }
     //=====================================================
@@ -892,7 +960,8 @@ double noiseThreshold;
     /*
     testAndSetRangeOnLineAverage accepts an integer and tests
     the range before setting the class wide variable
-    numberOfLinesAveraged.
+    numberOfLinesAveraged. It would be good to log when
+    the value sent in was out of the bounds allowed.
     */
     //=====================================================
     void testAndSetRangeOnLineAverage(int numberOfLinesAveraged)
@@ -916,7 +985,8 @@ double noiseThreshold;
     /*
     testAndSetRangeOnNoiseThreshold accepts a double and tests
     the range before setting the class wide variable
-    noiseThreshold.
+    noiseThreshold. It would be good to log when
+    the value sent in was out of the bounds allowed.
     */
     //=====================================================
     void testAndSetRangeOnNoiseThreshold(double noiseThreshold)
