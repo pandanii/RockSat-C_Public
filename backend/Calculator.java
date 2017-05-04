@@ -150,6 +150,11 @@ double noiseThreshold;
     both would need the gyro data and the time there would be a lot
     of redundancy.
 
+    Another thing to note is that the number of lines averaged is
+    also the number of lines that will be averaged in the beginning
+    to find the offset. This leads to a higher offset usually which
+    should probably be addressed in some manner.
+
     Assuming the numberOfLinesAveraged is 10, which is a variable
     accepted by the constructor of Calculator, the following is true.
     Based on the ten data points collected...
