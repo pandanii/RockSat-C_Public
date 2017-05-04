@@ -1,1 +1,6 @@
-
+There is what could be considered an issue with the number of lines averaged adjustment. With the way it is currently implemented, 
+it also dictates how many lines are averaged to find the offsets from zero. This means usually that the larger the number of 
+lines averaged, the higher the offset is if there isn't a long enough period of rest at the start of each raw data file.
+A higher offset means more shift for the accelerations.
+Using the noise threshold does help this issue some, but the best solution is a second or so of rest at the beginning of each 
+flight, that is until there is a change in how the average offset is calculated.
